@@ -41,6 +41,8 @@
 
 ### 后端部分
 
+文件夹结构为：
+
 * backend/
     * auth/
     * config/
@@ -54,6 +56,8 @@
 
 ### 前端
 
+文件夹结构为：
+
 * frontend/
     * views/
     * src/
@@ -62,7 +66,9 @@
 
 #### vies
 
-网站后端模板，不会被浏览器访问到。
+* 网站后端模板，不会被浏览器访问到。
+* 支持服务端渲染+客户端渲染两种模式。
+* 默认的服务端模板语法是`nunjucks`，类似于PHP的`twig`。
 
 #### src
 
@@ -80,6 +86,7 @@
     * List.jsx
     * Add.jsx
     * ...
+
 其中，`Post.jsx`文件为该组件的入口文件，使用一个`Main`组件渲染子组件：
 
 ```JavaScript
@@ -96,7 +103,7 @@ const Main=React.createClass({
 ```
 
 
-`Main`同时与子组件导出:
+此`Main`同时与子组件导出:
 
 ```JavaScript
 export defualt {Main,Home,Detail,List,Add}; 
@@ -106,7 +113,14 @@ export defualt {Main,Home,Detail,List,Add};
 
 #### static
 
-网站的静态文件夹，会被浏览器访问到，不要存放敏感信息。
+网站的静态文件夹，存放的文件包括
 
-`src/`文件夹的源码文件，会被`webpack`打包后放入这里相应的路径下。
+* css
+* images
+* js
+* 其他静态文件，如`ueditor`编辑器的前端文件
+
+此文件夹下的内容会被浏览器任意访问，不要存放敏感信息。
+
+note: `src/`文件夹的源码文件，会被`webpack`打包后放入这里相应的路径下。
 
