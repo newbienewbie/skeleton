@@ -1,0 +1,7 @@
+node_modules/
+lib/backend/config/config.dev.js
+upload/
+
+# webpack生成的文件
+lib/frontend/static/js/main.js
+lib/frontend/static/js/admin.js

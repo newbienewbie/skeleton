@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="/static/css/bootstrap.3.1.1.css" rel="stylesheet" type="text/css" media="all">
+	{% block userdefinedhead %}
+	{% endblock %}
+	<title>{{title}}</title>
+</head>
+<body>
+    <div id="App">
+		{% block app %}
+		{% endblock %}
+	</div>
+	{% block userdefinedfoot %}
+	{% endblock %}
+</body>
+</html>
