@@ -13,9 +13,7 @@ const _movie={
     title:'',
     knownAs:'',
     languageId:'',
-    directorId:'',
-    runtime:'',
-    aspectRatio:'',
+    director:'',
     site:'',
     releaseDate:'',
     countryId:'',
@@ -60,20 +58,22 @@ const Add=React.createClass({
                 <div className="form-group">
                     <label className="col-sm-2">上传电影</label>
                     <div className="col-sm-3"> 
-                        <UploadAttachment action="/movie/upload/video?action=uploadvideo" 
+                        <UploadAttachment action="/upload/meiying/video?action=uploadvideo" 
                             onChange={(fileList)=>{
-                                if(fileList[0] && fileList[0].response && fileList[0].response.url){
+                                if(fileList && fileList[0].response && fileList[0].response.url){
                                     const movie=Object.assign({},this.state.movie,{
-                                        url:fileList.slice(-1).response.url,
+                                        url:fileList[0].response.url,
                                     });
-                                    this.setState({movie},()=>{console.log(`附件更新：${this.state.movie.url}`)});
+                                    this.setState({movie},()=>{
+                                        console.log(`附件更新：${this.state.movie.url}`)
+                                    });
                                 }
                             }} 
                         />
                     </div>
                     <label className="col-sm-2">封面(海报)</label>
                     <div className="col-sm-2"> 
-                        <UploadAttachment action="/movie/upload/image?action=uploadimage"
+                        <UploadAttachment action="/upload/meiying/image?action=uploadimage"
                             onChange={(info)=>{
                                 if(!info.file.response){
                                     return;
@@ -104,7 +104,7 @@ const Add=React.createClass({
                             }}
                         />
                     </div>
-                    <label className="col-sm-2">国家</label>
+                    <label className="col-sm-2">国家/地区</label>
                     <div className="col-sm-3">
                         <SelectStuff placeholder="请输入或者选择国家" notFoundContent="暂未收录该国家，请选择：其他"
                             remoteUrl="/country/list"
@@ -137,8 +137,19 @@ const Add=React.createClass({
                 </div>
                 
                 <div className="form-group">
+                
+                    <label className="col-sm-2">发布日期</label>
+                    <div className="col-sm-3"> 
+                        <DatePicker onChange={v=>{ 
+                            const movie=Object.assign({},this.state.movie,{
+                                releaseDate:v,
+                            });
+                            this.setState({movie:movie});
+                        }}/> 
+                    </div>                
+
                     <label className="col-sm-2">别名</label>
-                    <div className="col-sm-8"> 
+                    <div className="col-sm-3"> 
                         <Input onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 knownAs:e.target.value,
@@ -146,40 +157,9 @@ const Add=React.createClass({
                             this.setState({movie:movie});
                         }}/> 
                     </div>
-                </div>
-                <div className="form-group">
-                    <label className="col-sm-2">播放时长</label>
-                    <div className="col-sm-3"> 
-                        <InputNumber onChange={(v)=>{
-                            const movie=Object.assign({},this.state.movie,{
-                                runtime:parseInt(v),
-                            });
-                            this.setState({movie:movie});
-                        }}/> 
-                        <span>/min(分钟)</span>
-                    </div>
-                    <label className="col-sm-2">比率</label>
-                    <div className="col-sm-3"> 
-                        <InputNumber onChange={(v)=>{
-                            const movie=Object.assign({},this.state.movie,{
-                                aspectRatio:v,
-                            });
-                            this.setState({movie:movie});
-                        }}/> 
-                    </div>
+
                 </div>
                 
-                <div className="form-group">
-                    <label className="col-sm-2">发布日期</label>
-                    <div className="col-sm-8"> 
-                        <DatePicker onChange={v=>{ 
-                            const movie=Object.assign({},this.state.movie,{
-                                releaseDate:v,
-                            });
-                            this.setState({movie:movie});
-                        }}/> 
-                    </div>
-                </div>
 
                 <div className="form-group">
                     <label className="col-sm-2">关键词</label>
