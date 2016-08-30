@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/d7056d643d6e2ecf8c0ed94b81a33ae35a163147/fluent-ffmpeg/fluent-ffmpeg.d.ts",
+    "raw": "registry:dt/fluent-ffmpeg#0.0.0+20160829142114",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/d7056d643d6e2ecf8c0ed94b81a33ae35a163147/fluent-ffmpeg/fluent-ffmpeg.d.ts"
+  }
+}
