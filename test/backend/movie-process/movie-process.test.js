@@ -1,13 +1,13 @@
 const path=require('path');
 const assert=require('assert');
-const getMovieFormat=require('../../../lib/backend/movie-process/get-video-format.js');
+const getVideoFormat=require('../../../lib/backend/movie-process/movie-process.js').getVideoFormat;
 
 
 
 describe('测试利用视频探针获取视频格式信息',function(){
     it('测试 1.avi ',function(done){
         const p=path.join(__dirname,'1.avi');
-        getMovieFormat(p)
+        getVideoFormat(p)
             .then(
                 function(format){ 
                     done();
