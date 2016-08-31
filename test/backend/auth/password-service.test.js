@@ -18,36 +18,27 @@ describe("测试password-service", function () {
             comparePasword('bacon', hash, () => {
             }).then((res) => {
                 assert.ok(res, "bacon和他的hash应该相同");
-                done();
-            }).catch(e => {
-                console.log(e);
-                assert.fail('异常');
-                done();
-            });
+            })
+            .then(done)
+            .catch(done);
         });
 
         it("bacon 应该和他的bcrypt hashString 匹配", (done) => {
             var hash = "$2a$10$lOxak2rBzCO68pHCFhXHuunXVtWsAwcfOjdW6qYveSUrLYY35eR2y";
             comparePasword('bacon', hash).then((res) => {
                 assert.ok(res, "bacon和他的hash应该相同");
-                done();
-            }).catch(e => {
-                console.log(e);
-                assert.fail('异常');
-                done();
-            });
+            })
+            .then(done)
+            .catch(done);
         });
 
         it('foo 应该和bacon的hash不匹配', (done) => {
             var hash = bcrypt.hashSync("bacon");
             comparePasword('foo', hash).then((res) => {
                 assert.ok(!res, "foo和bacon的hash应该不匹配");
-                done();
-            }).catch(e => {
-                console.log(e);
-                assert.fail('异常');
-                done();
-            });
+            })
+            .then(done)
+            .catch(done);
         });
 
     });

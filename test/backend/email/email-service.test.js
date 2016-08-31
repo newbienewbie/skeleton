@@ -17,12 +17,10 @@ describe('test email service',function () {
                 info=>{
                     console.log(info.response);
                     assert.ok(info);
-                    done();
                 }
-            ).catch(e=>{
-                assert.fail("邮件发送失败"+e);
-                done();
-            });
+            )
+            .then(done)
+            .catch(done);
         });
     });
 });

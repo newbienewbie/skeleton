@@ -4,16 +4,15 @@ var transport=require('../../../lib/backend/email/transport.js');
 describe('测试transport',function () {
     this.timeout(10000);
     it("确认配置",function (done) {
-        transport.verify(function (error,success) {
-            if (error) {
-                console.log(error);
-                assert.fail(error);
+        try{
+            transport.verify(function (error,success) {
+                assert.ok(!error);
+                assert.ok(success);
                 done();
-            } else {
-                assert(success,"smtp理应准备好接收消息");
-                done();
-            }
-        });
+            });
+        }catch(err){
+            done(err);
+        }
     });
     
 });
