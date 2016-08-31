@@ -1,4 +1,5 @@
 const path=require('path');
+const fs=require('fs');
 const movieProcess=require('../../../lib/backend/movie-process/movie-process.js');
 const assert=require('assert');
 
@@ -58,8 +59,23 @@ describe('测试视频处理函数',function(){
         it('当条件满足，应该截图成功',function(done){
             this.timeout(50000);
             const p=path.join(__dirname,'1.avi');
-            movieProcess.takeScreenShot(p,2)
-                .then(()=>{ },()=>{ return 'error happens';})
+            movieProcess.takeScreenShot(p,1,__dirname)
+                .then(
+                    (outs)=>{
+                        console.log(outs);
+                        assert.ok(outs);
+                        assert.ok(outs.path);
+                        assert.ok(outs.filenames);
+
+                        const files=outs.filenames
+                            .map(f=>path.join(outs.path,f))
+                            .forEach(function(fullpath) {
+                                let exists=fs.existsSync(fullpath);
+                                assert.ok(exists,`${fullpath} 不存在`);
+                            });
+                    },
+                    ()=>{ return 'error happens';}
+                )
                 .then(done,done)
                 .catch(done);
         });
