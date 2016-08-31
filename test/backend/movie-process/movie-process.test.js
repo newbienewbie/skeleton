@@ -1,27 +1,68 @@
 const path=require('path');
+const movieProcess=require('../../../lib/backend/movie-process/movie-process.js');
 const assert=require('assert');
-const getVideoFormat=require('../../../lib/backend/movie-process/movie-process.js').getVideoFormat;
 
 
+describe('测试视频处理函数',function(){
 
-describe('测试利用视频探针获取视频格式信息',function(){
-    it('测试 1.avi ',function(done){
-        const p=path.join(__dirname,'1.avi');
-        getVideoFormat(p)
-            .then(
-                function(format){ 
-                    done();
-                 },
-                function(err){
-                    assert.fail(err);
-                    done();
-                }
-            )
-            .catch((e)=>{
-                assert.fail(e);
-                done();
-            });
-        
+    describe('测试探针',function(){
+        it('当其输入文件不存在时，应该触发reject',function(done){
+            const p=path.join(__dirname,'a-file-not-exists.avi');
+            movieProcess.getVideoFormat(p)
+                .then(
+                    function(format){ 
+                        assert.fail('不应该执行这里');
+                    },
+                    function(reason){
+                        assert.ok(reason=='文件不存在');
+                    }
+                )
+                .then(done,done)
+                .catch(done);
+        });
+
+        it('当输入文件存在，应获取到相应信息', function (done) {
+            const p = path.join(__dirname, '1.avi');
+            movieProcess.getVideoFormat(p)
+                .then(
+                    function (format) {
+                        assert.ok(format.duration,"应该有duration属性");
+                        return;
+                    },
+                    function (reason) {
+                        assert.fail(reason);
+                    }
+                )
+                .then(done,done)
+                .catch(done);
+        });
+    });
+
+
+    describe('测试截图',function(){
+        it('当其输入文件不存在,应该触发reject',function(done){
+            const p = path.join(__dirname, 'a-file-not-exists.avi');
+            movieProcess.getVideoFormat(p)
+                .then(
+                    function (format) {
+                        assert.fail('这里不应该被执行');
+                    },
+                    function (reason) {
+                        assert.ok(reason=="文件不存在", "当文件不存在，reject信息应该是: 文件不存在");
+                    }
+                )
+                .then(done,done)
+                .catch(done);
+        });
+
+        it('当条件满足，应该截图成功',function(done){
+            this.timeout(50000);
+            const p=path.join(__dirname,'1.avi');
+            movieProcess.takeScreenShot(p,2)
+                .then(()=>{ },()=>{ return 'error happens';})
+                .then(done,done)
+                .catch(done);
+        });
     });
 
 });
