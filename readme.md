@@ -14,6 +14,7 @@
 
 ### 步骤：
 
+0. 安装`ffmpeg`，确保`ffmpeg`、`ffprobe`可执行程序在`PATH`下
 1. `git clone 这个仓库`
 2. `npm install` 安装所有依赖
 2. 在`lib/backend/config/`下添加一个`config.dev.js`文件，
