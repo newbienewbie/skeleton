@@ -9,13 +9,11 @@ describe('domain',()=>{
         this.timeout(1000);
         it('authentication',function(done){
             domain.sequelize.authenticate()
-                .then(()=>{
-                    console.log('authenticate passed');
-                    done();
-                }).catch(e=>{
-                    assert.fail(e);
-                    done();
-                });
+                .then(
+                    ()=>{ console.log('authenticate passed'); },
+                    ()=>{ return 'auth failed';}
+                ).then(done)
+                .catch(done);
         });
     });
 });
