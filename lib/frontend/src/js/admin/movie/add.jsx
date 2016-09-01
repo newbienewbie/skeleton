@@ -219,6 +219,7 @@ const Add=React.createClass({
                     <Button type="primary" 
                         disabled={this.state.btnSubmit.disabled} 
                         onClick={()=>{ 
+                            // todo: 检查本地状态是否满足条件，是否提交
                             this.setState({
                                 modal:{visible:true} 
                             });
