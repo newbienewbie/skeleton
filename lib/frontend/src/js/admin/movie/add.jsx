@@ -29,7 +29,7 @@ const Add=React.createClass({
 
     getInitialState:function(){
         return {
-            modal:{visible:false},
+            modal:{visible:false,confirmLoading:false},
             movie:_movie,
             btnSubmit:{
                 disabled:true,
@@ -227,12 +227,16 @@ const Add=React.createClass({
                         提交 
                     </Button>
                     <Modal visible={this.state.modal.visible}
+                        confirmLoading={this.state.modal.confirmLoading}
                         onCancel={()=>{
                             this.setState({
-                                modal:{visible:false}
+                                modal:{visible:false,confirmLoading:false}
                             });
                         }}
                         onOk={()=>{
+                            this.setState({
+                                modal:{visible:true,confirmLoading:true}
+                            });
                             fetch("/movie/add",{
                                 method:'POST',
                                 headers:{
@@ -255,13 +259,13 @@ const Add=React.createClass({
                                         disabled:false,
                                     }); 
                                 }
-                                this.setState({btnSubmit,modal:{visible:false}});
+                                this.setState({btnSubmit,modal:{visible:false,confirmLoading:false}});
                             })
                             .catch(e=>{
                                 const btnSubmit = Object.assign({}, this.state.btnSubmit, {
                                     disabled: false,
                                 });
-                                this.setState({btnSubmit,modal:{visible:false}});
+                                this.setState({btnSubmit,modal:{visible:false,confirmLoading:false}});
                                 message.error('异常发生');
                             })
                         }}
