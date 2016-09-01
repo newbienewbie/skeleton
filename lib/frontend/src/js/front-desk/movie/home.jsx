@@ -11,7 +11,7 @@ const _Media=(props)=>{
     return ( <div className="col-md-3">
         <div >
             <a href={`/${props.url}`}>
-                <img src={props.imageSrc}  style={{ height:271, }}/>
+                <img src={props.posterUrl}  style={{ height:271, width:'100%'}}/>
             </a>
         </div>
         <div >
@@ -37,7 +37,7 @@ const _MovieList=(props)=>{
     return (<div className="container">
         {props.dataSource.map(i=>{
             return (<_Media 
-                key={i.id} imageSrc={i.imageSrc|| "#"} 
+                key={i.id} posterUrl={i.posterUrl|| "#"} 
                 heading={i.title} content={i.description} 
                 url={i.url}
             />);
