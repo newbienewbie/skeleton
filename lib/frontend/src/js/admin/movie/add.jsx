@@ -31,6 +31,9 @@ const Add=React.createClass({
         return {
             modal:{visible:false},
             movie:_movie,
+            btnSubmit:{
+                disabled:true,
+            },
         };
     },
 
@@ -64,7 +67,10 @@ const Add=React.createClass({
                                     const movie=Object.assign({},this.state.movie,{
                                         url:fileList[0].response.url,
                                     });
-                                    this.setState({movie},()=>{
+                                    const btnSubmit=Object.assign({},this.state.btnSubmit,{
+                                        disabled:false,
+                                    });
+                                    this.setState( { movie, btnSubmit },()=>{
                                         console.log(`附件更新：${this.state.movie.url}`)
                                     });
                                 }
@@ -211,6 +217,7 @@ const Add=React.createClass({
 
                 <div className="form-group">
                     <Button type="primary" 
+                        disabled={this.state.btnSubmit.disabled} 
                         onClick={()=>{ 
                             this.setState({
                                 modal:{visible:true} 
@@ -234,19 +241,28 @@ const Add=React.createClass({
                             })
                             .then(resp=>resp.json())
                             .then(json=>{
+                                let btnSubmit ;
                                 if(json.result=="SUCCESS"){
                                     message.success("添加成功");
+                                    //上传成功后禁止再次提交同一个片源
+                                    btnSubmit = Object.assign({}, this.state.btnSubmit, {
+                                        disabled: true,
+                                    }); 
                                 }else{
                                     message.error("添加失败："+json.message);
+                                    btnSubmit = Object.assign({}, this.state.btnSubmit, {
+                                        disabled:false,
+                                    }); 
                                 }
+                                this.setState({btnSubmit,modal:{visible:false}});
                             })
                             .catch(e=>{
+                                const btnSubmit = Object.assign({}, this.state.btnSubmit, {
+                                    disabled: false,
+                                });
+                                this.setState({btnSubmit,modal:{visible:false}});
                                 message.error('异常发生');
                             })
-                            
-                            this.setState({
-                                modal:{visible:false}
-                            });
                         }}
                     >
                         请确认是否提交？
