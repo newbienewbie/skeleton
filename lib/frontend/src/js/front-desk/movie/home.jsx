@@ -1,6 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import _Pagination from './pagination.jsx';
+import {Pagination} from 'antd';
 
 const _movie_list_item_style={
     background:"rgba(59, 128, 10, 0.1)",
@@ -97,20 +97,24 @@ const Home=React.createClass({
                 {id:'',imageSrc:'',title:'xxxxxxxx',content:'cccccccc'}
             ],
             count:50,
+            current:1,
         };
     },
-    componentDidMount:function(){
-        fetch(`/movie/list?page=${this.state.page}&size=${this.state.size}`)
-            .then(resp=>resp.json())
-            .then(json=>{
-                this.setState({
-                    count:json.count,
-                    rows:json.rows,
-                });
+    fetchData:function(page=1,size=12,cb=()=>{}){
+        fetch(`/movie/list?page=${page}&size=${size}`)
+            .then(resp => resp.json())
+            .then(json => {
+                this.setState(
+                    { count: json.count, rows: json.rows, },
+                    ()=>{ cb(this.state); }
+                );
             })
-            .catch(e=>{
-                console.log("发生异常：",e);
+            .catch(e => {
+                console.log("发生异常：", e);
             });
+    },
+    componentDidMount:function(){
+        this.fetchData(this.state.page,this.state.size);
     },
     render:function(){
         return (<div className="container">
@@ -119,6 +123,16 @@ const Home=React.createClass({
                 <_MovieList dataSource={this.state.rows}/> 
             </div>
             <div className="row">
+                <Pagination current={this.state.current}  size={this.state.size} total={this.state.count}
+                    onChange={(page)=>{
+                        this.setState(
+                            { page: page, current: page, },
+                            ()=>{
+                                this.fetchData(page,this.state.size);
+                            }
+                        );      
+                    }}
+                />
             </div>
         </div>);
     }
