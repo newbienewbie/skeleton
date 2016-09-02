@@ -1,6 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import {Pagination} from 'antd';
+import Pagination from './pagination.jsx';
 
 const _movie_list_item_style={
     background:"rgba(59, 128, 10, 0.1)",
@@ -123,7 +123,7 @@ const Home=React.createClass({
                 <_MovieList dataSource={this.state.rows}/> 
             </div>
             <div className="row">
-                <Pagination current={this.state.current}  size={this.state.size} total={this.state.count}
+                <Pagination current={this.state.current}  size={this.state.size} count={this.state.count}
                     onChange={(page)=>{
                         this.setState(
                             { page: page, current: page, },
