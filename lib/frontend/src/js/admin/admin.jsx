@@ -1,4 +1,5 @@
 import React from  'react';
+import {Row,Col} from 'antd';
 import Nav from './nav-top.jsx';
 import Aside from './aside.jsx';
 
@@ -21,12 +22,16 @@ message.config({
  */
 const Main = React.createClass({
     render: function () {
-        return (<div className="container-fluid">
+        return (<div>
             <Nav/>
-            <div className="row">
-                <Aside />
-                {this.props.children || "dashboard"}
-            </div>
+            <Row>
+                <Col span={4}>
+                    <Aside />
+                </Col>
+                <Col span={20}>
+                    {this.props.children || "dashboard"}
+                </Col>
+            </Row>
         </div>);
     }
 });

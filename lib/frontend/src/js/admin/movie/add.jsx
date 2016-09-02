@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal,InputNumber,Input,Select,DatePicker,Upload,Button,message} from 'antd';
+import {Row,Col,Modal,InputNumber,Input,Select,DatePicker,Upload,Button,message} from 'antd';
 import {Link} from 'react-router';
 import 'whatwg-fetch'; 
 
@@ -46,21 +46,20 @@ const Add=React.createClass({
         const _movie=Object.assign({},_movie);
         return (<div >
             <form className="form-horizontal">
-                <div className="form-group">
-                    <label className="col-sm-2">名称</label>
-                    <div className="col-sm-8"> 
+                <Row>
+                    <Col span={4}><label >名称</label></Col>
+                    <Col span={16}> 
                         <Input onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 title:e.target.value,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>
-                </div>
-                
-                <div className="form-group">
-                    <label className="col-sm-2">上传电影</label>
-                    <div className="col-sm-3"> 
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={4}><label>上传电影</label></Col>
+                    <Col span={8}> 
                         <UploadAttachment action="/upload/meiying/video?action=uploadvideo" 
                             onChange={(fileList)=>{
                                 if(fileList && fileList[0].response && fileList[0].response.url){
@@ -76,9 +75,9 @@ const Add=React.createClass({
                                 }
                             }} 
                         />
-                    </div>
-                    <label className="col-sm-2">封面(海报)</label>
-                    <div className="col-sm-2"> 
+                    </Col>
+                    <Col span={4}><label>上传海报</label></Col>
+                    <Col span={8}>
                         <UploadAttachment action="/upload/meiying/image?action=uploadimage"
                             onChange={(info)=>{
                                 if(!info.file.response){
@@ -90,12 +89,11 @@ const Add=React.createClass({
                                 this.setState({movie});
                             }}
                         /> 
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label className="col-sm-2">语言</label>
-                    <div className="col-sm-3">
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={4}><label >语言</label></Col>
+                    <Col span={8}> 
                         <SelectStuff remoteUrl="/language/list"
                             convert={(json) => {
                                 return json.map(i => {
@@ -109,10 +107,11 @@ const Add=React.createClass({
                                 this.setState({movie:movie});
                             }}
                         />
-                    </div>
-                    <label className="col-sm-2">国家/地区</label>
-                    <div className="col-sm-3">
-                        <SelectStuff placeholder="请输入或者选择国家" notFoundContent="暂未收录该国家，请选择：其他"
+                    </Col>
+                    <Col span={4}><label >国家/地区</label></Col>
+                    <Col span={8}>
+                        <SelectStuff 
+                            notFoundContent="暂未收录该国家，请选择：其他"
                             remoteUrl="/country/list"
                             convert={(json) => {
                                 return json.map(i => {
@@ -126,96 +125,95 @@ const Add=React.createClass({
                                 this.setState({movie:movie});
                             }}
                             />
-                    </div>
-                </div>
+                    </Col>
+                </Row>
 
-                <div className="form-group">
-                    <label className="col-sm-2">导演</label>
-                    <div className="col-sm-3"> 
+                <Row>
+                    <Col span={4}><label >导演</label></Col>
+                    <Col span={12}> 
                         <Input onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 directorId:e.target.value,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>
-                    <div className="col-sm-4"><Link to="/director/add">我要新增导演</Link></div>
-                </div>
-                
-                <div className="form-group">
-                
-                    <label className="col-sm-2">发布日期</label>
-                    <div className="col-sm-3"> 
+                    </Col>
+                    <Col span={8}><Link to="/director/add">我要新增导演</Link> </Col>
+                </Row>
+
+                <Row>
+                    <Col span={4}> <label>发布日期</label> </Col>
+                    <Col span={8}> 
                         <DatePicker onChange={v=>{ 
                             const movie=Object.assign({},this.state.movie,{
                                 releaseDate:v,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>                
+                    </Col>
+                </Row>
 
-                    <label className="col-sm-2">别名</label>
-                    <div className="col-sm-3"> 
+                <Row>
+                    <Col span={4}> <label>别名</label> </Col>
+                    <Col span={16}>
                         <Input onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 knownAs:e.target.value,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>
+                    </Col>
+                </Row>
 
-                </div>
-                
-
-                <div className="form-group">
-                    <label className="col-sm-2">关键词</label>
-                    <div className="col-sm-8"> 
+                <Row>
+                    <Col span={4}> <label>关键词</label> </Col>
+                    <Col span={16}>
                         <Input onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 keyWord:e.target.value,
                             });
                             this.setState({movie:movie});
                         }} /> 
-                    </div>
-                </div>
+                    </Col>
+                </Row>
                 
-                <div className="form-group">
-                    <label className="col-sm-2">描述</label>
-                    <div className="col-sm-8"> 
+                <Row>
+                    <Col span={4}> <label>描述</label> </Col>
+                    <Col span={16}>
                         <Input type="textarea" rows={4}  onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 description:e.target.value,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>
-                </div>
+                    </Col>
+                </Row>
 
-                <div className="form-group">
-                    <label className="col-sm-2">网站</label>
-                    <div className="col-sm-8"> 
+                <Row>
+                    <Col span={4}> <label>网站</label> </Col>
+                    <Col span={16}>
                         <Input onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 site:e.target.value,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>
-                </div>
+                    </Col>
+                </Row>
 
-                <div className="form-group">
-                    <label className="col-sm-2">备注</label>
-                    <div className="col-sm-8"> 
+                <Row>
+                    <Col span={4}> <label>备注</label> </Col>
+                    <Col span={16}>
                         <Input type="textarea" rows={2} onChange={(e)=>{
                             const movie=Object.assign({},this.state.movie,{
                                 note:e.target.value,
                             });
                             this.setState({movie:movie});
                         }}/> 
-                    </div>
-                </div>
+                    </Col>
+                </Row>
 
-                <div className="form-group">
+                <div >
                     <Button type="primary" 
                         disabled={this.state.btnSubmit.disabled} 
                         onClick={()=>{ 

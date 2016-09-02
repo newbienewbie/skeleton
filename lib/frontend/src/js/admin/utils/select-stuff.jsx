@@ -41,7 +41,7 @@ const SelectStuff=React.createClass({
 
     render:function(){
         return(
-            <Select showSearch placeholder={this.props.placeholder} 
+            <Select showSearch placeholder={this.props.placeholder} defaultValue={this.props.defaultValue}
                 optionFilterProp="children" notFoundContent={this.props.notFoundContent}
                 onChange={this.props.onChange}
                 >

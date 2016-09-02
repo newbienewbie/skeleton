@@ -1,4 +1,5 @@
 import React from 'react';
+import {Row,Col,Menu} from 'antd';
 import {Link} from 'react-router';
 
 /**
@@ -6,23 +7,35 @@ import {Link} from 'react-router';
  */
 const Aside = React.createClass({
     render: function () {
-        return (<div className="col-sm-3 col-md-2 sidebar">
-            <ul className="nav nav-sidebar">
-                <p>视频</p>
-                <li className="active"><Link to="/movie/add">新增 <span className="sr-only">(current) </span></Link></li>
-                <li><Link to="/">Reports</Link></li>
-                <li><Link to="/">Analytics</Link></li>
-                <li><Link to="/">Export</Link></li>
-            </ul>
-            <ul className="nav nav-sidebar">
-                <p>文章</p>
-                <li><Link to="/post/add">新增</Link></li>
-            </ul>
-            <ul className="nav nav-sidebar">
-                <p>导演</p>
-                <li><Link to="/director/add">新增</Link></li>
-            </ul>
-        </div>);
+        return (<Menu mode="inline">
+            <Menu.SubMenu key='video' title="视频" >
+                <Menu.ItemGroup key="videoGroup">
+                    <Menu.Item key="videoAdd">
+                        <Link to="/movie/add">新增</Link>
+                    </Menu.Item>
+                    <Menu.Item key="videoReport">
+                        <Link to="/">报表</Link>
+                    </Menu.Item>
+                    <Menu.Item key="videoReport">
+                        <Link to="/">分析</Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
+            <Menu.SubMenu key="post" title="文章">
+                <Menu.ItemGroup key='postGroup'>
+                    <Menu.Item key="postAdd">
+                        <Link to="/post/add">新增</Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
+            <Menu.SubMenu key="director" title="导演">
+                <Menu.ItemGroup key="directorGroup">
+                    <Menu.Item key="directorAdd">
+                        <Link to="/director/add">新增</Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
+        </Menu>);
     }
 });
 
