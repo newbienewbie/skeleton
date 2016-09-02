@@ -44,8 +44,8 @@ const Add=React.createClass({
 
     render:function(){
         const _movie=Object.assign({},_movie);
-        return (<div >
-            <form className="form-horizontal">
+        return (<div>
+            <form >
                 <Row>
                     <Col span={4}><label >名称</label></Col>
                     <Col span={16}> 
