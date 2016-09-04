@@ -21,6 +21,7 @@ const _Media=(props)=>{
                 url:props.url,
                 title:props.title,
                 content:props.content,
+                imageSrc:props.posterUrl
             }}>
                 <img src={props.posterUrl}  style={{ 
                     display:'inline-block',
@@ -41,6 +42,7 @@ const _Media=(props)=>{
                 url:props.url,
                 title:props.title,
                 content:props.content,
+                imageSrc:props.posterUrl
             }}>
                 <h4 className="media-heading" style={{
                     "textAlign":'center',
@@ -53,7 +55,7 @@ const _Media=(props)=>{
 
 _Media.defaultProps={
     href:'',
-    imageSrc:'',
+    posterUrl:'',
     url:'',
     title:'',
     content:'',

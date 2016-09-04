@@ -9,7 +9,7 @@ const Play=(props)=>{
         <div className="row">
             <h2>{state.title}</h2>
         </div>
-        <video width="640" height="360" controls>
+        <video width="640" height="360" controls poster={state.imageSrc}>
             <source src={url} type="video/mp4" />
             <source src={url} type="video/ogg" />
             <object width="640" height="360" type="application/x-shockwave-flash" data="__FLASH__.SWF">
