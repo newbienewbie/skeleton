@@ -1,7 +1,7 @@
 import React from 'react';
 import {Input,DatePicker,Button,Modal,message} from 'antd';
 import SelectStuff from '../utils/select-stuff.jsx';
-
+import 'whatwg-fetch';
 /**
  * 初始值
  */

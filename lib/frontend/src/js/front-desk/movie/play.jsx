@@ -1,5 +1,5 @@
 import React from 'react';
-
+import 'whatwg-fetch';
 
 
 const Play = React.createClass({
