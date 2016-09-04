@@ -21,7 +21,7 @@ const _Media=(props)=>{
                 url:props.url,
                 title:props.title,
                 content:props.content,
-                imageSrc:props.posterUrl
+                posterUrl:props.posterUrl
             }}>
                 <img src={props.posterUrl}  style={{ 
                     display:'inline-block',
@@ -42,7 +42,7 @@ const _Media=(props)=>{
                 url:props.url,
                 title:props.title,
                 content:props.content,
-                imageSrc:props.posterUrl
+                posterUrl:props.posterUrl
             }}>
                 <h4 className="media-heading" style={{
                     "textAlign":'center',

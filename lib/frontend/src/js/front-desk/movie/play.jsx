@@ -10,7 +10,7 @@ const Play = React.createClass({
             cache={
                 title:'',
                 content:'',
-                posterSrc:'',
+                posterUrl:'',
                 url:'',
             }
         }
@@ -32,7 +32,7 @@ const Play = React.createClass({
                         cache:{
                             title:movie.title,
                             content:movie.description,
-                            posterSrc:movie.posterUrl,
+                            posterUrl:movie.posterUrl,
                             url:movie.url,
                         }
                     });
@@ -51,7 +51,7 @@ const Play = React.createClass({
             <div className="row">
                 <h2>{cache.title}</h2>
             </div>
-            <video width="640" height="360" controls poster={cache.posterSrc}>
+            <video width="640" height="360" controls poster={cache.posterUrl}>
                 <source src={url} type="video/mp4" />
                 <source src={url} type="video/ogg" />
                 <object width="640" height="360" type="application/x-shockwave-flash" data="__FLASH__.SWF">
