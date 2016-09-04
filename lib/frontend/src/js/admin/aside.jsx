@@ -16,9 +16,6 @@ const Aside = React.createClass({
                     <Menu.Item key="videoReport">
                         <Link to="/">报表</Link>
                     </Menu.Item>
-                    <Menu.Item key="videoReport">
-                        <Link to="/">分析</Link>
-                    </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
             <Menu.SubMenu key="post" title="文章">
