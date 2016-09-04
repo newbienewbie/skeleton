@@ -14,7 +14,12 @@ const Play = React.createClass({
                 url:'',
             }
         }
-        return {cache};
+        return {
+            cache,
+            canplay1:true,
+            canplay2:true,
+            canplay3:true,
+        };
     },
 
     /**
@@ -47,20 +52,53 @@ const Play = React.createClass({
     render: function () {
         const cache = this.state.cache;
         const url = cache.url;
-        return (<div>
+
+        return ( <div>
             <div className="row">
                 <h2>{cache.title}</h2>
             </div>
-            <video width="640" height="360" controls poster={cache.posterUrl}>
-                <source src={url} type="video/mp4" />
-                <source src={url} type="video/ogg" />
-                <object width="640" height="360" type="application/x-shockwave-flash" data="__FLASH__.SWF">
-                    <param name="movie" value="__FLASH__.SWF" />
-                    <param name="flashvars" value={`controlbar=over&amp;image=__POSTER__.JPG&amp;file=${url}`} />
-                    <img src="__VIDEO__.JPG" width="640" height="360" alt="__TITLE__"
-                        title="No video playback capabilities, please download the video below" />
-                </object>
-            </video>
+            <div className="row">
+                <div  style={{ position:'relative', width:760 }}>
+                    <div width="760">
+                        <video width="760" controls poster={cache.posterUrl}>
+                            <source src={url} type="video/mp4" onError={()=>{
+                                this.setState( {canplay1:false} );
+                            }} />
+                            <source src={url} type="video/ogg" onError={()=>{
+                                this.setState( {canplay2:false} ) ;
+                            }} />
+                            <object
+                                type="application/x-shockwave-flash"
+                                data="__FLASH__.SWF"
+                                onError={()=>{ 
+                                    this.setState({ canplay3: false }) 
+                                }}
+                            >
+                                <param name="movie" value="__FLASH__.SWF" />
+                                <param name="flashvars" value={`controlbar=over&amp;image=__POSTER__.JPG&amp;file=${url}`} />
+                                <img src="__VIDEO__.JPG" width="640" height="360" alt="__TITLE__"
+                                    title="No video playback capabilities, please download the video below" />
+                            </object>
+                        </video>
+                    </div>
+                    <div style={{
+                        display: this.state.canplay1||this.state.canplay2||this.state.canplay3?"none":"block",
+                        position: 'absolute',
+                        width: '20em',
+                        left: '50%',
+                        top: '60%',
+                        margin: '-10em',
+                        color: 'red'
+                    }}>
+                        对不起，该视频不能在您的浏览器上播放，但是您可以
+                        <a target="_blank" href={url} style={{
+                            color: 'rgb(140, 240, 16)',
+                        }}>下载到本地</a>
+                        ，然后使用合适的播放器观看
+                    </div>
+                </div>
+            </div>
+
             <div className="row">
                 <a target="_blank" href={url}>下载到本地</a>
             </div>
