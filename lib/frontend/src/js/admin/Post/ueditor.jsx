@@ -13,11 +13,18 @@ const Ueditor = React.createClass({
     },
 
     componentDidMount() {
-        document.getElementById(this.props.id).innerHTML="";
-        let ue=UE.getEditor(this.props.id,{
-            initialFrameWidth: this.props.width,
-            initialFrameHeight: this.props.height,
-        });
+        function waitUntil(props){
+            try{
+                let ue = UE.getEditor(props.id, {
+                    initialFrameWidth: props.width,
+                    initialFrameHeight: props.height,
+                });
+            }catch(err){
+                console.log('暂时无UE对象可用，等待500',err);
+                setTimeout( waitUntil, 500);
+            }
+        }
+        waitUntil(this.props);
     },
 
     componentWillUnmount(){
@@ -26,9 +33,11 @@ const Ueditor = React.createClass({
     
     render: function () {
         return (
+            <div>
             <script id={this.props.id} name={this.props.content}
                 type="text/plain">
             </script>
+            </div>
         );
     }
 
