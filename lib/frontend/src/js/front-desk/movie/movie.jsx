@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './home.jsx';
+import Play from './play.jsx';
 
 const Main=React.createClass({
     render:function(){
@@ -9,4 +10,4 @@ const Main=React.createClass({
     },
 });
 
-export default {Main,Home};
+export default {Main,Home,Play};

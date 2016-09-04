@@ -14,6 +14,7 @@ ReactDOM.render(
             </Route>
             <Route path="/movie" component={App.Movie.Main}>
                 <IndexRoute component={App.Movie.Home}/>
+                <Route path="/movie/play/:id" component={App.Movie.Play}/>
             </Route>
         </Route>
     </Router>),

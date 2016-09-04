@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import 'whatwg-fetch';
 import Pagination from './pagination.jsx';
 
@@ -16,7 +17,11 @@ const _Media=(props)=>{
              padding:0,
              height:'200px',
         }}>
-            <a href={`/${props.url}`}>
+            <Link to={`/movie/play/${props.id}`}  state={{
+                url:props.url,
+                title:props.title,
+                content:props.content,
+            }}>
                 <img src={props.posterUrl}  style={{ 
                     display:'inline-block',
                     width:'100%',
@@ -29,15 +34,19 @@ const _Media=(props)=>{
                     top:'50%',
                     margin:'-32px -32px ', /* 播放按钮大小为64*64 */
                 }}/>
-            </a>
+            </Link>
         </div>
         <div >
-            <a href={`/${props.url}`}>
+            <Link to={`/movie/play/${props.id}`}  state={{
+                url:props.url,
+                title:props.title,
+                content:props.content,
+            }}>
                 <h4 className="media-heading" style={{
                     "textAlign":'center',
                 }}>{props.title}</h4>
                 {props.content}
-            </a>
+            </Link>
         </div>
     </div>);
 };
@@ -70,7 +79,7 @@ const _MovieList=(props)=>{
             return (<div className="row" key={rowNum}>
                 {row.map(i=>{
                     return (<_Media 
-                        key={i.id} posterUrl={i.posterUrl|| "#"} 
+                        id={i.id} key={i.id} posterUrl={i.posterUrl|| "#"} 
                         title={i.title} content={i.description} 
                         url={i.url}
                     />);
