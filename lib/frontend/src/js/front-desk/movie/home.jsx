@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import 'whatwg-fetch';
-import Pagination from './pagination.jsx';
+import Pagination from 'simple-react-pagination';
 
 const _movie_list_item_style={
     background:"rgba(59, 128, 10, 0.1)",

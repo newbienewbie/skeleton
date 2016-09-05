@@ -30,6 +30,7 @@
     "react-router": "^2.6.1",
     "remarkable": "^1.6.2",
     "sequelize": "^3.23.6",
+    "simple-react-pagination": "^1.0.4",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
