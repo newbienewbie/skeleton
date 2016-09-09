@@ -1,5 +1,5 @@
-const signupService=require('../../../../lib/backend/service/account/signup-service.js');
-const domain=require('../../../../lib/backend/domain/domain.js');
+const signupService=require('../../../lib/backend/account/signup-service.js');
+const domain=require('../../../lib/backend/domain/domain.js');
 const assert=require('assert');
 
 
