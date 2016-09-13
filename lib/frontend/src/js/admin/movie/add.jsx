@@ -108,7 +108,7 @@ const Add=React.createClass({
                         } }
                         />
                 </Form.Item>
-                
+
                 <Form.Item label="国家" help="电影发行国家" {...formItemLayout} >
                     <SelectStuff
                         notFoundContent="暂未收录该国家，请选择：其他"
@@ -192,6 +192,7 @@ const Add=React.createClass({
                         this.setState({ movie: movie });
                     } }/>
                 </Form.Item>
+               
                 <Form.Item wrapperCol={{ span: 16, offset: 8 }} style={{ marginTop: 24 }}>
                     <Button type="primary"
                         disabled={this.state.btnSubmit.disabled}
