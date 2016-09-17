@@ -1,6 +1,6 @@
 const path=require('path');
 const fs=require('fs');
-const movieProcess=require('../../../lib/backend/movie-process/movie-process.js');
+const movieProcess=require('../../../../lib/backend/service/movie-process/movie-process.js');
 const assert=require('assert');
 
 
