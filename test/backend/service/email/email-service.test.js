@@ -1,5 +1,5 @@
 var assert=require('assert');
-var mailService=require("../../../lib/backend/email/email-service");
+var mailService=require("../../../../lib/backend/service/email/email-service");
 
 var mail = {
     from: mailService.sender, // sender address 

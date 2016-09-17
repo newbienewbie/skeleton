@@ -1,5 +1,5 @@
 var assert=require('assert');
-var transport=require('../../../lib/backend/email/transport.js');
+var transport=require('../../../../lib/backend/service/email/transport.js');
 
 describe('测试transport',function () {
     this.timeout(10000);
