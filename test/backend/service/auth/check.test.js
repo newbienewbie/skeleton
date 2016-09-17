@@ -1,5 +1,5 @@
 const assert=require('assert');
-const check=require('../../../lib/backend/auth/check.js');
+const check=require('../../../../lib/backend/service/auth/check.js');
 
 
 
