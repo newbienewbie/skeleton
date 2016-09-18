@@ -21,6 +21,7 @@ ReactDOM.render(
             </Route>
             <Route path="/user" component={Admin.User.Main}>
                 <IndexRoute component={Admin.User.Home} />
+                <Route path="/user/list" component={Admin.User.List} ></Route>
             </Route>
         </Route>
     </Router>),

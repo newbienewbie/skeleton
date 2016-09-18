@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './home.jsx';
+import List from './list.jsx';
 
 
 const Main=React.createClass({
@@ -14,4 +15,4 @@ const Main=React.createClass({
 
 
 
-module.exports={Main,Home};
+module.exports={Main,Home,List};

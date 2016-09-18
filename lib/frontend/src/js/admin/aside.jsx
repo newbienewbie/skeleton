@@ -36,6 +36,7 @@ const Aside = React.createClass({
                 <Menu.ItemGroup key="userGroup">
                     <Menu.Item key="userList">
                         <Link to="/user"> 新增</Link>
+                        <Link to="/user/list"> 列表</Link>
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
