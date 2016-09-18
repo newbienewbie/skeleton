@@ -6,6 +6,7 @@ import Aside from './aside.jsx';
 import Post from './post/post.jsx';
 import Movie from './movie/movie.jsx';
 import Director from './director/director.jsx';
+import User from './user/main.jsx';
 
 
 /**
@@ -36,4 +37,4 @@ const Main = React.createClass({
     }
 });
 
-export default {Main,Post,Movie,Director};
+export default {Main,Post,Movie,Director,User};

@@ -4,7 +4,6 @@ import {Router,Route,hashHistory,IndexRoute} from 'react-router';
 import Admin from './js/admin/admin.jsx';
 
 
-
 ReactDOM.render(
     (<Router history={hashHistory}>
         <Route path="/" component={Admin.Main}>
@@ -19,6 +18,9 @@ ReactDOM.render(
             <Route path="/post" component={Admin.Post.Main}>
                 <IndexRoute component={Admin.Post.Add}/>
                 <Route path="/post/add" component={Admin.Post.Add}></Route>
+            </Route>
+            <Route path="/user" component={Admin.User.Main}>
+                <IndexRoute component={Admin.User.Home} />
             </Route>
         </Route>
     </Router>),

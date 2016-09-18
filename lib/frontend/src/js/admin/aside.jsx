@@ -32,6 +32,13 @@ const Aside = React.createClass({
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
+            <Menu.SubMenu key="user" title="用户">
+                <Menu.ItemGroup key="userGroup">
+                    <Menu.Item key="userList">
+                        <Link to="/user"> 新增</Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
         </Menu>);
     }
 });
