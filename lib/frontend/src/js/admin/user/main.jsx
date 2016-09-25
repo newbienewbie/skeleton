@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './home.jsx';
 import List from './list.jsx';
+import Invite from './invite.jsx';
 
 
 const Main=React.createClass({
@@ -15,4 +16,4 @@ const Main=React.createClass({
 
 
 
-module.exports={Main,Home,List};
+module.exports={Main,Home,List,Invite};

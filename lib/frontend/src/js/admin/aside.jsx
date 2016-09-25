@@ -32,11 +32,20 @@ const Aside = React.createClass({
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
+            <Menu.SubMenu title="角色管理">
+                <Menu.ItemGroup>
+                    <Menu.Item>
+                        <Link to="">列表</Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
             <Menu.SubMenu key="user" title="用户">
                 <Menu.ItemGroup key="userGroup">
                     <Menu.Item key="userList">
-                        <Link to="/user"> 新增</Link>
                         <Link to="/user/list"> 列表</Link>
+                    </Menu.Item>
+                    <Menu.Item key="userInvite">
+                        <Link to="/user/invite"> 邀请 </Link>
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
