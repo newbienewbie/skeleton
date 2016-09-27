@@ -54,12 +54,17 @@
 文件夹结构为：
 
 * backend/
-    * auth/
     * config/
     * domain/
-    * email/
+    * service/ # 服务
+        * account/       # 账号服务，如角色服务、注册服务
+        * auth/          # 认证相关服务，如密码比较、密码生成、检查角色、检查登陆等
+        * email/         # 邮件服务
+        * session/       # 会话服务
+        * install/       # 安装
+        * movie-process/ # 电影处理服务，如截图
+        * ...
     * router/
-    * session/
     * utils/
 
 
