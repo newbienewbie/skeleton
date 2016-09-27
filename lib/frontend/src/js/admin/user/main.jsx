@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from './home.jsx';
-import List from './list.jsx';
+import List from './list/index.jsx';
 import Invite from './invite.jsx';
 
 
