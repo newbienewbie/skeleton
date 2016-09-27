@@ -1,7 +1,8 @@
 import React from 'react';
-import {Table,Row,Col,Card,Transfer,Button,Modal,Pagination,message} from 'antd';
+import {Table,Pagination,Row,Col,message} from 'antd';
 import 'whatwg-fetch';
 import RoleManager from './role-manager.jsx';
+import PasswordManager from './password-manager.jsx';
 
 /**
  * 用户列表
@@ -70,48 +71,6 @@ const List=React.createClass({
                 }} 
             />
         </div>);
-    }
-});
-
-
-
-/**
- * 重置密码
- */
-const PasswordManager=React.createClass({
-
-    getDefaultProps:function(){
-        return {
-            record:[],
-            title:'密码管理',
-            bordered:true,
-        };
-    },
-
-    getInitialState:function(){
-        return { };
-    },
-
-
-    render:function(){
-        return (<Card title={this.props.title} bordered={this.props.bordered} >
-
-            <div>
-                当前角色名：{this.props.record.username}
-            </div>
-
-            <Button style={{ color:'white', backgroundColor:'red'}} onClick={()=>{
-                Modal.confirm({
-                    title:'请确认',
-                    content:'真要重置密码吗？',
-                    onOk:()=>{message.error('此功能敬请期待');},
-                    onCancel:()=>{},
-                })
-            }} >
-                重置密码
-            </Button>
-
-        </Card>);
     }
 });
 
