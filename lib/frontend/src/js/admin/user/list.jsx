@@ -150,7 +150,23 @@ const RoleManager=React.createClass({
 
             <div>
                 <Button type="primary" onClick={()=>{
-                    console.log(this.state.targetKeys);
+                    fetch('/role/update',{
+                        method:'POST',
+                        headers: {
+                            "Content-Type": 'application/json',
+                        },
+                        body:JSON.stringify({
+                            username:this.props.record.username,
+                            roles:this.state.targetKeys,
+                        })
+                    }).then(resp=>resp.json())
+                    .then((resp)=>{
+                        if(resp.status=="SUCCESS"){
+                            message.info('修改角色成功');
+                        }else{
+                            message.error(`操作失败：${resp.msg}`);
+                        }
+                    })
                 }}>
                     确定
                 </Button>
