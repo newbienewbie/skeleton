@@ -140,19 +140,21 @@ describe('测试注册服务',function(){
 
         it('当激活码正确，帐户名有效',function(done){
             //创建激活码
-            const createActivateCode=domain.activeCode.create({
-                    expiresAt:( new Date()).setTime((new Date()).getTime()+4*60*60*1000)
-                }).then(activateCode=>{
+            const createActivateCode=function(){
+                return domain.activeCode.create({
+                    expiresAt: (new Date()).setTime((new Date()).getTime() + 4 * 60 * 60 * 1000)
+                }).then(activateCode => {
                     console.log('激活码创建完毕');
                     return activateCode.code;
                 });
+            };
             //创建账户
             const createAccount=function(code){
                 return signupService.signup(username,password,email,code);
             };
 
             let resultCache={user:{},code:''};
-            createActivateCode
+            createActivateCode()
                 .then((code)=>{
                     return createAccount(code);
                 })
@@ -163,7 +165,6 @@ describe('测试注册服务',function(){
                             code:result.code
                         };
                         assert.equal(result.userEntity.username, username);
-                        assert.equal(result.userEntity.password, password);
                         assert.equal(result.userEntity.email, email);
                         return result; 
                     },
