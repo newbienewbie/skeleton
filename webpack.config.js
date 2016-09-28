@@ -7,6 +7,7 @@ const PATHS={
 
 module.exports={
     entry:{
+        install:path.join(PATHS.app,"install.jsx"),
         main: path.join(PATHS.app,"main.jsx"),
         admin:path.join(PATHS.app,"admin.jsx"),
     },
