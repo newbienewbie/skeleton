@@ -112,17 +112,19 @@ const Home=React.createClass({
         };
     },
     fetchData:function(page=1,size=12,cb=()=>{}){
-        fetch(`/movie/list?page=${page}&size=${size}`)
-            .then(resp => resp.json())
-            .then(json => {
-                this.setState(
-                    { count: json.count, rows: json.rows, },
-                    ()=>{ cb(this.state); }
-                );
-            })
-            .catch(e => {
-                console.log("发生异常：", e);
-            });
+        fetch(`/movie/list?page=${page}&size=${size}`,{
+            credentials: 'same-origin'
+        })
+        .then(resp => resp.json())
+        .then(json => {
+            this.setState(
+                { count: json.count, rows: json.rows, },
+                ()=>{ cb(this.state); }
+            );
+        })
+        .catch(e => {
+            console.log("发生异常：", e);
+        });
     },
     componentDidMount:function(){
         this.fetchData(this.state.page,this.state.size);

@@ -220,6 +220,7 @@ const Add=React.createClass({
                                 headers: {
                                     "Content-Type": 'application/json',
                                 },
+                                credentials: 'same-origin',
                                 body: JSON.stringify(Object.assign({}, this.state.movie))
                             })
                                 .then(resp => resp.json())

@@ -136,6 +136,7 @@ const Add=React.createClass({
                             headers:{
                                 'Content-Type':'application/json',
                             },
+                            credentials: 'same-origin',
                             body:JSON.stringify(this.state.director),
                         })
                         .then((resp)=>{

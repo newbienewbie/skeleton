@@ -30,22 +30,24 @@ const Play = React.createClass({
         if(this.state.cache && this.state.cache.url && this.state.cache.title){
             return;
         }else{
-            fetch(`/movie/detail/${this.props.params.id}`)
-                .then(resp=>resp.json())
-                .then(movie=>{
-                    this.setState({
-                        cache:{
-                            title:movie.title,
-                            content:movie.description,
-                            posterUrl:movie.posterUrl,
-                            url:movie.url,
-                        }
-                    });
-                })
-                .catch(e=>{
-                    alert('加载视频信息失败');
-                    console.log(e);
+            fetch(`/movie/detail/${this.props.params.id}`,{
+                credentials: 'same-origin'
+            })
+            .then(resp => resp.json())
+            .then(movie => {
+                this.setState({
+                    cache: {
+                        title: movie.title,
+                        content: movie.description,
+                        posterUrl: movie.posterUrl,
+                        url: movie.url,
+                    }
                 });
+            })
+            .catch(e => {
+                alert('加载视频信息失败');
+                console.log(e);
+            });
         }
     },
 

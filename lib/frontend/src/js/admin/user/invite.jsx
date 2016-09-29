@@ -14,11 +14,13 @@ export const Invite=React.createClass({
 
 
     fetchDataAndChangeState:function(){
-        return fetch('/account/invite')
-            .then( resp=>resp.text() )
-            .then((code)=>{
-                this.setState({ code:code, });
-            })
+        return fetch('/account/invite',{
+            credentials: 'same-origin',
+        })
+        .then( resp=>resp.text() )
+        .then((code)=>{
+            this.setState({ code:code, });
+        });
     },
 
     componentDidMount:function(){

@@ -38,6 +38,7 @@ const List=React.createClass({
     fetchDataAndSetState:function(page=1,size=10){
         fetch(`${this.props.remoteListUrl}?page=${page}&size=${size}`,{
             method:'GET',
+            credentials: 'same-origin',
         })
         .then(resp=>resp.json())
         .then(info=>{

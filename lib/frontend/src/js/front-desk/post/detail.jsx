@@ -24,22 +24,24 @@ const Article=React.createClass({
     componentDidMount:function () {
         let that=this;
         const id=this.props.id;
-        fetch(`/api/post/detail?id=${id}`)
-            .then(function (resp) {
-                return resp.json();
-            }).then(function (post) {
-                console.log(post);
-                that.setState({
-                    post:{
-                        id:post.id,
-                        title:post.title,
-                        author:post.author,
-                        pubdate:post.pubdate,
-                        isMarkdown:post.isMarkdown,
-                        content:post.content,
-                    }
-                });
+        fetch(`/api/post/detail?id=${id}`,{
+            credentials: 'same-origin'
+        })
+        .then(function (resp) {
+            return resp.json();
+        }).then(function (post) {
+            console.log(post);
+            that.setState({
+                post:{
+                    id:post.id,
+                    title:post.title,
+                    author:post.author,
+                    pubdate:post.pubdate,
+                    isMarkdown:post.isMarkdown,
+                    content:post.content,
+                }
             });
+        });
     },
     render:function () {
         const remarkable=new Remarkable();

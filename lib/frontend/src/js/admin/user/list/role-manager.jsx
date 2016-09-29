@@ -26,20 +26,22 @@ const RoleManager=React.createClass({
     },
 
     fetchAllRoles:function(){
-        return fetch('/role/list')
-            .then(resp=>resp.json())
-            .then(roles=>{
-                this.setState({
-                    dataSource:roles.map(r=>{
-                        return {
-                            key:r.id,
-                            id:r.id,
-                            title:r.name,
-                            description:r.description,
-                        };
-                    }),
-                });
-            })
+        return fetch('/role/list',{
+            credentials: 'same-origin',
+        })
+        .then(resp=>resp.json())
+        .then(roles=>{
+            this.setState({
+                dataSource:roles.map(r=>{
+                    return {
+                        key:r.id,
+                        id:r.id,
+                        title:r.name,
+                        description:r.description,
+                    };
+                }),
+            });
+        });
     },
 
     componentDidMount:function(){
@@ -84,6 +86,7 @@ const RoleManager=React.createClass({
                         headers: {
                             "Content-Type": 'application/json',
                         },
+                        credentials: 'same-origin',
                         body:JSON.stringify({
                             username:this.props.record.username,
                             roles:this.state.targetKeys,

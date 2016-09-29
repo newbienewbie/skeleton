@@ -29,14 +29,16 @@ const SelectStuff=React.createClass({
     },
 
     componentDidMount:function(){
-        fetch(this.props.remoteUrl)
-            .then(resp=>resp.json())
-            .then((d)=>{
-                this.setState(
-                    {data:this.props.convert(d)},
-                    ()=>{ }
-                );
-            })
+        fetch(this.props.remoteUrl,{
+            credentials: 'same-origin'
+        })
+        .then(resp=>resp.json())
+        .then((d)=>{
+            this.setState(
+                {data:this.props.convert(d)},
+                ()=>{ }
+            );
+        });
     },
 
     render:function(){
