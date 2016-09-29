@@ -26,6 +26,13 @@ export const Invite=React.createClass({
     componentDidMount:function(){
     },
 
+    getSiteUrl:function(){
+        let host=document.location.host;
+        let schema=document.location.protocol?document.location.protocol:"http:";
+        let path='/account';
+        return schema+"//"+host+path;
+    },
+
     render:function(){
         return (<div>
             <Row>
@@ -46,6 +53,14 @@ export const Invite=React.createClass({
                     </Button>
                 </Col>
                 <Col span={18}><Alert message={this.state.code} type="success" /> </Col>
+            </Row>
+            <Row>
+                <Col span={4}>
+                   注册地址 
+                </Col>
+                <Col span={4}>
+                    {`${this.getSiteUrl()}`}
+                </Col>
             </Row>
         </div>);
     }
