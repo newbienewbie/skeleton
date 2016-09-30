@@ -60,9 +60,9 @@ const Play = React.createClass({
                 <h2>{cache.title}</h2>
             </div>
             <div className="row">
-                <div  style={{ position:'relative', width:760 }}>
-                    <div width="760">
-                        <video width="760" controls poster={cache.posterUrl}>
+                <div  style={{ position:'relative', margin:'auto'}}>
+                    <div >
+                        <video className="col-md-12 col-sm-12" controls poster={cache.posterUrl}>
                             <source src={url} type="video/mp4" onError={()=>{
                                 this.setState( {canplay1:false} );
                             }} />
@@ -83,20 +83,23 @@ const Play = React.createClass({
                             </object>
                         </video>
                     </div>
-                    <div style={{
+                    <div className="row" style={{
                         display: this.state.canplay1||this.state.canplay2||this.state.canplay3?"none":"block",
                         position: 'absolute',
-                        width: '20em',
-                        left: '50%',
-                        top: '60%',
-                        margin: '-10em',
-                        color: 'red'
+                        left:'50%',
+                        top: '25%',
+                        margin:'auto',
                     }}>
-                        对不起，该视频不能在您的浏览器上播放，但是您可以
-                        <a target="_blank" href={url} style={{
-                            color: 'rgb(140, 240, 16)',
-                        }}>下载到本地</a>
-                        ，然后使用合适的播放器观看
+                        <div style={{
+                            position: 'relative',
+                            left: '-50%',
+                            top: '-50%',
+                            color: 'red',
+                        }}>
+                            对不起，该视频不能在您的浏览器上播放，但是您可以
+                            <a target="_blank" href={url} style={{ color: 'rgb(140, 240, 16)', }}>下载到本地</a> ，
+                            然后使用合适的播放器观看
+                        </div>
                     </div>
                 </div>
             </div>
