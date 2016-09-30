@@ -44,6 +44,7 @@ const _Media=(props)=>{
             }}>
                 <h4 className="media-heading" style={{
                     "textAlign":'center',
+                    marginTop:'0.2em',
                 }}>{props.title}</h4>
             </Link>
             <Link to={`/movie/search/keyword`}>
