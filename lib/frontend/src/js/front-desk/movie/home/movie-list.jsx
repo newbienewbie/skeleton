@@ -1,7 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router';
-import 'whatwg-fetch';
-import Pagination from 'simple-react-ui/dist/pagination';
 
 const _movie_list_item_style={
     background:"rgba(59, 128, 10, 0.1)",
@@ -47,7 +45,19 @@ const _Media=(props)=>{
                 <h4 className="media-heading" style={{
                     "textAlign":'center',
                 }}>{props.title}</h4>
-                {props.content}
+            </Link>
+            <Link to={`/movie/search/keyword`}>
+                <div>{props.keyWord}</div>
+            </Link>
+            <Link to={`/movie/play/${props.id}`}  state={{
+                url:props.url,
+                title:props.title,
+                content:props.content,
+                posterUrl:props.posterUrl
+            }}>
+                <div>
+                    {props.content}
+                </div>
             </Link>
         </div>
     </div>);
@@ -58,12 +68,13 @@ _Media.defaultProps={
     posterUrl:'',
     url:'',
     title:'',
+    keyWord:'',
     content:'',
 };
 
 
 
-const _MovieList=(props)=>{
+const MovieList=(props)=>{
     const dataSource=props.dataSource;
     const itemsPerRow=4;
     const multirows=new Array();
@@ -83,7 +94,7 @@ const _MovieList=(props)=>{
                     return (<_Media 
                         id={i.id} key={i.id} posterUrl={i.posterUrl|| "#"} 
                         title={i.title} content={i.description} 
-                        url={i.url}
+                        url={i.url} keyWord={i.keyWord}
                     />);
                 })}
             </div>);
@@ -91,64 +102,12 @@ const _MovieList=(props)=>{
     </div>);
 };
 
-_MovieList.defaultProps={
+MovieList.defaultProps={
     dataSource: [
-        {id:'',imageSrc:'',title:'xxxxxxxx',content:'cccccccc'}
+        {id:'',imageSrc:'',title:'xxxxxxxx',content:'cccccccc',keyWord:''}
     ],
 };
 
 
 
-const Home=React.createClass({
-    getInitialState:function(){
-        return {
-            page:1,
-            size:12,
-            rows:[
-                {id:'',imageSrc:'',title:'xxxxxxxx',content:'cccccccc'}
-            ],
-            count:50,
-            current:1,
-        };
-    },
-    fetchData:function(page=1,size=12,cb=()=>{}){
-        fetch(`/movie/list?page=${page}&size=${size}`,{
-            credentials: 'same-origin'
-        })
-        .then(resp => resp.json())
-        .then(json => {
-            this.setState(
-                { count: json.count, rows: json.rows, },
-                ()=>{ cb(this.state); }
-            );
-        })
-        .catch(e => {
-            console.log("发生异常：", e);
-        });
-    },
-    componentDidMount:function(){
-        this.fetchData(this.state.page,this.state.size);
-    },
-    render:function(){
-        return (<div className="container">
-            <div className="row">最新视频</div>
-            <div className="row">
-                <_MovieList dataSource={this.state.rows}/> 
-            </div>
-            <div className="row">
-                <Pagination current={this.state.current}  size={this.state.size} count={this.state.count}
-                    onChange={(page)=>{
-                        this.setState(
-                            { page: page, current: page, },
-                            ()=>{
-                                this.fetchData(page,this.state.size);
-                            }
-                        );      
-                    }}
-                />
-            </div>
-        </div>);
-    }
-});
-
-export default Home;
+export default MovieList;

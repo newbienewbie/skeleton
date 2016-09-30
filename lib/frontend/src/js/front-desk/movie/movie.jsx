@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './home.jsx';
+import Home from './home/index.jsx';
 import Play from './play.jsx';
 
 const Main=React.createClass({
