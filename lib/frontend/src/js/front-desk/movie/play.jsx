@@ -61,8 +61,8 @@ const Play = React.createClass({
             </div>
             <div className="row">
                 <div  style={{ position:'relative', margin:'auto'}}>
-                    <div >
-                        <video className="col-md-12 col-sm-12" controls poster={cache.posterUrl}>
+                    <div className="row" >
+                        <video width="100%" controls poster={cache.posterUrl}>
                             <source src={url} type="video/mp4" onError={()=>{
                                 this.setState( {canplay1:false} );
                             }} />
