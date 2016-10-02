@@ -43,7 +43,13 @@ const Nav=React.createClass({
     render:function () {
         let list=this.props.navList.map((i,k)=>{
             return (
-            <li key={k}>
+            <li key={k} 
+                onClick={(e)=>{
+                    this.setState({active:i.text});
+                    e.preventDefault();
+                }} 
+                className={this.state.active==i.text?'active':''}
+            >
                 <Link to={i.href} >
                    {i.text}
                 </Link>
@@ -61,7 +67,6 @@ const Header = React.createClass({
 
     render:function () {
         return (<div className="container">
-            <Logo />
             <div className="row">
                 <Nav/>
                 <Search/>
