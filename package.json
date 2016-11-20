@@ -5,6 +5,7 @@
   "private": true,
   "main": "start.js",
   "scripts": {
+    "webpack": "webpack",
     "start": "node --use_strict start.js",
     "test": "mocha test --recursive --use_strict"
   },
@@ -31,7 +32,7 @@
     "react-router": "^2.6.1",
     "remarkable": "^1.6.2",
     "sequelize": "^3.23.6",
-    "simple-react-ui": "^1.2.2",
+    "simple-react-ui": "^1.2.4",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -43,6 +44,6 @@
     "babel-preset-react": "^6.11.1",
     "css-loader": "^0.24.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.3"
   }
 }
