@@ -1,5 +1,5 @@
 import React from 'react';
-import Add from './add.jsx';
+import Add from './add/index.jsx';
 
 const Main=React.createClass({
 
