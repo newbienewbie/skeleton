@@ -28,11 +28,10 @@ const Add=React.createClass({
                 /> 
                 <input className="btn btn-warning" type='submit' name="提交" value='提交' onClick={e=>{
                     e.preventDefault();
-                    if(!!document.UE){
+                    if(!!!UE ||!!!UE.getEditor){
                         message.info(`编辑器尚未准备好，请稍后...`);
                         return;
                     }
-
                     const title=this.state.title;
                     const colId=this.state.colId;
                     const ue=UE.getEditor("ueditorContainer");
