@@ -1,5 +1,6 @@
 import React from 'react';
 import Add from './add/index.jsx';
+import List from './list/index.jsx';
 
 const Main=React.createClass({
 
@@ -12,4 +13,4 @@ const Main=React.createClass({
 });
 
 
-export default {Main,Add};
+export default {Main,Add,List};
