@@ -53,6 +53,7 @@ const Add=React.createClass({
                         if(info.status=="SUCCESS"){
                             console.log(info);
                             message.info(`添加文章成功！`);
+                            ue.setContent('');
                         }
                         else{ 
                             console.log(info);
