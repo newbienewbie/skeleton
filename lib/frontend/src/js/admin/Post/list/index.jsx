@@ -1,5 +1,5 @@
 import React from 'react';
-import Datagrid from './datagrid.jsx';
+import Datagrid from 'antd-datagrid';
 import 'whatwg-fetch';
 
 
@@ -15,7 +15,7 @@ export const List=React.createClass({
                     {title:'createdAt',dataIndex:'createdAt'},
                     {title:'updatedAt',dataIndex:'updatedAt'},
                 ]}
-                fetcher={(page,size,condition)=>{
+                fetch={(page,size,condition)=>{
                     return fetch('/post/list',{
                         method:'post',
                         credentials:'same-origin',
