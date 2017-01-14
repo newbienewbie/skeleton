@@ -46,7 +46,7 @@ const Home=React.createClass({
                 <MovieList dataSource={this.state.rows}/> 
             </div>
             <div className="row">
-                <Pagination current={this.state.current}  size={this.state.size} count={this.state.count}
+                <Pagination current={this.state.current}  size={this.state.size} total={this.state.count}
                     onChange={(page)=>{
                         this.setState(
                             { page: page, current: page, },
