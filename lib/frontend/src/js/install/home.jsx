@@ -46,6 +46,12 @@ const Home=React.createClass({
                 .then(()=>{
                     return this.promiseSetState({current:++current});
                 })
+            .then(()=>{
+                return Request.initializeTable();
+            })
+                .then(()=>{
+                    return this.promiseSetState({current:++current});
+                })
             .catch(e=>{
                 console.log(this.state);
                 return this.setState({ status:'error',current:current,msg:e.msg});

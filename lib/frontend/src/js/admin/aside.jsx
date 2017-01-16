@@ -23,6 +23,9 @@ const Aside = React.createClass({
                     <Menu.Item key="postAdd">
                         <Link to="/post/add">新增</Link>
                     </Menu.Item>
+                    <Menu.Item key="postList">
+                        <Link to="/post/list">列表</Link>
+                    </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
             <Menu.SubMenu key="director" title="导演">

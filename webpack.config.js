@@ -19,17 +19,7 @@ module.exports={
         loaders:[
             {
                 test:/\.jsx?/,
-                loader:["babel-loader"],//自右向左依次加载
-                query:{
-                    "presets": ['es2015','react'],
-                    "plugins": [
-                        ["antd", {
-                            "style": 'css',
-                            "libraryName": "antd",           // default: antd
-                            "libraryDirectory": "lib",  // default: lib
-                        }],
-                    ]
-                },
+                loaders:["babel-loader"],//自右向左依次加载
                 include:PATHS.app,
             },
             {
