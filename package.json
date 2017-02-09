@@ -20,7 +20,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-mysql-session": "^1.1.1",
-    "express-security": "^0.6.6",
+    "express-security": "^0.7.8",
     "express-session": "^1.14.0",
     "express-ueditor": "^1.0.9",
     "fluent-ffmpeg": "^2.1.0",
