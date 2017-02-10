@@ -10,10 +10,10 @@ export const List=React.createClass({
         return (<div>
             <Datagrid 
                 columns={[
-                    {title:'title',dataIndex:'title'}, 
-                    {title:'status',dataIndex:'status'},
-                    {title:'createdAt',dataIndex:'createdAt'},
-                    {title:'updatedAt',dataIndex:'updatedAt'},
+                    {title:'标题',dataIndex:'title'}, 
+                    {title:'状态',dataIndex:'status'},
+                    {title:'创建于',dataIndex:'createdAt'},
+                    {title:'更新于',dataIndex:'updatedAt'},
                 ]}
                 fetch={(page,size,condition)=>{
                     return fetch('/post/list',{
