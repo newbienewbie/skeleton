@@ -8,7 +8,7 @@ const Add=React.createClass({
     getInitialState(){
         return {
             title:'',
-            colId:'',
+            categoryId:'',
         };
     },
 
@@ -19,8 +19,8 @@ const Add=React.createClass({
                 <input name='title' onChange={(v)=>{
                     this.setState({title:v.target.value});
                 }}/>
-                <input name="colId" onChange={(v)=>{
-                    this.setState({colId:v.target.value});
+                <input name="categoryId" onChange={(v)=>{
+                    this.setState({categoryId:v.target.value});
                 }}/>
                 <UEditor id="ueditorContainer" name="content" 
                     initialContent={""} 
@@ -33,11 +33,11 @@ const Add=React.createClass({
                         return;
                     }
                     const title=this.state.title;
-                    const colId=this.state.colId;
+                    const categoryId=this.state.categoryId;
                     const ue=UE.getEditor("ueditorContainer");
                     const content=ue.getContent();
                     if(!!!title){ message.error(`标题不得为空`);}
-                    if(!!!colId){ message.error(`专栏不得为空`);}
+                    if(!!!categoryId){ message.error(`专栏不得为空`);}
                     if(!!!content){ message.error(`内容不得为空`); }
 
                     fetch("/post/new",{
@@ -46,7 +46,7 @@ const Add=React.createClass({
                         headers:{
                             "Content-Type":"application/json",
                         },
-                        body:JSON.stringify({ title, colId,content, })
+                        body:JSON.stringify({ title, categoryId,content, })
                     })
                     .then(info=>info.json())
                     .then((info)=>{
