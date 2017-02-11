@@ -18,6 +18,7 @@ export const PostManager=React.createClass({
         return { 
             postId:'',
             record:{}, 
+            job:'author',
         };
     },
 
@@ -43,7 +44,7 @@ export const PostManager=React.createClass({
 
     render:function(){
         return (<div>
-            <ToolBar role='censor' />
+            <ToolBar role={this.props.job} />
         </div>);
     },
 })

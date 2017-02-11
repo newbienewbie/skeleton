@@ -5,7 +5,7 @@ export const ToolBar=React.createClass({
 
     getDefaultProps:function(){
         return {
-            role:'',
+            job:'',
             onPreview:function(){ },
             onEdit:function(){ },
             onSubmit:function(){},
@@ -52,7 +52,7 @@ export const ToolBar=React.createClass({
 
     getToolBar(){
         let toolbar={};
-        switch(this.props.role){
+        switch(this.props.job){
             case 'author':
                 toolbar=this.getRoleAuthorToolBar();
                 break;
