@@ -11,8 +11,8 @@ export const ToolBar=React.createClass({
             onSubmit:function(){},
             onRemove:function(){},
             onApproval:function(){},
-            onReturn:function(){},
-            onRefuse:function(){},
+            onSendback:function(){},
+            onReject:function(){},
         };
     },
 
@@ -42,10 +42,10 @@ export const ToolBar=React.createClass({
                 <Button onClick={this.props.onApproval}>审核通过</Button>
             </Col>
             <Col span={6}>
-                <Button onClick={this.props.onReturn}>审核退回</Button>
+                <Button onClick={this.props.onSendback}>审核退回</Button>
             </Col>
             <Col span={6}>
-                <Button onClick={this.props.onRefuse}>审核拒绝</Button>
+                <Button onClick={this.props.onReject}>审核拒绝</Button>
             </Col>
         </Row>);
     },
