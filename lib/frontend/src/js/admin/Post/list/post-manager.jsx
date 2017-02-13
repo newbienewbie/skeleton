@@ -45,7 +45,7 @@ export const PostManager=React.createClass({
 
     render:function(){
         return (<div>
-            <ToolBar role={this.props.job} 
+            <ToolBar job={this.props.job} 
                 onPublish={()=>{
                     fetch(`/post/publish?id=${this.props.postId}`,{
                         method:'post',
