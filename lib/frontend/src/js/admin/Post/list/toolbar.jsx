@@ -8,7 +8,7 @@ export const ToolBar=React.createClass({
             job:'',
             onPreview:function(){ },
             onEdit:function(){ },
-            onSubmit:function(){},
+            onPublish:function(){},
             onRemove:function(){},
             onApproval:function(){},
             onSendback:function(){},
@@ -25,7 +25,7 @@ export const ToolBar=React.createClass({
                 <Button onClick={this.props.onEdit}>修改</Button>
             </Col>
             <Col span={6}>
-                <Button onClick={this.props.onSubmit}>提交</Button>
+                <Button onClick={this.props.onPublish}>发表</Button>
             </Col>
             <Col span={6}>
                 <Button  onClick={this.props.onRemove}>删除</Button>

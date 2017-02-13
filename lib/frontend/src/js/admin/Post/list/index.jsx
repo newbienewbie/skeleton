@@ -9,12 +9,19 @@ import {PostManager} from './post-manager.jsx';
 export const List=React.createClass({
 
     getInitialState(){
-        return {postId:''};
+        return {postId:'',refreshCode:1};
+    },
+
+    getDefaultProps(){
+        return {
+            job:'author',
+        };
     },
 
     render:function(){
         return (<div>
             <Datagrid 
+                refreshCode={this.state.refreshCode}
                 columns={[
                     {title:'标题',dataIndex:'title'}, 
                     {title:'状态',dataIndex:'status'},
@@ -37,7 +44,11 @@ export const List=React.createClass({
             />
             <Row>
                 <Col>
-                    <PostManager postId={this.state.postId}/>
+                    <PostManager job={this.props.job} postId={this.state.postId} 
+                        afterPublish={()=>{
+                            this.setState({refreshCode:this.state.refreshCode+1},()=>{message.success(`发表成功`);});
+                        }}
+                    />
                 </Col>
             </Row>
         </div>);

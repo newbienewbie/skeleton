@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row,Col,Button} from 'antd';
+import {Row,Col,Button,message} from 'antd';
 import 'whatwg-fetch';
 import {ToolBar} from './toolbar.jsx';
 
@@ -19,6 +19,7 @@ export const PostManager=React.createClass({
             postId:'',
             record:{}, 
             job:'author',
+            afterPublish:()=>{}
         };
     },
 
@@ -44,7 +45,27 @@ export const PostManager=React.createClass({
 
     render:function(){
         return (<div>
-            <ToolBar role={this.props.job} />
+            <ToolBar role={this.props.job} 
+                onPublish={()=>{
+                    fetch(`/post/publish?id=${this.props.postId}`,{
+                        method:'post',
+                        credentials:'same-origin',
+                    })
+                    .then(resp=>resp.json())
+                    .then(info=>{
+                        if(info.status=="SUCCESS"){
+                            console.log(info);
+                            message.info(`发布文章成功！`);
+                        }
+                        else{ 
+                            console.log(info);
+                            message.error(`发布文章失败！`);
+                        }
+                    }).then(()=>{
+                        this.props.afterPublish.call();
+                    });
+                }} 
+            />
         </div>);
     },
 })
