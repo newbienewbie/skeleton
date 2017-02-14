@@ -18,6 +18,7 @@ ReactDOM.render(
             <Route path="/post" component={Admin.Post.Main}>
                 <IndexRoute component={Admin.Post.Add}/>
                 <Route path="/post/add" component={Admin.Post.Add}></Route>
+                <Route path="/post/edit" component={Admin.Post.Edit}></Route>
                 <Route path="/post/list" component={Admin.Post.List}></Route>
             </Route>
             <Route path="/user" component={Admin.User.Main}>
