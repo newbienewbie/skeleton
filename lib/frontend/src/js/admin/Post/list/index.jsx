@@ -14,7 +14,7 @@ export const List=React.createClass({
 
     getDefaultProps(){
         return {
-            job:'author',
+            job:'censor',
         };
     },
 
@@ -39,18 +39,22 @@ export const List=React.createClass({
                     }).then(resp=>resp.json());
                 }} 
                 onRowClick={(record,index)=>{
-                    this.setState({postId:record.id});
+                    this.setState({postId:record.id},()=>{
+                        console.log('click row ',record);
+                    });
                 }}
             />
-            <Row>
-                <Col>
-                    <PostManager job={this.props.job} postId={this.state.postId} 
-                        afterPublish={()=>{
-                            this.setState({refreshCode:this.state.refreshCode+1},()=>{message.success(`发表成功`);});
-                        }}
-                    />
-                </Col>
-            </Row>
+            <PostManager job={this.props.job} postId={this.state.postId} 
+                afterOperation={()=>{
+                    const that=this;
+                    return new Promise(function(resolve,reject){
+                        that.setState(
+                            {refreshCode:that.state.refreshCode+1},
+                            function(){ resolve(); }
+                        );
+                    });
+                }}
+            />
         </div>);
     }
 })

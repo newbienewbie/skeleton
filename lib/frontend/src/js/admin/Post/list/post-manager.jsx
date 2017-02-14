@@ -19,7 +19,7 @@ export const PostManager=React.createClass({
             postId:'',
             record:{}, 
             job:'author',
-            afterPublish:()=>{}
+            afterOperation:()=>{}
         };
     },
 
@@ -56,15 +56,73 @@ export const PostManager=React.createClass({
                         if(info.status=="SUCCESS"){
                             console.log(info);
                             message.info(`发布文章成功！`);
+                            this.props.afterOperation.call();
                         }
                         else{ 
                             console.log(info);
                             message.error(`发布文章失败！`);
                         }
-                    }).then(()=>{
-                        this.props.afterPublish.call();
                     });
                 }} 
+                onApproval={()=>{
+                    fetch(`/post/approval?id=${this.props.postId}`,{
+                        method:'post',
+                        credentials:'same-origin',
+                    }).then(resp=>resp.json())
+                    .then(info=>{
+                        if(info.status=="SUCCESS"){
+                            console.log(info);
+                            this.props.afterOperation.call().then(()=>{
+                                message.info(`审批文章成功！`);
+                            });
+                        }
+                        else{ 
+                            console.log(info);
+                            message.error(`审批文章失败！`);
+                        }
+                        return info;
+                    });
+                }}
+                onSendback={()=>{
+                    fetch(`/post/sendback?id=${this.props.postId}`,{
+                        method:'post',
+                        credentials:'same-origin',
+                    })
+                    .then(resp=>resp.json())
+                    .then(info=>{
+                        if(info.status=="SUCCESS"){
+                            console.log(info);
+                            const fn=this.props.afterOperation;
+                            fn().then(()=>{
+                                message.info(`退回文章成功！`);
+                            });
+                        }
+                        else{ 
+                            console.log(info);
+                            message.error(`退回文章失败！`);
+                        }
+                    });
+                }} 
+                onReject={()=>{
+                    fetch(`/post/reject?id=${this.props.postId}`,{
+                        method:'post',
+                        credentials:'same-origin',
+                    })
+                    .then(resp=>resp.json())
+                    .then(info=>{
+                        if(info.status=="SUCCESS"){
+                            console.log(info);
+                            this.props.afterOperation()
+                            .then(()=>{
+                                message.info(`退回文章成功！`);
+                            });
+                        }
+                        else{ 
+                            console.log(info);
+                            message.error(`退回文章失败！`);
+                        }
+                    });
+                }}
             />
         </div>);
     },
