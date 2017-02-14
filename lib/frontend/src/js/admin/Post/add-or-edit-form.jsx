@@ -27,11 +27,25 @@ export const AddOrEditForm=React.createClass({
 
     render:function () {
         return (<form>
-            <input name='title' onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
-            <input name="categoryId" onChange={(v)=>{ this.setState({categoryId:v.target.value}); }}/>
+            <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
+            <input name="categoryId" type='text' placeholder='分类号' value={this.state.categoryId||''} onChange={(v)=>{ this.setState({categoryId:v.target.value}); }}/>
             <UEditor id="ueditorContainer" name="content" 
                 initialContent={this.props.initialContent} width={800} height={500} 
-                afterInit={this.props.afterInit}
+                afterInit={(ue)=>{
+                    const id=this.props.id;
+                    if(!!id){    // 编辑已有文章的表单
+                        // 获取最新的数据
+                        fetch(`/post/detail?id=${id}`,{
+                            method:'get',
+                            credentials:'same-origin',
+                        }).then(resp=>resp.json())
+                        .then(info=>{
+                            this.setState({title:info.title,categoryId:info.categoryId});
+                            return ue.setContent(info.content);
+                        });
+                    }else{ // 新增文章的表单
+                    }
+                }} 
             /> 
             <Button onClick={e=>{
                 e.preventDefault();

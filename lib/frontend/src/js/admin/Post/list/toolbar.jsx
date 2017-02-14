@@ -6,6 +6,7 @@ export const ToolBar=React.createClass({
 
     getDefaultProps:function(){
         return {
+            postId:null,
             job:'',
             onPreview:function(){ },
             onEdit:function(){ },
@@ -23,7 +24,7 @@ export const ToolBar=React.createClass({
                 <Button onClick={this.props.onPreview}>预览</Button>
             </Col>
             <Col span={6}>
-                <Link to={`/post/edit`} state={{}} >预览</Link>
+                <Link to={`/post/edit/${this.props.postId}`} >编辑</Link>
             </Col>
             <Col span={6}>
                 <Button onClick={this.props.onPublish}>发表</Button>
