@@ -1,5 +1,6 @@
 import React from 'react';
 import {Row,Col,Button} from 'antd';
+import {Link} from 'react-router';
 
 export const ToolBar=React.createClass({
 
@@ -22,7 +23,7 @@ export const ToolBar=React.createClass({
                 <Button onClick={this.props.onPreview}>预览</Button>
             </Col>
             <Col span={6}>
-                <Button onClick={this.props.onEdit}>修改</Button>
+                <Link to={`/post/edit`} state={{}} >预览</Link>
             </Col>
             <Col span={6}>
                 <Button onClick={this.props.onPublish}>发表</Button>
