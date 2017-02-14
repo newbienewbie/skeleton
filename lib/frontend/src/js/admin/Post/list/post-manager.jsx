@@ -23,13 +23,8 @@ export const PostManager=React.createClass({
         };
     },
 
-    fetchAllRoles:function(){
-        // fetch and setState()
-    },
-
 
     componentDidMount:function(){
-        this.fetchAllRoles();
     },
 
     /**
@@ -45,7 +40,7 @@ export const PostManager=React.createClass({
 
     render:function(){
         return (<div>
-            <ToolBar job={this.props.job} 
+            <ToolBar job={this.props.job} postId={this.props.postId}
                 onPublish={()=>{
                     fetch(`/post/publish?id=${this.props.postId}`,{
                         method:'post',

@@ -14,7 +14,7 @@ export const List=React.createClass({
 
     getDefaultProps(){
         return {
-            job:'censor',
+            job:'author',
         };
     },
 
@@ -23,6 +23,7 @@ export const List=React.createClass({
             <Datagrid 
                 refreshCode={this.state.refreshCode}
                 columns={[
+                    {title:'ID',dataIndex:'id'},
                     {title:'标题',dataIndex:'title'}, 
                     {title:'状态',dataIndex:'status'},
                     {title:'创建于',dataIndex:'createdAt'},
