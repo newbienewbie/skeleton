@@ -1,36 +1,15 @@
 #App{
     .contact{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-content: stretch;
 
-        .feedback{
-            flex:50%;
-            padding-right: 2em;
-            h1{
-                text-align: center;
-            }
-            form{
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-
-                input,textarea{
-                    margin-bottom: 0.5em;
-                }
-                input,textarea{
-                    margin-bottom: 1em;
-                }
-                button{
-                    margin-bottom:0;
-                }
-            }
+        /* 描述 */
+        p{
         }
 
+        /* 地图 */
         .map{
-            // background: deepskyblue;
-            width:40%;
+            background: deepskyblue;
+            width:100%;
+            height: 400px;
             >div{
                 width:100%;
                 height: 100%;
@@ -38,6 +17,63 @@
                 margin:0;
                 font-family:"微软雅黑";
             }
+        }
+
+        /* 反馈 */
+        .feedback{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: stretch;
+    
+            .feedback-form{
+                flex:50%;
+                padding-right: 2em;
+                background: saddlebrown;
+                h2{
+                    text-align: center;
+                }
+                form{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+    
+                    input,textarea{
+                        margin-bottom: 0.5em;
+                    }
+                    input,textarea{
+                        margin-bottom: 1em;
+                    }
+                    button{
+                        margin-bottom:0;
+                    }
+                }
+            }
+    
+            .feedback-info{
+                flex:50%;
+                background: salmon;
+                padding-right: 2em;
+                h2{
+                    text-align: center;
+                }
+                form{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+    
+                    input,textarea{
+                        margin-bottom: 0.5em;
+                    }
+                    input,textarea{
+                        margin-bottom: 1em;
+                    }
+                    button{
+                        margin-bottom:0;
+                    }
+                }
+            }
+    
         }
 
     }
