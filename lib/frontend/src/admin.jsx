@@ -10,6 +10,7 @@ ReactDOM.render(
             <Route path="/movie" component={Admin.Movie.Main} > 
                 <IndexRoute component={Admin.Movie.Home}/>
                 <Route path="/movie/add" component={Admin.Movie.Add}></Route>
+                <Route path="/movie/list" component={Admin.Movie.List}></Route>
             </Route>
             <Route path="/director" component={Admin.Director.Main}>
                 <IndexRoute component={Admin.Director.Home} />

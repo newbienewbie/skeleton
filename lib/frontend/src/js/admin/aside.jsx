@@ -14,7 +14,7 @@ const Aside = React.createClass({
                         <Link to="/movie/add">新增</Link>
                     </Menu.Item>
                     <Menu.Item key="videoReport">
-                        <Link to="/">报表</Link>
+                        <Link to="/movie/list">报表</Link>
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>

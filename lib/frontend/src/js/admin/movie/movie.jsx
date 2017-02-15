@@ -5,6 +5,7 @@ import React from 'react';
 import {Row,Col} from 'antd';
 import Home from './home.jsx';
 import Add from './add.jsx';
+import List from './list/index.jsx';
 
 
 const Main=React.createClass({
@@ -15,4 +16,4 @@ const Main=React.createClass({
     }
 });
 
-export default { Main,Home,Add} ; 
+export default { Main,Home,Add,List} ; 
