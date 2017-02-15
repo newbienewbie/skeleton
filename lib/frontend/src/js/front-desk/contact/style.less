@@ -7,7 +7,7 @@
 
         /* 地图 */
         .map{
-            background: deepskyblue;
+            background: lightblue;
             width:100%;
             height: 400px;
             >div{
@@ -28,8 +28,7 @@
     
             .feedback-form{
                 flex:50%;
-                padding-right: 2em;
-                background: saddlebrown;
+                background: salmon;
                 h2{
                     text-align: center;
                 }
@@ -37,22 +36,27 @@
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
-    
-                    input,textarea{
-                        margin-bottom: 0.5em;
-                    }
-                    input,textarea{
-                        margin-bottom: 1em;
-                    }
-                    button{
-                        margin-bottom:0;
+                    div{
+                        display: flex;
+                        flex-direction: row;
+                        margin:0.8em;
+                        label{
+                            flex:20%;
+                        }
+                        input,textarea{
+                            flex:80%;
+                        }
+                        button{
+                            width:100%;
+                        }
                     }
                 }
             }
     
             .feedback-info{
                 flex:50%;
-                background: salmon;
+                background: deepskyblue;
+                padding-left: 2em;
                 padding-right: 2em;
                 h2{
                     text-align: center;
