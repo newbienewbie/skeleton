@@ -16,6 +16,7 @@ ReactDOM.render(
                 <IndexRoute component={App.Movie.Home}/>
                 <Route path="/movie/play/:id" component={App.Movie.Play}/>
             </Route>
+            <Route path="/contact" component={App.Contact}></Route>
         </Route>
     </Router>),
     document.getElementById("App")

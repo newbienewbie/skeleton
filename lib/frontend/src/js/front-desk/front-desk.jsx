@@ -6,6 +6,7 @@ import Home from './home.jsx';
 import About from './about.jsx';
 import Post from './post/post.jsx';
 import Movie from './movie/movie.jsx';
+import {Contact} from './contact/index.jsx';
 
 const Main=React.createClass({
     getDefaultProps:function () {
@@ -22,5 +23,5 @@ const Main=React.createClass({
 });
 
 
-export default {Main,Home,Movie,Post,About};
+export default {Main,Home,Movie,Post,About,Contact};
 
