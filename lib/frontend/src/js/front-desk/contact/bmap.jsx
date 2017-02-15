@@ -12,13 +12,6 @@ export const BMapComponent=React.createClass({
         };
     },
 
-    getInitialState:function(){
-        return {
-            map:'',
-        };
-    },
-
-
     componentWillMount(){
         // 注意callback=init参数不能去掉，因为这是百度地图异步加载的接口，
         // 否则，会因为React异步创建了script，百度返回的script中又调用document.write()，从而触发错误
