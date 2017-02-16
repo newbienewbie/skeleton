@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './home.jsx';
+import Home from './home/index.jsx';
 import Detail from './detail.jsx';
 import Aside from './aside.jsx';
 import './style.less';

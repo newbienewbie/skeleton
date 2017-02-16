@@ -1,0 +1,32 @@
+#article-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    >div{
+        flex:0 0 24%;
+        background-color: palegreen;
+        margin-bottom: 0.5em; 
+        h2 {
+            text-align: center;
+            font-size: 1.3em;
+            overflow: hidden;
+        }
+        /* 作者、日期 */
+        >div:nth-child(2){
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        /* 配图 */
+        >div:nth-child(3){
+            img{
+                width:100%;
+            }
+        }
+    }
+}
