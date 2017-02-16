@@ -24,7 +24,7 @@ const Article=React.createClass({
     componentDidMount:function () {
         let that=this;
         const id=this.props.id;
-        fetch(`/api/post/detail?id=${id}`,{
+        fetch(`/post/detail?id=${id}`,{
             credentials: 'same-origin'
         })
         .then(function (resp) {
@@ -72,11 +72,9 @@ const Comments=React.createClass({
 
 const Detail=React.createClass({
     render:function () {
-        return (<div className="detail">
-            <div className="container">
-                <Article id={this.props.params.id}/>
-                <Comments/>
-            </div>
+        return (<div>
+            <Article id={this.props.params.id}/>
+            <Comments/>
         </div>);
     }
 });
