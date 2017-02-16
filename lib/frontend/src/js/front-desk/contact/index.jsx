@@ -1,5 +1,5 @@
 import React from 'react';
-import { BMapComponent } from './bmap.jsx';
+import BaiduMap from 'simple-react-ui/dist/baidumap';
 import './style.less';
 
 
@@ -14,7 +14,7 @@ export const Contact = React.createClass({
                     original form, accompanied by English versions from the 1914 translation by H. Rackham.
             </p>
             <div className="map">
-                <BMapComponent
+                <BaiduMap
                     ak={"kdoHd3T6c9rQqdxSePGlydrAGAOyDGIv"}
                     callback={(map) => {
                         var point = new BMap.Point(116.404, 39.915);  // 创建点坐标  
