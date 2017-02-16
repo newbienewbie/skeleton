@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router' ;
-import {Logo} from './logo.jsx';;
 
 export const Nav=React.createClass({
     getDefaultProps:function (params) {
@@ -35,12 +34,9 @@ export const Nav=React.createClass({
                 </Link>
             </li>);
         });
-        return (<div className="col-md-8">
-            <Logo />
-            <ul className="nav nav-pills nav-fixed-top">
-                {list}
-            </ul>
-        </div>);
+        return (<ul className="nav nav-pills nav-fixed-top">
+            {list}
+        </ul>);
     }
 });
 
