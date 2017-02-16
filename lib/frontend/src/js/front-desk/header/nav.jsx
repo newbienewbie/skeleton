@@ -1,28 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router' ;
+import {Logo} from './logo.jsx';;
 
-const Logo= React.createClass({
-    render:function () {
-        return (<div className="logo">
-            <Link to="/">
-                <img src="/static/img/logo.png" className="img-responsive" alt=""/>
-            </Link>
-        </div>);
-    }
-});
-
-const Search=React.createClass({
-    render:function (params) {
-        const inputStyle={
-            marginTop:"0.4em",
-        };
-        return (<div className="col-md-3">
-             <input name="search" style={inputStyle} />
-        </div>);
-    }
-});
-
-const Nav=React.createClass({
+export const Nav=React.createClass({
     getDefaultProps:function (params) {
         return {
             navList:[
@@ -56,6 +36,7 @@ const Nav=React.createClass({
             </li>);
         });
         return (<div className="col-md-8">
+            <Logo />
             <ul className="nav nav-pills nav-fixed-top">
                 {list}
             </ul>
@@ -63,16 +44,5 @@ const Nav=React.createClass({
     }
 });
 
-const Header = React.createClass({
 
-    render:function () {
-        return (<div className="container">
-            <div className="row">
-                <Nav/>
-                <Search/>
-            </div>
-        </div>);
-    }
-});
-
-export default Header;
+export default Nav;
