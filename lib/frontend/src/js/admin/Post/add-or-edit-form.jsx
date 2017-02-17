@@ -1,8 +1,8 @@
 import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
 import 'whatwg-fetch';
-import {Row,Col,Button,message} from 'antd';
-
+import {Row,Col,Button,Select,message} from 'antd';
+import {CategorySelector} from './category-selector.jsx'; 
 
 /**
  * <AddOrEditForm url={}/>
@@ -25,10 +25,12 @@ export const AddOrEditForm=React.createClass({
         };
     },
 
+
+
     render:function () {
         return (<form>
             <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
-            <input name="categoryId" type='text' placeholder='分类号' value={this.state.categoryId||''} onChange={(v)=>{ this.setState({categoryId:v.target.value}); }}/>
+            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
             <UEditor id="ueditorContainer" name="content" 
                 initialContent={this.props.initialContent} width={800} height={500} 
                 afterInit={(ue)=>{
