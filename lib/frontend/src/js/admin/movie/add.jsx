@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 import 'whatwg-fetch'; 
 
 import SelectStuff from '../utils/select-stuff.jsx';
-import UploadAttachment from './upload-attachment.jsx';
+import UploadAttachment from '../upload-attachment.jsx';
 
 /**
  * 初始值，永不改变，用作initial state，
