@@ -1,8 +1,9 @@
 import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
 import 'whatwg-fetch';
-import {Row,Col,Button,Select,message} from 'antd';
+import {Row,Col,Button,Select,Upload,message} from 'antd';
 import {CategorySelector} from './category-selector.jsx'; 
+import UploadAttachment from '../../upload-attachment.jsx';
 
 /**
  * <AddOrEditForm url={}/>
@@ -22,6 +23,7 @@ export const AddOrEditForm=React.createClass({
         return {
             title:'',
             categoryId:'',
+            featureImageUrl:'#',
         };
     },
 
@@ -29,8 +31,51 @@ export const AddOrEditForm=React.createClass({
 
     render:function () {
         return (<form>
-            <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
-            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
+            <Row>
+                <Col span={24}>
+                    <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }} style={{display:'block',width:'800',marginBottom:'10'}}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={8}>
+                    <Row>
+                        <Col span={8}>
+                            <label>选择分类</label>
+                        </Col>
+                        <Col span={8}>
+                            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={8}>
+                            <label>阅读密码</label>
+                        </Col>
+                        <Col span={8}>
+                            <label>阅读密码</label>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col span={4}>
+                    <Row>
+                        <label>特色图片</label>
+                    </Row>
+                    <Row>
+                        <UploadAttachment  action="/upload/meiying/image?action=uploadimage"
+                            onChange={(fileList) => {
+                                if (fileList && fileList[0].response && fileList[0].response.url) {
+                                    const featureImageUrl=fileList[0].response.url;
+                                    this.setState({ featureImageUrl }, () => {
+                                        console.log(`附件更新：${this.state.featureImageUrl}`)
+                                    });
+                                }
+                            }}
+                        />
+                    </Row>
+                </Col>
+                <Col span={8}>
+                    <img src={this.state.featureImageUrl} alt={'特色图片'} width={'200px'} height={'134px'}/>
+                </Col>
+            </Row>
             <UEditor id="ueditorContainer" name="content" 
                 initialContent={this.props.initialContent} width={800} height={500} 
                 afterInit={(ue)=>{
