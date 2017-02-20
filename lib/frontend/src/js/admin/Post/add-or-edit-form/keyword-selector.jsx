@@ -12,7 +12,7 @@ export const KeywordSelector=React.createClass({
 
     _getValue(){
         const keywords=this.props.keywords;
-        if(!!keywords&& !!keywords[0].tag){
+        if(!!keywords&& !!(keywords[0]) && !!(keywords[0].tag)){
             const value=keywords.map(kw=>kw.tag);
             return value;
         }
@@ -25,9 +25,6 @@ export const KeywordSelector=React.createClass({
             value={this._getValue()}
             onChange={this.props.onChange}
         >
-            {this.props.keywords.map(kw=>{
-                return <Select.Option key={kw.id} value={kw.tag}>{kw.tag}</Select.Option>;
-            })}
         </Select>);
     },
 
