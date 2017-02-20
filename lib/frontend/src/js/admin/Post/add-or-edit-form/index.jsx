@@ -1,9 +1,11 @@
 import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
 import 'whatwg-fetch';
-import {Row,Col,Button,Select,Upload,message} from 'antd';
+import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
 import {CategorySelector} from './category-selector.jsx'; 
+import {KeywordSelector} from './keyword-selector.jsx';
 import UploadAttachment from '../../upload-attachment.jsx';
+import './style.less';
 
 /**
  * <AddOrEditForm url={}/>
@@ -24,42 +26,44 @@ export const AddOrEditForm=React.createClass({
             title:'',
             categoryId:'',
             featureImageUrl:'#',
+            keywords:[
+                {id:null,postId:null,tag:''},
+            ],
+            commentable:true,
         };
     },
 
 
-
     render:function () {
-        return (<form>
-            <Row>
-                <Col span={24}>
-                    <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }} style={{display:'block',width:'800',marginBottom:'10'}}/>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={8}>
-                    <Row>
-                        <Col span={8}>
-                            <label>选择分类</label>
-                        </Col>
-                        <Col span={8}>
-                            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={8}>
-                            <label>阅读密码</label>
-                        </Col>
-                        <Col span={8}>
-                            <label>阅读密码</label>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col span={4}>
-                    <Row>
+        return (<form id="postAddOrEditForm">
+            <div>
+                <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <label>选择分类</label>
+                        <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
+                    </div>
+                    <div>
+                        <label>关键词</label>
+                        <KeywordSelector keywords={this.state.keywords} 
+                            onChange={(list)=>{
+                                const keywords=list.map((kw,idx)=>{
+                                    return { id:idx, tag:kw, };
+                                });
+                                this.setState({keywords});
+                            }} 
+                        />
+                    </div>
+                    <div>
+                        <label>可否评论</label>
+                        <Switch defaultChecked={true} onChange={(value)=>{}} />
+                    </div>
+                </div>
+                <div>
+                    <div>
                         <label>特色图片</label>
-                    </Row>
-                    <Row>
                         <UploadAttachment  action="/upload/meiying/image?action=uploadimage"
                             onChange={(fileList) => {
                                 if (fileList && fileList[0].response && fileList[0].response.url) {
@@ -70,12 +74,11 @@ export const AddOrEditForm=React.createClass({
                                 }
                             }}
                         />
-                    </Row>
-                </Col>
-                <Col span={8}>
-                    <img src={this.state.featureImageUrl} alt={'特色图片'} width={'200px'} height={'134px'}/>
-                </Col>
-            </Row>
+                    </div>
+                    <img src={this.state.featureImageUrl} height={'100%'}/>
+                </div>
+            </div>
+
             <UEditor id="ueditorContainer" name="content" 
                 initialContent={this.props.initialContent} width={800} height={500} 
                 afterInit={(ue)=>{
@@ -87,8 +90,10 @@ export const AddOrEditForm=React.createClass({
                             credentials:'same-origin',
                         }).then(resp=>resp.json())
                         .then(info=>{
-                            this.setState({title:info.title,categoryId:info.categoryId});
-                            return ue.setContent(info.content);
+                            const state=Object.assign({},info);
+                            this.setState(state,()=>{
+                                ue.setContent(info.content);
+                            });
                         });
                     }else{ // 新增文章的表单
                     }
@@ -117,6 +122,9 @@ export const AddOrEditForm=React.createClass({
                     },
                     body:JSON.stringify({ 
                         id,title,categoryId,content, 
+                        keywords:this.state.keywords,
+                        commentable:this.state.commentable,
+                        featureImageUrl:this.state.featureImageUrl,
                     })
                 })
                 .then(info=>info.json())

@@ -1,0 +1,67 @@
+#postAddOrEditForm{
+
+    width:800px;
+
+    /* 标题 */
+    >div:first-child{
+        width:100%;
+        input{
+            display:'block';
+            width:800px;
+            margin-bottom:10px;
+        }
+    }
+
+    /*分类、密码、特色图片等*/
+    >div:nth-child(2){
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        height: 150px;
+        margin-bottom: 5px;
+
+        /*左列*/
+        >div{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            align-items: flex-start;
+
+            /*各个字段*/
+            >div {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: nowrap;
+                width:100%;
+                >label{
+                    flex:20%;
+                }
+            }
+        }
+        /*右列*/
+        >div:nth-child(2){
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            >div{
+                flex:0 1 30%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            img{
+                flex:0 1 70%;
+            }
+        }
+    }
+
+
+}
