@@ -40,6 +40,9 @@ export const AddOrEditForm=React.createClass({
                 <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
             </div>
             <div>
+                <textarea required placeholder='摘要' value={this.state.excerpt||''} onChange={(v)=>{ this.setState({excerpt:v.target.value});}} />
+            </div>
+            <div>
                 <div>
                     <div>
                         <label>选择分类</label>
@@ -110,9 +113,11 @@ export const AddOrEditForm=React.createClass({
                 const categoryId=this.state.categoryId;
                 const ue=UE.getEditor("ueditorContainer");
                 const content=ue.getContent();
-                if(!!!title){ message.error(`标题不得为空`);}
-                if(!!!categoryId){ message.error(`专栏不得为空`);}
-                if(!!!content){ message.error(`内容不得为空`); }
+                const excerpt=this.state.excerpt;
+                if(!!!title){ message.error(`标题不得为空`); return false;}
+                if(!!!categoryId){ message.error(`专栏不得为空`); return false; }
+                if(!!!content){ message.error(`内容不得为空`); return false; }
+                if(!excerpt){ message.error(`摘要不得为空`);return false;}
 
                 fetch(`${this.props.url}`,{
                     method:'post',
@@ -121,7 +126,7 @@ export const AddOrEditForm=React.createClass({
                         "Content-Type":"application/json",
                     },
                     body:JSON.stringify({ 
-                        id,title,categoryId,content, 
+                        id,title,categoryId,content, excerpt,
                         keywords:this.state.keywords,
                         commentable:this.state.commentable,
                         featureImageUrl:this.state.featureImageUrl,
