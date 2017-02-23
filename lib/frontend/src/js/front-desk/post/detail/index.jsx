@@ -1,16 +1,6 @@
 import React from 'react';
 import {Article} from './article.jsx';;
-import 'whatwg-fetch';
-
-
-
-const Comments=React.createClass({
-    render:function () {
-        return (<div>
-            comments 
-        </div>);
-    }
-});
+import {Comments} from './comment/index.jsx';
 
 
 const Detail=React.createClass({
