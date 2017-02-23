@@ -3,7 +3,7 @@ import Remarkable from 'remarkable';
 import 'whatwg-fetch';
 
 
-const Article=React.createClass({
+export const Article=React.createClass({
     getDefaultProps:function () {
         return {
             id:1,
@@ -61,22 +61,4 @@ const Article=React.createClass({
 });
 
 
-const Comments=React.createClass({
-    render:function () {
-        return (<div>
-            comments 
-        </div>);
-    }
-});
-
-
-const Detail=React.createClass({
-    render:function () {
-        return (<div>
-            <Article id={this.props.params.id}/>
-            <Comments/>
-        </div>);
-    }
-});
-
-export default Detail;
+export default Article;
