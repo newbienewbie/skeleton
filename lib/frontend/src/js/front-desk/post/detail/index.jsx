@@ -58,6 +58,7 @@ const Detail=React.createClass({
             <CommentForm author={{avatarUrl:'#'}} onSubmit={value=>{
                 fetch(`/comment/new`,{
                     method:'post',
+                    credentials:'same-origin',
                     headers:{
                         'Content-Type':'application/json',
                     },
