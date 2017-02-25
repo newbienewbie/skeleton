@@ -2,6 +2,7 @@ import React from 'react';
 import {Item} from './item.jsx';
 import './style.less';
 import 'whatwg-fetch';
+import Pagination from 'simple-react-ui/dist/pagination';
 
 
 const Home=React.createClass({
@@ -20,20 +21,26 @@ const Home=React.createClass({
                     excerpt:'床前明月光，疑是地上霜。举头望明月，低头思故乡。' 
                 },
             ],
+            total:0,
+            current:1,
+            size:8,
         };
     },
 
-    componentDidMount:function(){
-        fetch('/post/recent',{
+    fetchRecent(page=1,size=8){
+        return fetch('/post/recent',{
             method:'post',
             credentials:'same-origin',
+            headers:{
+                "Content-Type":"application/json",
+            },
             body:JSON.stringify({
-                page:1,
-                size:8,
+                page,
+                size,
             }),
         }).then(resp=>resp.json())
-        .then(list=>{
-            return list.map(i=>{
+        .then(result=>{
+            const list=result.rows.map(i=>{
                 // 客户端路由
                 const detailUrl=`/#/post/detail/${i.id}`;
                 return {
@@ -47,21 +54,41 @@ const Home=React.createClass({
                     publishedAt:new Date(),
                 };
             });
-        })
-        .then(list=>{
-            this.setState({posts:list});
+            return {posts:list,total:result.count};
+        });
+    },
+
+    componentDidMount:function(){
+        this.fetchRecent(1,this.state.size).then(result=>{
+            const {posts,total}=result;
+            this.setState({posts,total});
         })
     },
 
     render:function () {
-        return (<article id="article-container">
-            {this.state.posts.map((p,i)=>{
-                return <Item key={i} title={p.title} publishedAt={p.publishedAt}
-                    author={p.author} authorUrl={p.authorUrl} 
-                    imageUrl={p.imageUrl} detailUrl={p.detailUrl}
-                    excerpt={p.excerpt} />;
-            })}
-        </article>);
+        return (<div id="article-container">
+            <article>
+                {this.state.posts.map((p,i)=>{
+                    return <Item key={i} title={p.title} publishedAt={p.publishedAt}
+                        author={p.author} authorUrl={p.authorUrl} 
+                        imageUrl={p.imageUrl} detailUrl={p.detailUrl}
+                        excerpt={p.excerpt} />;
+                })}
+            </article>
+            <div>
+                <Pagination size={this.state.size} current={this.state.current} total={this.state.total}
+                    onChange={page=>{
+                        this.fetchRecent(page,this.state.size)
+                            .then(result=>{
+                                const {posts,total}=result;
+                                this.setState({
+                                    current:page,total,posts,
+                                });
+                            });
+                    }}
+                />
+            </div>
+        </div>);
     }
 });
 
