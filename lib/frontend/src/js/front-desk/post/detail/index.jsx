@@ -1,8 +1,9 @@
 import React from 'react';
 import {Article} from './article.jsx';;
-import {CommentList}  from './comment/index.jsx';
+import Comment  from './comment/index.jsx';
 import 'whatwg-fetch';
 
+const {CommentForm,CommentList} =Comment;
 
 const Detail=React.createClass({
 
@@ -18,6 +19,10 @@ const Detail=React.createClass({
     },
 
     componentDidMount:function(){
+        this.fetchCommentList();
+    },
+
+    fetchCommentList:function(){
         fetch(`/comment/list`,{
             method:'post',
             credentials:'same-origin',
@@ -37,15 +42,29 @@ const Detail=React.createClass({
                 return c;
             });
             this.setState({comments});
-        })
-        .catch(err=>{
-            console.log(err);
         });
     },
 
     render:function () {
         return (<div>
             <Article id={this.props.params.id}/>
+            <CommentForm author={{avatarUrl:'#'}} onSubmit={value=>{
+                fetch(`/comment/new`,{
+                    method:'post',
+                    headers:{
+                        'Content-Type':'application/json',
+                    },
+                    body:JSON.stringify({
+                        content:value,
+                        topicId:this.props.params.id,
+                    })
+                })
+                .then(resp=>resp.json())
+                .then(info=>{
+                    console.log(info);
+                    this.fetchCommentList();
+                });
+            }} />
             <CommentList comments={this.state.comments}/>
         </div>);
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {CommentItem} from './comment-item.js'; 
+import {CommentForm} from './comment-form.js';
 import './style.less';
 
 
@@ -24,5 +25,7 @@ export const CommentList=React.createClass({
 });
 
 
-
-export default CommentList;
+export default {
+    CommentList,
+    CommentForm
+};

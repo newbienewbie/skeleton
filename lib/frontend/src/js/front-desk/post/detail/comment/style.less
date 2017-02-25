@@ -15,9 +15,9 @@
 
             /* 头像 */
             >div:first-child{
-                width:38px;
+                width:80px;
                 img{
-                    height: 38px;
+                    height: 80px;
                     width:100%;
                 }
             }
@@ -62,5 +62,30 @@
         flex-wrap: nowrap;
         >button{
         }
+    }
+}
+
+.comment-form{
+
+    >div:first-child{
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
+        
+        img{
+            height:80px;
+            width:80px;
+        }
+        textarea{
+            margin-left:1em;
+            width:100%;
+        }
+    }
+    >div:nth-child(2){
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: flex-end;
     }
 }
