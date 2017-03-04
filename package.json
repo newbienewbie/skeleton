@@ -33,7 +33,7 @@
     "react-router": "^2.6.1",
     "remarkable": "^1.6.2",
     "sequelize": "^3.23.6",
-    "simple-react-ui": "^2.3.1",
+    "simple-react-ui": "^2.4.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
