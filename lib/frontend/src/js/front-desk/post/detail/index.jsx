@@ -27,6 +27,15 @@ const Detail=React.createClass({
         });
     },
 
+    /**
+     * helper 方法，用于生成主题ID
+     * @param {Integer} postId 文章ID
+     * @return {String} topicId  主题ID
+     */
+    _getTopicId(postId){
+        return `post-${postId}`;
+    },
+
     fetchCommentList:function(page=1,size=8){
         return fetch(`/comment/list`,{
             method:'post',
@@ -35,7 +44,7 @@ const Detail=React.createClass({
                 "Content-Type":"application/json",
             },
             body:JSON.stringify({
-                topicId:this.props.params.id,
+                topicId:this._getTopicId(this.props.params.id),
                 page,
                 size,
             }),
@@ -64,7 +73,7 @@ const Detail=React.createClass({
                     },
                     body:JSON.stringify({
                         content:value,
-                        topicId:this.props.params.id,
+                        topicId:this._getTopicId(this.props.params.id),
                         page:1,
                         size:this.state.size,
                     })
