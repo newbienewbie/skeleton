@@ -28,10 +28,10 @@ const Aside = React.createClass({
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
-            <Menu.SubMenu key="director" title="导演">
-                <Menu.ItemGroup key="directorGroup">
-                    <Menu.Item key="directorAdd">
-                        <Link to="/director/add">新增</Link>
+            <Menu.SubMenu key="book" title="书籍">
+                <Menu.ItemGroup key="bookGroup">
+                    <Menu.Item key="bookAdd">
+                        <Link to="/book/add">新增</Link>
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
