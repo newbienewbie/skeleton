@@ -22,7 +22,7 @@ export const CategorySelector=React.createClass({
     },
 
     componentDidMount(){
-        fetch('/category/list',{
+        fetch('/category/list/post',{
             method:'get',
             credentials:'same-origin',
         }).then(resp=>resp.json())
