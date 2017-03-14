@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router,Route,hashHistory,IndexRoute} from 'react-router';
 import Admin from './js/admin/admin.jsx';
-
+require('es6-promise').polyfill();
 
 ReactDOM.render(
     (<Router history={hashHistory}>
