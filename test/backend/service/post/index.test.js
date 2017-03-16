@@ -1,6 +1,6 @@
 const assert=require('assert');
 const postService=require('../../../../lib/backend/service/post');
-
+const keywordService=require('../../../../lib/backend/service/keyword');
 
 describe('测试post服务',function(){
     it('测试create()',function(){
@@ -22,9 +22,9 @@ describe('测试post服务',function(){
             assert.equal(p.excerpt,"摘要");
             assert.equal(p.categoryId,1);
             assert.equal(p.authorId,1);
-            return p.getKeywords().then(keywords=>{
+            return keywordService.findAllByTopicId(p.id).then(keywords=>{
                 keywords.forEach(k=>{
-                    assert.equal(k.postId,p.id,`关键词的postId和文章的id必须相等：${k.postId}-${p.id}`)
+                    assert.equal(k.topicId,p.id,`关键词的postId和文章的id必须相等：${k.topicId}-${p.id}`)
                 });
             })
             // 返回以留待删除
@@ -34,16 +34,13 @@ describe('测试post服务',function(){
         })
         // 删除
         .then(p=>{
-            return p.getKeywords()
+            return keywordService.findAllByTopicId(p.id)
                 .then(keywords=>keywords.map(k=>{
                     return k.destroy();
                 }))
                 .then(_=>{
                     return p.destroy();
                 });
-        })
-        .catch(err=>{
-            assert.fail(err);
         });
     });
 });
