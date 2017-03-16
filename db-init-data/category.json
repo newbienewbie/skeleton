@@ -5,5 +5,5 @@
     {"id":4,"name":"学习交流","domain":"post","note":null,"pid":null},
     {"id":5,"name":"视读空间","domain":"post","note":null,"pid":null},
     {"id":6,"name":"曝光专栏","domain":"post","note":null,"pid":null},
-    {"id":7,"name":"信息技术","domain":"book","note":null,"pid":null}
+    {"id":7,"name":"信息技术","domain":"ebook","note":null,"pid":null}
 ]
