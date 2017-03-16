@@ -3,6 +3,7 @@ import UEditor from 'simple-react-ui/dist/ueditor';
 import 'whatwg-fetch';
 import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
 import UploadAttachment from '../../upload-attachment.jsx';
+import {KeywordSelector} from '../../utils/keyword-selector.js';
 import './style.less';
 
 /**
@@ -25,38 +26,55 @@ export const AddOrEditForm=React.createClass({
             isbn:'',
             featureImageUrl:'#',
             ebookUrl:'#',
+            keywords:[
+                {id:null,ebokId:null,tag:''},
+            ],
         };
     },
 
 
     render:function () {
-        return (<form id="postAddOrEditForm">
-            <div>
+        return (<form id="ebookAddOrEditForm">
+            <div className="title">
                 <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
             </div>
-            <div>
+            <div className="isbn">
                 <label>ISBN</label>
-                <input value={this.state.isbn} onChange={e=>{
+                <input value={this.state.isbn} 
+                    onChange={e=>{
                         this.setState({ isbn:e.target.value });
                     }}
                     placeholder="请尽量提供ISBN"
                 />
             </div>
-            <div>
+            <div className="multi-fields">
                 <div>
-                    <label>上传书籍</label>
-                    <UploadAttachment  action="/ueditor/controller?action=uploadfile"
-                        onChange={(fileList) => {
-                            if (fileList && fileList[0].response && fileList[0].response.url) {
-                                const ebookUrl=fileList[0].response.url;
-                                this.setState({ ebookUrl}, () => {
-                                    console.log(`附件更新：${this.state.ebookUrl}`)
+                    <div className="keyword">
+                        <label>关键词</label>
+                        <KeywordSelector keywords={this.state.keywords} 
+                            onChange={(list)=>{
+                                const keywords=list.map((kw,idx)=>{
+                                    return { id:idx, tag:kw, };
                                 });
-                            }
-                        }}
-                    />
+                                this.setState({keywords});
+                            }} 
+                        />
+                    </div>
+                    <div className="upload-ebok">
+                        <label>上传书籍</label>
+                        <UploadAttachment  action="/ueditor/controller?action=uploadfile"
+                            onChange={(fileList) => {
+                                if (fileList && fileList[0].response && fileList[0].response.url) {
+                                    const ebookUrl=fileList[0].response.url;
+                                    this.setState({ ebookUrl}, () => {
+                                        console.log(`附件更新：${this.state.ebookUrl}`)
+                                    });
+                                }
+                            }}
+                        />
+                    </div>
                 </div>
-                <div>
+                <div className="feature-image">
                     <label>特色图片</label>
                     <UploadAttachment  action="/ueditor/controller?action=uploadimage"
                         onChange={(fileList) => {
