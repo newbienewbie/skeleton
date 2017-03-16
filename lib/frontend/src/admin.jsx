@@ -7,9 +7,9 @@ require('es6-promise').polyfill();
 ReactDOM.render(
     (<Router history={hashHistory}>
         <Route path="/" component={Admin.Main}>
-            <Route path="/book" component={Admin.Book.Main} > 
-                <IndexRoute component={Admin.Book.Home}/>
-                <Route path="/book/add" component={Admin.Book.Add}></Route>
+            <Route path="/ebook" component={Admin.Ebook.Main} > 
+                <IndexRoute component={Admin.Ebook.Home}/>
+                <Route path="/ebook/add" component={Admin.Ebook.Add}></Route>
             </Route>
             <Route path="/movie" component={Admin.Movie.Main} > 
                 <IndexRoute component={Admin.Movie.Home}/>
