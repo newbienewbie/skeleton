@@ -10,6 +10,8 @@ ReactDOM.render(
             <Route path="/ebook" component={Admin.Ebook.Main} > 
                 <IndexRoute component={Admin.Ebook.Home}/>
                 <Route path="/ebook/add" component={Admin.Ebook.Add}></Route>
+                <Route path="/ebook/edit/:id" component={Admin.Ebook.Edit}></Route>
+                <Route path="/ebook/list" component={Admin.Ebook.List}></Route>
             </Route>
             <Route path="/movie" component={Admin.Movie.Main} > 
                 <IndexRoute component={Admin.Movie.Home}/>
