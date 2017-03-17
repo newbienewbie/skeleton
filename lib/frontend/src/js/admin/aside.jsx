@@ -33,6 +33,9 @@ const Aside = React.createClass({
                     <Menu.Item key="ebookAdd">
                         <Link to="/ebook/add">新增</Link>
                     </Menu.Item>
+                    <Menu.Item key="ebookList">
+                        <Link to="/ebook/list">列表</Link>
+                    </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
             <Menu.SubMenu key="user" title="用户">
