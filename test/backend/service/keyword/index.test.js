@@ -1,7 +1,7 @@
 const assert=require('assert');
 const keywordService=require('../../../../lib/backend/service/keyword');
 
-describe("测试 keyword-ervice",function(){
+describe("测试 keyword-service",function(){
 
     it("{create} {edit} {remove}",function(){
         keywords=[
@@ -17,17 +17,15 @@ describe("测试 keyword-ervice",function(){
             })
             // edit
             .then(kws=>{
+                let topicId=null;
+                kws.map((kw,idx)=>{
+                    topicId=kw.topicId;
+                });
                 keywords=[
                     {tag:'测试tag3'},
                     {tag:'测试tag4'},
                 ];
-                const topicId=null;
-                const all=kws.map((kw,idx)=>{
-                    topicId=kw.topicId;
-                    return keywordService.edit(kw.topicId,keywords);
-                });
-                // 找到刚刚编辑的所有关键词
-                return Promise.all(all)
+                return keywordService.edit(topicId,keywords)
                     .then(x=>{
                         return keywordService.findAllByTopicId(topicId)
                     })
@@ -35,8 +33,8 @@ describe("测试 keyword-ervice",function(){
                         const tags=kws.map((kw,i)=>{
                             return kw.tag;
                         });
-                        keywords.forEach(tag=>{
-                            assert.ok(tags.indexOf(tag)!=-1,`${tag}未找到`);
+                        keywords.forEach(k=>{
+                            assert.ok(tags.indexOf(k.tag)!=-1,`${keywords.toString()} -${k.toString()}未找到`);
                         })
                         return kws;
                     });
