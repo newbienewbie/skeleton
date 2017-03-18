@@ -13,6 +13,7 @@ const UploadAttachment=React.createClass({
             callback:()=>{},
             limit:1,
             tag:'点击上传',
+            showUploadList:true,
         };
     },
 
@@ -25,6 +26,7 @@ const UploadAttachment=React.createClass({
     render:function(){
         return (<Upload name='upfile' 
             action={this.props.action}
+            showUploadList={this.props.showUploadList}
             fileList={this.state.fileList}
             onChange={(info)=>{
                 // 1. 上传列表数量的限制
