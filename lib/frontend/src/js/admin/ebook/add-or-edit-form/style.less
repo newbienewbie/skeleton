@@ -34,70 +34,23 @@
 
     }
 
-    /*分类选择器*/
-    .category-selector{
-        label{
-            display: inline-block;
-            width:20%
-        }
-        div{
-            width:80%;
-        }
-    }
 
-
-
-    /*其他字段：如关键词、上传书籍和特色图片等*/
-    .multi-fields{
+    /*右列*/
+    .feature-image{
+        height: 100%;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
         justify-content: space-between;
-        height: 150px;
-        margin-bottom: 5px;
-
-        /*左列*/
+        align-items: center;
         >div{
-            height: 100%;
+            flex:0 1 30%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
-            align-items: flex-start;
-            .keyword{
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-around;
-                width:100%;
-                label{
-                    display: inline-block;
-                    width:40%;
-                }
-                >div{
-                    width:60%;
-                }
-            }
-        }
-        /*右列*/
-        .feature-image{
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            >div{
-                flex:0 1 30%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            img{
-                flex:0 1 70%;
-            }
+        }
+        img{
+            flex:0 1 70%;
         }
     }
-
-
 }

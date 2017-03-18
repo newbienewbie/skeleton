@@ -47,48 +47,68 @@ export const AddOrEditForm=React.createClass({
 
     render:function () {
         return (<form id="ebookAddOrEditForm">
-            <div className="title">
+            <Row className="title">
                 <input name='title' required type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
-            </div>
-            <div className="field-row">
-                <div className="field">
-                    <label>作者</label>
-                    <input required value={this.state.author} 
-                        onChange={e=>{
-                            this.setState({ author:e.target.value });
-                        }}
-                        placeholder="作者"
-                    />
-                </div>
-                <div className="field">
-                    <label>ISBN</label>
-                    <input value={this.state.isbn} 
-                        onChange={e=>{
-                            this.setState({ isbn:e.target.value });
-                        }}
-                        placeholder="请尽量提供ISBN"
-                    />
-                </div>
-            </div>
-            <div className="category-selector">
-                <label>选择分类</label>
-                <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
-            </div>
-
-            <div className="multi-fields">
-                <div>
-                    <div className="keyword">
-                        <label>关键词</label>
-                        <KeywordSelector keywords={this.state.keywords} 
-                            onChange={(list)=>{
-                                const keywords=list.map((kw,idx)=>{
-                                    return { id:idx, tag:kw, };
-                                });
-                                this.setState({keywords});
-                            }} 
+            </Row>
+            <Row className="field-row">
+                <Col span={12}>
+                    <Col span={8}>
+                        <label>作者</label>
+                    </Col>
+                    <Col span={16}>
+                        <input required value={this.state.author} 
+                            onChange={e=>{
+                                this.setState({ author:e.target.value });
+                            }}
+                            placeholder="作者"
                         />
-                    </div>
-                    <div className="upload-ebok">
+                    </Col>
+                </Col>
+                <Col span={12}>
+                    <Col span={8}>
+                        <label>ISBN</label>
+                    </Col>
+                    <Col span={16}>
+                        <input value={this.state.isbn} 
+                            onChange={e=>{
+                                this.setState({ isbn:e.target.value });
+                            }}
+                            placeholder="请尽量提供ISBN"
+                        />
+                    </Col>
+                </Col>
+            </Row>
+            <Row >
+                <Col span={12}>
+                    <Row>
+                        <Col span={8}>
+                            <label>选择分类</label>
+                        </Col>
+                        <Col span={16}>
+                            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col span={12}>
+                    <Row>
+                        <Col span={8}>
+                            <label>关键词</label>
+                        </Col>
+                        <Col span={16}>
+                            <KeywordSelector keywords={this.state.keywords} 
+                                onChange={(list)=>{
+                                    const keywords=list.map((kw,idx)=>{
+                                        return { id:idx, tag:kw, };
+                                    });
+                                    this.setState({keywords});
+                                }} 
+                            />
+                        </Col>
+                    </Row>
+                    <Row >
                         <UploadAttachment tag="上传书籍"  action="/ueditor/controller?action=uploadfile"
                             onChange={(fileList) => {
                                 if (fileList && fileList[0].response && fileList[0].response.url) {
@@ -100,9 +120,9 @@ export const AddOrEditForm=React.createClass({
                             }}
                         />
                         { this._renderUploadFile() }
-                    </div>
-                </div>
-                <div className="feature-image">
+                    </Row>
+                </Col>
+                <Col span={8} className="feature-image">
                     <UploadAttachment tag="特色图片"  action="/ueditor/controller?action=uploadimage"
                         showUploadList={false}
                         onChange={(fileList) => {
@@ -115,8 +135,8 @@ export const AddOrEditForm=React.createClass({
                         }}
                     />
                     <img src={this.state.posterUrl} height={'100%'}/>
-                </div>
-            </div> 
+                </Col>
+            </Row> 
 
             <UEditor id="ueditorContainer" name="content" 
                 width={800} height={200}

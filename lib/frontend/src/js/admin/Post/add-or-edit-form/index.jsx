@@ -36,35 +36,47 @@ export const AddOrEditForm=React.createClass({
 
     render:function () {
         return (<form id="postAddOrEditForm">
-            <div>
+            <Row>
                 <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
-            </div>
-            <div>
+            </Row>
+            <Row>
                 <textarea required placeholder='摘要' value={this.state.excerpt||''} onChange={(v)=>{ this.setState({excerpt:v.target.value});}} />
-            </div>
-            <div>
-                <div>
-                    <div>
-                        <label>选择分类</label>
-                        <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
-                    </div>
-                    <div>
-                        <label>关键词</label>
-                        <KeywordSelector keywords={this.state.keywords} 
-                            onChange={(list)=>{
-                                const keywords=list.map((kw,idx)=>{
-                                    return { id:idx, tag:kw, };
-                                });
-                                this.setState({keywords});
-                            }} 
-                        />
-                    </div>
-                    <div>
-                        <label>可否评论</label>
-                        <Switch defaultChecked={true} onChange={(value)=>{}} />
-                    </div>
-                </div>
-                <div>
+            </Row>
+            <Row>
+                <Col span={12}>
+                    <Row>
+                        <Col span={8}>
+                            <label>选择分类</label>
+                        </Col>
+                        <Col span={16}>
+                            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={8}>
+                            <label>关键词</label>
+                        </Col>
+                        <Col span={16}>
+                            <KeywordSelector keywords={this.state.keywords} 
+                                onChange={(list)=>{
+                                    const keywords=list.map((kw,idx)=>{
+                                        return { id:idx, tag:kw, };
+                                    });
+                                    this.setState({keywords});
+                                }} 
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={8}>
+                            <label>可否评论</label>
+                        </Col>
+                        <Col span={16}>
+                            <Switch defaultChecked={true} onChange={(value)=>{}} />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col span={12} className="featureImage">
                     <div>
                         <UploadAttachment tag="特色图片" action="/upload/meiying/image?action=uploadimage"
                             onChange={(fileList) => {
@@ -78,8 +90,8 @@ export const AddOrEditForm=React.createClass({
                         />
                     </div>
                     <img src={this.state.featureImageUrl} height={'100%'}/>
-                </div>
-            </div>
+                </Col>
+            </Row>
 
             <UEditor id="ueditorContainer" name="content" 
                 initialContent={this.props.initialContent} width={800} height={500} 
