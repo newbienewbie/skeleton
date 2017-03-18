@@ -66,8 +66,7 @@ export const AddOrEditForm=React.createClass({
                 </div>
                 <div>
                     <div>
-                        <label>特色图片</label>
-                        <UploadAttachment  action="/upload/meiying/image?action=uploadimage"
+                        <UploadAttachment tag="特色图片" action="/upload/meiying/image?action=uploadimage"
                             onChange={(fileList) => {
                                 if (fileList && fileList[0].response && fileList[0].response.url) {
                                     const featureImageUrl=fileList[0].response.url;
