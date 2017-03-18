@@ -12,6 +12,7 @@ const UploadAttachment=React.createClass({
             action:'',
             callback:()=>{},
             limit:1,
+            tag:'点击上传',
         };
     },
 
@@ -49,7 +50,7 @@ const UploadAttachment=React.createClass({
                 });
             }} 
             >
-            <Button type="primary">点击上传</Button>
+            <Button type="primary">{this.props.tag}</Button>
         </Upload>);
     }
 });
