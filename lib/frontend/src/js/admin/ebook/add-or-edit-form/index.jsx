@@ -14,9 +14,9 @@ export const AddOrEditForm=React.createClass({
 
     getDefaultProps(){
         return {
-            url:'#',
-            id:null, // 如果可转为false，则为添加模式，否则为编辑模式
-            afterInit:()=>{},
+            url:'#', // 表单的提交地址
+            id:null, // 如果id可转为false，则为添加模式，否则为编辑模式
+            afterInit:(ue)=>{},
         };
     },
 
@@ -25,10 +25,9 @@ export const AddOrEditForm=React.createClass({
             title:'',
             isbn:'',
             author:'',
-            featureImageUrl:'#',
+            posterUrl:'#',
             url:'',
             note:'',
-            ebookUrl:'',
             categoryId:'',
             keywords:[
                 {id:null,ebokId:null,tag:''},
@@ -86,9 +85,9 @@ export const AddOrEditForm=React.createClass({
                         <UploadAttachment  action="/ueditor/controller?action=uploadfile"
                             onChange={(fileList) => {
                                 if (fileList && fileList[0].response && fileList[0].response.url) {
-                                    const ebookUrl=fileList[0].response.url;
-                                    this.setState({ ebookUrl}, () => {
-                                        console.log(`附件更新：${this.state.ebookUrl}`)
+                                    const url=fileList[0].response.url;
+                                    this.setState({ url}, () => {
+                                        console.log(`附件更新：${this.state.url}`)
                                     });
                                 }
                             }}
@@ -100,14 +99,14 @@ export const AddOrEditForm=React.createClass({
                     <UploadAttachment  action="/ueditor/controller?action=uploadimage"
                         onChange={(fileList) => {
                             if (fileList && fileList[0].response && fileList[0].response.url) {
-                                const featureImageUrl=fileList[0].response.url;
-                                this.setState({ featureImageUrl }, () => {
-                                    console.log(`附件更新：${this.state.featureImageUrl}`)
+                                const posterUrl=fileList[0].response.url;
+                                this.setState({ posterUrl }, () => {
+                                    console.log(`附件更新：${this.state.posterUrl}`)
                                 });
                             }
                         }}
                     />
-                    <img src={this.state.featureImageUrl} height={'100%'}/>
+                    <img src={this.state.posterUrl} height={'100%'}/>
                 </div>
             </div> 
 
@@ -123,8 +122,9 @@ export const AddOrEditForm=React.createClass({
                         }).then(resp=>resp.json())
                         .then(info=>{
                             const state=Object.assign({},info);
+                            state.keywords;
                             this.setState(state,()=>{
-                                ue.setContent(info.content);
+                                ue.setContent(info.description);
                             });
                         });
                     }else{ // 当前是新增模式
@@ -139,7 +139,7 @@ export const AddOrEditForm=React.createClass({
                     return;
                 }
                 const id=this.props.id;
-                const {title,isbn,author,categoryId,keywords,featureImageUrl,ebookUrl}=this.state;
+                const {title,isbn,author,categoryId,keywords,posterUrl,url}=this.state;
                 const description=UE.getEditor("ueditorContainer").getContent();
                 if(!!!title){ message.error(`标题不得为空`); return false;}
                 if(!!!categoryId){ message.error(`专栏不得为空`); return false; }
@@ -154,7 +154,7 @@ export const AddOrEditForm=React.createClass({
                     body:JSON.stringify({ 
                         id,title,isbn,author,categoryId,
                         description,keywords,
-                        featureImageUrl, ebookUrl,
+                        posterUrl, url,
                     })
                 })
                 .then(info=>info.json())
