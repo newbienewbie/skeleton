@@ -36,6 +36,14 @@ export const AddOrEditForm=React.createClass({
         };
     },
 
+    _renderUploadFile:function(){
+        if(this.props.id){
+            return <a href={this.state.url}>{this.state.title}</a>
+        }else{
+            return "";
+        }
+    },
+
 
     render:function () {
         return (<form id="ebookAddOrEditForm">
@@ -81,8 +89,7 @@ export const AddOrEditForm=React.createClass({
                         />
                     </div>
                     <div className="upload-ebok">
-                        <label>上传书籍</label>
-                        <UploadAttachment  action="/ueditor/controller?action=uploadfile"
+                        <UploadAttachment tag="上传书籍"  action="/ueditor/controller?action=uploadfile"
                             onChange={(fileList) => {
                                 if (fileList && fileList[0].response && fileList[0].response.url) {
                                     const url=fileList[0].response.url;
@@ -92,11 +99,12 @@ export const AddOrEditForm=React.createClass({
                                 }
                             }}
                         />
+                        { this._renderUploadFile() }
                     </div>
                 </div>
                 <div className="feature-image">
-                    <label>特色图片</label>
-                    <UploadAttachment  action="/ueditor/controller?action=uploadimage"
+                    <UploadAttachment tag="特色图片"  action="/ueditor/controller?action=uploadimage"
+                        showUploadList={false}
                         onChange={(fileList) => {
                             if (fileList && fileList[0].response && fileList[0].response.url) {
                                 const posterUrl=fileList[0].response.url;
