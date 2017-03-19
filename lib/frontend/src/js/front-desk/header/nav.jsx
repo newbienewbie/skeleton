@@ -8,6 +8,7 @@ export const Nav=React.createClass({
                 {href:"/",text:"home"},
                 {href:"/post",text:"文章"},
                 {href:"/movie",text:"视频"},
+                {href:"/ebook",text:"书籍"},
                 {href:"/about",text:"about"},
                 {href:"/archives",text:"archives"},
                 {href:"/contact",text:"contact"},

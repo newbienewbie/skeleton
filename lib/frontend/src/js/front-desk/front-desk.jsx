@@ -5,6 +5,7 @@ import Footer from  './footer.jsx';
 import Home from './home.jsx';
 import About from './about.jsx';
 import Post from './post/post.jsx';
+import Ebook from './ebook';
 import Movie from './movie/movie.jsx';
 import {Contact} from './contact/index.jsx';
 
@@ -23,5 +24,5 @@ const Main=React.createClass({
 });
 
 
-export default {Main,Home,Movie,Post,About,Contact};
+export default {Main,Home,Movie,Post,Ebook,About,Contact};
 

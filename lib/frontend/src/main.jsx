@@ -13,6 +13,10 @@ ReactDOM.render(
                 <IndexRoute component={App.Post.Home} />
                 <Route path="/post/detail/:id" component={App.Post.Detail}/>
             </Route>
+            <Route path="/ebook" component={App.Ebook.Main}>
+                <IndexRoute component={App.Ebook.Home}/>
+                <Route path="/ebook/:id" component={App.Ebook.Play}/>
+            </Route>
             <Route path="/movie" component={App.Movie.Main}>
                 <IndexRoute component={App.Movie.Home}/>
                 <Route path="/movie/play/:id" component={App.Movie.Play}/>
