@@ -1,12 +1,11 @@
 import React from  'react';
-import {Row,Col} from 'antd';
 import Nav from './nav-top.jsx';
-import Aside from './aside.jsx';
 
 import Post from './post/post.jsx';
 import Movie from './movie/movie.jsx';
 import User from './user/main.jsx';
 import Ebook from './ebook';
+import {Home} from './home.jsx';
 
 
 /**
@@ -25,14 +24,7 @@ const Main = React.createClass({
     render: function () {
         return (<div>
             <Nav/>
-            <Row>
-                <Col span={4}>
-                    <Aside />
-                </Col>
-                <Col span={20}>
-                    {this.props.children || "dashboard"}
-                </Col>
-            </Row>
+            {this.props.children || <Home/>}
         </div>);
     }
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {Menu} from 'antd';
 
 /**
@@ -9,16 +10,16 @@ const TopNav = React.createClass({
         return (<nav >
             <Menu mode="horizontal">
                 <Menu.Item  key="project">
-                    魅影
+                    <Link to={"/"}>控制台</Link>
                 </Menu.Item>
                 <Menu.Item key="settings">
-                    设置
-                </Menu.Item>
-                <Menu.Item key="profile">
-                    profile
+                    <Link to={"/user/list"}>用户管理</Link>
                 </Menu.Item>
                 <Menu.Item key="help">
-                    帮助
+                    <a href="#" target="_blank">帮助</a>
+                </Menu.Item>
+                <Menu.Item  key="homepage">
+                    <a href="/">首页</a>
                 </Menu.Item>
             </Menu>
         </nav>);
