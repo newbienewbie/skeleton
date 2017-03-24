@@ -1,5 +1,5 @@
 import React from 'react';
-import {Article} from './article.jsx';;
+import {Ebook} from './ebook';;
 import Comment  from '../../comment/index';
 import Pagination from 'simple-react-ui/dist/pagination';
 import 'whatwg-fetch';
@@ -63,7 +63,7 @@ const Detail=React.createClass({
 
     render:function () {
         return (<div>
-            <Article id={this.props.params.id}/>
+            <Ebook id={this.props.params.id}/>
             <CommentForm author={{avatarUrl:'#'}} onSubmit={value=>{
                 fetch(`/comment/new`,{
                     method:'post',

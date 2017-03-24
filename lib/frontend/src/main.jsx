@@ -15,7 +15,7 @@ ReactDOM.render(
             </Route>
             <Route path="/ebook" component={App.Ebook.Main}>
                 <IndexRoute component={App.Ebook.Home}/>
-                <Route path="/ebook/:id" component={App.Ebook.Play}/>
+                <Route path="/ebook/detail/:id" component={App.Ebook.Detail}/>
             </Route>
             <Route path="/movie" component={App.Movie.Main}>
                 <IndexRoute component={App.Movie.Home}/>
