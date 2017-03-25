@@ -25,9 +25,6 @@ const Play = React.createClass({
             comments:[
                 {id:1,author:{name:'xx1',email:'',avatarUrl:'#',introduction:'一句话掐死你',},content:'balabala',createdAt:new Date(),updatedAt:new Date(),upvotes:0,downvotes:0,},
             ],
-            page:1,  // 评论分页：当前页
-            total:0, // 评论分页：总条数
-            size:8,  // 评论分页：每页大小
         };
     },
 
