@@ -1,10 +1,9 @@
 import React from 'react';
 import {Article} from './article.jsx';;
-import Comment  from '../../comment/index';
+import {Comment}  from '../../comment/index';
 import Pagination from 'simple-react-ui/dist/pagination';
 import 'whatwg-fetch';
 
-const {CommentForm,CommentList} =Comment;
 
 const Detail=React.createClass({
 
@@ -64,39 +63,7 @@ const Detail=React.createClass({
     render:function () {
         return (<div>
             <Article id={this.props.params.id}/>
-            <CommentForm author={{avatarUrl:'#'}} onSubmit={value=>{
-                fetch(`/comment/new`,{
-                    method:'post',
-                    credentials:'same-origin',
-                    headers:{
-                        'Content-Type':'application/json',
-                    },
-                    body:JSON.stringify({
-                        content:value,
-                        topicId:this._getTopicId(this.props.params.id),
-                        page:1,
-                        size:this.state.size,
-                    })
-                })
-                .then(resp=>resp.json())
-                .then(info=>{
-                    console.log(info);
-                    return this.fetchCommentList();
-                }).then((result)=>{
-                    const {comments,total}=result;
-                    this.setState({comments,total});
-                });
-            }} />
-            <CommentList comments={this.state.comments}/>
-            <Pagination current={this.state.page} size={this.state.size} total={this.state.total} 
-                onChange={(page)=>{
-                    this.fetchCommentList(page,this.state.size)
-                        .then(result=>{
-                            const {comments,total}=result;
-                            this.setState({ comments,total,page });
-                        });
-                }}
-            />
+            <Comment topicId={this.props.params.id} />
         </div>);
     }
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import Comment from '../comment/index';
-import {Pagination} from 'simple-react-ui/dist/pagination';
+import {Comment} from '../comment/index';
 
 /**
  * 电影的播放页面，相当于文章的详情页面
@@ -37,11 +36,6 @@ const Play = React.createClass({
      * 如果客户直接在该地址栏中输入URL进行访问（而不是通过首页点击进来的），可以从服务端请求数据
      */
     componentDidMount:function(){
-        const loadComments=this.fetchCommentList(1,8,{})
-            .then((result)=>{
-                const {comments,total}=result;
-                this.setState({comments,total});
-            });
         if(this.state.cache && this.state.cache.url && this.state.cache.title){
             return;
         }else{
@@ -63,41 +57,8 @@ const Play = React.createClass({
                 alert('加载视频信息失败');
                 console.log(e);
             });
-            return Promise.all([loadMovie,loadComments]);
+            return loadMovie;
         }
-    },
-
-    /**
-     * helper 方法，用于生成主题ID
-     * @param {Integer} movieId 影片ID
-     * @return {String} topicId  主题ID
-     */
-    _getTopicId(movieId){
-        return `movie-${movieId}`;
-    },
-
-    fetchCommentList(page=1,size=8,condition={}){
-        return fetch(`/comment/list`,{
-            method:'post',
-            credentials:'same-origin',
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                topicId:this._getTopicId(this.props.params.id),
-                page,
-                size,
-            }),
-        })
-        .then(resp=>resp.json())
-        .then(result=>{
-            const comments=result.rows.map(c=>{
-                c.author.name=c.author.username;
-                return c;
-            });
-            const total=result.count;
-            return {comments,total};
-        });
     },
 
     render: function () {
@@ -160,39 +121,7 @@ const Play = React.createClass({
                 <h5>简介</h5>{cache.content}
             </div>
             <div>
-                <Comment.CommentForm author={{avatarUrl:'#'}} onSubmit={value=>{
-                    fetch(`/comment/new`,{
-                        method:'post',
-                        credentials:'same-origin',
-                        headers:{
-                            'Content-Type':'application/json',
-                        },
-                        body:JSON.stringify({
-                            content:value,
-                            topicId:this._getTopicId(this.props.params.id),
-                            page:1,
-                            size:this.state.size,
-                        })
-                    })
-                    .then(resp=>resp.json())
-                    .then(info=>{
-                        console.log(info);
-                        return this.fetchCommentList();
-                    }).then((result)=>{
-                        const {comments,total}=result;
-                        this.setState({comments,total});
-                    });
-                }} />
-                <Comment.CommentList comments={this.state.comments}/>
-                <Pagination current={this.state.page} size={this.state.size} total={this.state.total} 
-                    onChange={(page)=>{
-                        this.fetchCommentList(page,this.state.size)
-                            .then(result=>{
-                                const {comments,total}=result;
-                                this.setState({ comments,total,page });
-                            });
-                    }}
-                />
+                <Comment topicId={this.props.params.id} scope="movie" />
             </div>
         </div>);
     }
