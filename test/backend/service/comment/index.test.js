@@ -10,6 +10,7 @@ describe('测试commentService',function(){
             content:'测试',
             authorId:1,
             topicId:1,
+            scope:'post',
         };
         // 创建，删除，再查找之
         return commentService.create(comment)
@@ -25,6 +26,18 @@ describe('测试commentService',function(){
             })
             .then(c=>{
                 return assert.equal(c,null);
+            });
+    });
+
+    it("测试#listByTopicId",function(){
+        const scope="post";
+        const topicId=1;
+        const replyTo=null;
+        return commentService.listByTopicId(scope,topicId,replyTo,1,10)
+            .then(result=>{
+                assert.ok(result.hasOwnProperty("count"));
+                assert.ok(result.hasOwnProperty("rows"));
+                assert.ok(Array.isArray(result.rows));
             });
     });
 
