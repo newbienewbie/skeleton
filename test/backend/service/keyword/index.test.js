@@ -6,8 +6,8 @@ describe("测试 keyword-service",function(){
     describe("#filter()后逐一测试 ",function(){
         ["post","ebook","movie"].forEach(i=>{
             it("{create} {edit} {remove}",function(){
-                const service=keywordService("post");
-                keywords=[
+                const service=keywordService(i);
+                const keywords=[
                     {tag:'测试tag1'},
                     {tag:'测试tag2'},
                 ];
@@ -24,7 +24,7 @@ describe("测试 keyword-service",function(){
                         kws.map((kw,idx)=>{
                             topicId=kw.topicId;
                         });
-                        keywords=[
+                        const keywords=[
                             {tag:'测试tag3'},
                             {tag:'测试tag4'},
                         ];

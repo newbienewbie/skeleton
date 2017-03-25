@@ -5,7 +5,7 @@ const assert=require('assert');
 describe('测试commentService',function(){
 
     it('测试#create()、#findById()和#remove()',function(){
-        comment={
+        const comment={
             id:null,
             content:'测试',
             authorId:1,
