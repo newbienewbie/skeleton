@@ -1,6 +1,6 @@
 import React from 'react';
 import {List} from '../../entity-list';
-import {Item,entityToItem} from '../util/list-item';
+import {entityToItem} from '../util/list-item';
 import {fetchList} from '../util/fetch-list';
 import './style.less';
 import 'whatwg-fetch';
