@@ -2,7 +2,6 @@ import React from 'react';
 import {List} from '../../entity-list';
 import {entityToItem} from '../util/list-item';
 import {fetchList} from '../util/fetch-list';
-import './style.less';
 import 'whatwg-fetch';
 import Pagination from 'simple-react-ui/dist/pagination';
 
