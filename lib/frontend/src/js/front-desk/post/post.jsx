@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './home/index.jsx';
 import Detail from './detail/index.jsx';
-import Aside from './aside.jsx';
+import Aside from './aside';
 import './style.less';
 
 /**
