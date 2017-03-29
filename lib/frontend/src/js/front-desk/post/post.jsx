@@ -2,6 +2,7 @@ import React from 'react';
 import Home from './home/index.jsx';
 import Detail from './detail/index.jsx';
 import Aside from './aside';
+import {Recent} from './recent';
 import './style.less';
 
 /**

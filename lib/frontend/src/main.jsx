@@ -11,6 +11,7 @@ ReactDOM.render(
             <Route path="/about" component={App.About}></Route>
             <Route path="/post" component={App.Post.Main}>
                 <IndexRoute component={App.Post.Home} />
+                <Route path="/post/recent/:categoryId" component={App.Post.Recent}></Route>
                 <Route path="/post/detail/:id" component={App.Post.Detail}/>
             </Route>
             <Route path="/ebook" component={App.Ebook.Main}>
