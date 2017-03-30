@@ -78,6 +78,11 @@ describe("测试 tree.js",function () {
             assert.ok(Array.isArray(sub));
             assert.equal(sub.length,0);
         });    
+        it("测试 #subnodeIdList() - 检索叶子节点",function(){
+            const sub=subnodeIdList(list,16);
+            assert.ok(Array.isArray(sub));
+            assert.equal(sub.length,0);
+        });    
     });
 
 
