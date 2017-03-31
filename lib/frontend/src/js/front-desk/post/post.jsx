@@ -19,4 +19,4 @@ const Main=React.createClass({
     }
 });
 
-export default {Main,Home,Detail};
+export default {Main,Home,Detail,Recent};
