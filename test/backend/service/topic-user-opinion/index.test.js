@@ -1,5 +1,5 @@
 const assert=require('assert');
-const {like,dislike,cancelLike,cancelDislike}=require('../../../../lib/backend/service/topic-user-opinion');
+const {like,hate,cancelLike,cancelHate}=require('../../../../lib/backend/service/topic-user-opinion');
 
 
 describe('测试 topicUserOpinionService',function(){
@@ -24,21 +24,21 @@ describe('测试 topicUserOpinionService',function(){
 
     });
 
-    describe('测试 #dislike()及 #cancelDislike()',function(){
+    describe('测试 #hate()及 #cancelHate()',function(){
         
         const scope="test";
         const topicId=1;
         const userId=1;
 
-        it('测试 dislike后再取消',function(){
-            return dislike(scope,topicId,userId)
+        it('测试 hate后再取消',function(){
+            return hate(scope,topicId,userId)
                 .then(s=>{
                     assert.ok(s.id>1,`id必定大于1：${s.id}`);
                     assert.equal(s.topicId,topicId);
                     assert.equal(s.userId,userId);
                 })
                 .then(_=>{
-                    return cancelDislike(scope,topicId,userId);
+                    return cancelHate(scope,topicId,userId);
                 });
         });
 
