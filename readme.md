@@ -10,6 +10,11 @@
 1. node v6 :要使用低于v6版本的node，自行babel转换之。
 2. 默认的`config.prod.js`是基于OpenShift写的，如果要运行在其他服务器上，自行修改。
 
+## demo
+
+![screenshot](https://github.com/newbienewbie/skeleton/raw/master/dashboard.png)
+![screenshot](https://github.com/newbienewbie/skeleton/raw/master/dashboard2.png)
+
 ## 使用
 
 ### 步骤：
@@ -17,10 +22,11 @@
 0. 安装`ffmpeg`，确保`ffmpeg`、`ffprobe`可执行程序在`PATH`下
 1. `git clone 这个仓库`
 2. `npm install` 安装所有依赖
-2. 在`lib/backend/config/`下添加一个`config.dev.js`文件，
-3. `webpack --watch` 打包前端文件
-4. `npm run test` 确保所有测试都通过
+3. 在`lib/backend/config/`下添加一个`config.dev.js`文件，
+4. `npm run webpack --watch` 打包前端文件
 5. `npm run start` 运行即可
+6. 访问 `http://localhost:3000/install`，安装数据库、创建管理员、填充基本数据
+7. `npm run test` 确保所有测试都通过
 
 ### 其他：
 
