@@ -20,5 +20,8 @@
         "username":"itminus@163.com",
         "password":"your_pass" 
     },
+    "ebook":{
+        "initFilesPath":"upload"
+    },
     "sessionSecret":"hello,world"
 }
