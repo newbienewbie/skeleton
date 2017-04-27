@@ -30,5 +30,7 @@
     {"id":29,"name":"数学基础与数据分析","scope":"ebook","note":null,"pid":7},
     {"id":30,"name":"工具","scope":"ebook","note":null,"pid":7},
     {"id":31,"name":"软考","scope":"ebook","note":null,"pid":7},
-    {"id":32,"name":"杂项","scope":"ebook","note":null,"pid":7}
+    {"id":32,"name":"移动端编程","scope":"ebook","note":null,"pid":7},
+    {"id":33,"name":"IoT PLC","scope":"ebook","note":null,"pid":7},
+    {"id":34,"name":"杂项","scope":"ebook","note":null,"pid":7}
 ]
