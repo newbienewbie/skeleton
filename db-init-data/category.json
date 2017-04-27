@@ -23,5 +23,9 @@
     {"id":22,"name":"通用","scope":"ebook","note":null,"pid":9},
     {"id":23,"name":"MySQL","scope":"ebook","note":null,"pid":9},
     {"id":24,"name":"Oracle","scope":"ebook","note":null,"pid":9},
-    {"id":25,"name":"SQL Server","scope":"ebook","note":null,"pid":9}
+    {"id":25,"name":"SQL Server","scope":"ebook","note":null,"pid":9},
+    {"id":26,"name":"数据结构与算法","scope":"ebook","note":null,"pid":7},
+    {"id":27,"name":"操作系统","scope":"ebook","note":null,"pid":7},
+    {"id":28,"name":"网络","scope":"ebook","note":null,"pid":7},
+    {"id":29,"name":"软考","scope":"ebook","note":null,"pid":7}
 ]
