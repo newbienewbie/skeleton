@@ -26,7 +26,7 @@ const Home=React.createClass({
                             title: i.title,
                             author: i.author.username,
                             authorUrl: i.author.username,
-                            imageUrl: i.posterUrl,
+                            imageUrl: i.featureImageUrl,
                             detailUrl,
                             excerpt: i.excerpt,
                             publishedAt: new Date(),
