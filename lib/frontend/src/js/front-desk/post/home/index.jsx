@@ -28,7 +28,7 @@ const Home=React.createClass({
                             authorUrl: i.author.username,
                             imageUrl: i.posterUrl,
                             detailUrl,
-                            excerpt: i.description,
+                            excerpt: i.excerpt,
                             publishedAt: new Date(),
                         };
                     });
