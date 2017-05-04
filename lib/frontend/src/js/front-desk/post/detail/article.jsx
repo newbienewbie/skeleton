@@ -48,7 +48,7 @@ export const Article=React.createClass({
         const content=this.state.post.isMarkdown ?
             remarkable.render(this.state.post.content) :
             this.state.post.content;
-        return (<article>
+        return (<article className="post-detail">
             <h1>{this.state.post.title}</h1>
             {this.state.post.id}
             <p>
