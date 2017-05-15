@@ -1,6 +1,6 @@
 import React from 'react';
 import {Article} from './article.jsx';;
-import {Comment}  from '../../comment/index';
+import {Comment}  from 'react-comment';
 import Pagination from 'simple-react-ui/dist/pagination';
 import 'whatwg-fetch';
 

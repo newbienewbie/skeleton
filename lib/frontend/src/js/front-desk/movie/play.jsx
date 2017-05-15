@@ -1,6 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import {Comment} from '../comment/index';
+import {Comment} from 'react-comment';
 
 /**
  * 电影的播放页面，相当于文章的详情页面
