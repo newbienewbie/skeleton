@@ -131,6 +131,14 @@ describe('测试commentService',function(){
                     assert.ok(i.hasOwnProperty("id"),'必定拥有id属性');
                     assert.ok(i.hasOwnProperty("content"),'必定拥有content属性');
                     assert.ok(i.hasOwnProperty("scope"),'必定拥有scope属性');
+                    assert.ok(i.hasOwnProperty("upvotes"),'必定拥有upvotes属性');
+                    assert.ok(i.hasOwnProperty("downvotes"),'必定拥有downvotes属性');
+                    assert.ok(i.hasOwnProperty("authorId"),'必定拥有authorId属性');
+                    assert.ok(i.hasOwnProperty("topicId"),'必定拥有topicId属性');
+                    assert.ok(i.hasOwnProperty("replyTo"),'必定拥有replyTo属性');
+                    assert.ok(i.hasOwnProperty("replyUnder"),'必定拥有replyUnder属性');
+                    assert.ok(i.hasOwnProperty("createdAt"),'必定拥有createdAt属性');
+                    assert.ok(i.hasOwnProperty("updatedAt"),'必定拥有updatedAt属性');
                 });
             })
     });
