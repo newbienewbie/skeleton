@@ -90,4 +90,49 @@ describe('测试commentService',function(){
             });
     });
 
+    it('测试#createCommentOrReply()、#findById()和#remove()',function(){
+        const info={
+            id:null,
+            content:'测试',
+            authorId:1,
+            topicId:1,
+            scope:'post',
+            replyTo:null,
+        };
+        // 创建，删除，再查找之
+        return commentService.createCommentOrReply(info)
+            .then(c=>{
+                info.id=c.id; //保存id
+                assert.equal(c.content,info.content);
+                assert.equal(c.authorId,info.authorId);
+                assert.equal(c.topicId,info.topicId);
+                assert.equal(c.replyTo,info.replyTo);
+            }).then(_=>{
+                return commentService.remove(info.id)
+            }).then(_=>{
+                return commentService.findById(info.id)
+            })
+            .then(c=>{
+                return assert.equal(c,null);
+            });
+    });
+
+    it('测试#listAllReplies()',function(){
+        const scope="ebook";
+        const topicId=257;
+        const page=1;
+        const size=10;
+        const replySize=5;
+        return commentService.listAllReplies(scope,topicId,page,size,replySize)
+            .then(list=>{
+                assert.ok(Array.isArray(list));
+                assert.ok(list.length<=size*replySize);
+                list.forEach(i=>{
+                    assert.ok(i.hasOwnProperty("id"),'必定拥有id属性');
+                    assert.ok(i.hasOwnProperty("content"),'必定拥有content属性');
+                    assert.ok(i.hasOwnProperty("scope"),'必定拥有scope属性');
+                });
+            })
+    });
+
 });
