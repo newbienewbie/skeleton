@@ -124,21 +124,25 @@ describe('测试commentService',function(){
         const size=10;
         const replySize=5;
         return commentService.listAllReplies(scope,topicId,page,size,replySize)
-            .then(list=>{
-                assert.ok(Array.isArray(list));
-                assert.ok(list.length<=size*replySize);
-                list.forEach(i=>{
-                    assert.ok(i.hasOwnProperty("id"),'必定拥有id属性');
-                    assert.ok(i.hasOwnProperty("content"),'必定拥有content属性');
-                    assert.ok(i.hasOwnProperty("scope"),'必定拥有scope属性');
-                    assert.ok(i.hasOwnProperty("upvotes"),'必定拥有upvotes属性');
-                    assert.ok(i.hasOwnProperty("downvotes"),'必定拥有downvotes属性');
-                    assert.ok(i.hasOwnProperty("authorId"),'必定拥有authorId属性');
-                    assert.ok(i.hasOwnProperty("topicId"),'必定拥有topicId属性');
-                    assert.ok(i.hasOwnProperty("replyTo"),'必定拥有replyTo属性');
-                    assert.ok(i.hasOwnProperty("replyUnder"),'必定拥有replyUnder属性');
-                    assert.ok(i.hasOwnProperty("createdAt"),'必定拥有createdAt属性');
-                    assert.ok(i.hasOwnProperty("updatedAt"),'必定拥有updatedAt属性');
+            .then(results=>{
+                Object.keys(results).forEach(k=>{
+                    const e=results[k];
+                    assert.ok(e.hasOwnProperty("rows"),"必定拥有rows属性");
+                    assert.ok(e.hasOwnProperty("count"),"必定拥有count属性");
+                    assert.ok(Array.isArray(e.rows),"e.rows必定是个数组");
+                    e.rows.forEach(i=>{
+                        assert.ok(i.hasOwnProperty("id"),'必定拥有id属性');
+                        assert.ok(i.hasOwnProperty("content"),'必定拥有content属性');
+                        assert.ok(i.hasOwnProperty("scope"),'必定拥有scope属性');
+                        assert.ok(i.hasOwnProperty("upvotes"),'必定拥有upvotes属性');
+                        assert.ok(i.hasOwnProperty("downvotes"),'必定拥有downvotes属性');
+                        assert.ok(i.hasOwnProperty("authorId"),'必定拥有authorId属性');
+                        assert.ok(i.hasOwnProperty("topicId"),'必定拥有topicId属性');
+                        assert.ok(i.hasOwnProperty("replyTo"),'必定拥有replyTo属性');
+                        assert.ok(i.hasOwnProperty("replyUnder"),'必定拥有replyUnder属性');
+                        assert.ok(i.hasOwnProperty("createdAt"),'必定拥有createdAt属性');
+                        assert.ok(i.hasOwnProperty("updatedAt"),'必定拥有updatedAt属性');
+                    });
                 });
             })
     });
