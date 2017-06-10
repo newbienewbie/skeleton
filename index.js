@@ -10,10 +10,22 @@ function createSkeleton(opts={config:{}}){
         config.setConfig(opts.config || defaultConfig);
     };
     init(opts);
+    
+    const {createApp}=require('./lib');
+    const app=createApp(opts);
+
     return {
+
+        /**
+         * express app
+         */
+        app,
+
+        /**
+         * start the web server 
+         */
         run(){
             const env= process.env;
-            const app=require('./lib/app.js');
             const server = http.createServer(app);
             // 如不加'0.0.0.0',在多网卡的服务器上，可能会无法监听合适的网段。
             const ip=env.NODE_IP || '0.0.0.0';
