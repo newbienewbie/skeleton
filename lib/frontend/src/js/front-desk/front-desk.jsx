@@ -8,7 +8,7 @@ import Post from './post/post.jsx';
 import Ebook from './ebook';
 import Movie from './movie/movie.jsx';
 import {Contact} from './contact/index.jsx';
-import 'react-comment/dist/style.css';
+// import 'react-comment/dist/style.css';
 
 const Main=React.createClass({
     getDefaultProps:function () {
