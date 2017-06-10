@@ -1,6 +1,6 @@
 var assert=require('assert');
 var path=require('path');
-const config=require('../../../lib/backend/config/config.js');
+const config=require('../../config');
 
 
 

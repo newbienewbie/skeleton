@@ -1,6 +1,6 @@
 const assert=require('assert');
 const path=require('path');
-const config=require('../../../lib/backend/config/config.prod.js');
+const config=require('../../config/config.prod.js');
 
 
 describe('生产环境配置文件的测试',()=>{
