@@ -44,11 +44,13 @@
     * backend/
     * index.js
 * frontend/
-* static
+    * src/
+    * views/
+    * static/
 * test/
 
 
-具体功能开发的后端代码置入`backend/`文件夹下，前端代码置入`frontend/`文件夹下。
+具体功能开发的后端代码置入`lib/backend/`文件夹下，前端代码置入`frontend/`文件夹下。
 
 
 ### 后端部分
