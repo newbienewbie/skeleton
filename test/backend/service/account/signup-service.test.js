@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 const signupService=require('../../../../lib/backend/service/account/signup-service.js');
-const domain=require('../../../../lib/backend/domain/domain.js');
+const domain=require('../../../../lib/backend/domain');
 const assert=require('assert');
 
 
