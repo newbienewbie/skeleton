@@ -22,7 +22,7 @@
 0. 安装`ffmpeg`，确保`ffmpeg`、`ffprobe`可执行程序在`PATH`下
 1. `git clone 这个仓库`
 2. `npm install` 安装所有依赖
-3. 在`lib/backend/config/`下添加一个`config.dev.js`文件，
+3. 在`config/`下添加一个`config.dev.js`文件，
 4. `npm run webpack --watch` 打包前端文件
 5. `npm run start` 运行即可
 6. 访问 `http://localhost:3000/install`，安装数据库、创建管理员、填充基本数据
