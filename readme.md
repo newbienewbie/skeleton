@@ -42,15 +42,11 @@
 
 * lib/
     * backend/
-    * frontend/
-    * server.js
-    * app.js
+    * index.js
+* frontend/
+* static
 * test/
 
-其中：
-
-* `app.js` ：功能是利用`express`创建`app`,然后配置、载入路由
-* `server.js` ：功能为利用`app`创建 HTTP Server 并监听。
 
 具体功能开发的后端代码置入`backend/`文件夹下，前端代码置入`frontend/`文件夹下。
 
