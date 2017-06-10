@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 var assert=require('assert');
 var transport=require('../../../../lib/backend/service/email/transport.js');
 

@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 var assert=require('assert');
 var mailService=require("../../../../lib/backend/service/email/email-service");
 

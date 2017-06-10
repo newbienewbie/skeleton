@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 const commentService=require('../../../../lib/backend/service/comment');
 const assert=require('assert');
 

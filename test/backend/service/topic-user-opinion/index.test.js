@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 const assert=require('assert');
 const {hasAnyOpinion,hasAnyOpinionOf,like,hate,cancelLike,cancelHate}=require('../../../../lib/backend/service/topic-user-opinion');
 

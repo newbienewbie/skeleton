@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 const assert=require('assert');
 const postService=require('../../../../lib/backend/service/post');
 const keywordService=require('../../../../lib/backend/service/keyword')("post");

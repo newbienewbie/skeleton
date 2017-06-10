@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 const path=require('path');
 const fs=require('fs');
 const movieProcess=require('../../../../lib/backend/service/movie-process/movie-process.js');

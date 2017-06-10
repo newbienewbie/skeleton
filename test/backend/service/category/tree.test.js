@@ -1,3 +1,4 @@
+require('../../../init-test-config.js');
 const assert=require('assert');
 const {listToTree,subnodeIdList}=require('../../../../lib/backend/service/category/tree');
 
