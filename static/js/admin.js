@@ -45924,8 +45924,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less", function() {
-				var newContent = require("!!../../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less");
+			module.hot.accept("!!../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less", function() {
+				var newContent = require("!!../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -89259,8 +89259,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less", function() {
-				var newContent = require("!!../../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less");
+			module.hot.accept("!!../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less", function() {
+				var newContent = require("!!../../../../../../node_modules/._css-loader@0.24.0@css-loader/index.js??importLoaders=1!../../../../../../node_modules/._postcss-loader@1.3.3@postcss-loader/index.js!../../../../../../node_modules/._less-loader@2.2.3@less-loader/index.js!./style.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
