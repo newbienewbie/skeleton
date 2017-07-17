@@ -1,9 +1,11 @@
 {% extends "../index.njk" %}
+{% from '../components/pagination/index.njk' import pagination %}
 {% from "../components/tree/index.njk" import toTree %}
 
 {% block app %}
 <div id="post">
     <div className="ebook-main">
+        {{ pagination(pagesInfo) }}
     </div>
     <aside>
         <div> categories </div>
