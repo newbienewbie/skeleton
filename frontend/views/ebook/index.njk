@@ -1,0 +1,13 @@
+{% extends "../index.njk" %}
+{% from "../components/tree/index.njk" import toTree %}
+
+{% block app %}
+<div id="post">
+    <div className="ebook-main">
+    </div>
+    <aside>
+        <div> categories </div>
+        {{ toTree(categories) }}
+    </aside>
+</div>
+{% endblock %}
