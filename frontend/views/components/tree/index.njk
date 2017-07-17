@@ -1,0 +1,16 @@
+
+
+{% macro toTree(list) %}
+    <ul class="tree">
+         {% for i in list %}
+             <li key={{i.value.id}} data={{i.value.id}}> 
+                <a class={{i.value.active}} href="/ebook/category/{{i.value.id}}" >
+                    {{i.value.name}} 
+                </a> 
+                {% if i.children %}
+                    {{ toTree(i.children) }}
+                {% endif %}  
+            </li> 
+        {% endfor %} 
+    </ul>
+{% endmacro %}
