@@ -1,0 +1,17 @@
+
+{% macro footerItem(header="© ${year} 大水",html="All rights reserved.")%}
+    <div class="col-md-3">
+        <h6>{{ header }}</h6>
+        <p>{{ html | safe}}</p>
+    </div>
+{% endmacro %}
+
+
+{% macro footer() %}
+    <div class="container">
+        {{ footerItem() }}
+        {{ footerItem("导演", "前朝大侠" ) }}
+        {{ footerItem("编剧", "<a href='mailto:itminus@<163>.com'> 关外行人 </a>" ) }}
+        {{ footerItem("主演", "<a href='mailto:itminus@<163>'> 似去如来 </a>" ) }}
+    </div>
+{% endmacro %}
