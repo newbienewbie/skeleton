@@ -4,9 +4,12 @@ config/config.dev.js
 upload/
 
 # webpack生成的文件
-lib/frontend/static/js/main.js
-lib/frontend/static/js/admin.js
-lib/frontend/static/js/install.js
+frontend/static/js/main.js
+frontend/static/js/admin.js
+frontend/static/js/install.js
+
+# lessc 生成的前端文件
+frontend/static/css/index.css
 
 # 锁定文件：当存在时禁止安装
 lib/backend/install.js.lock
