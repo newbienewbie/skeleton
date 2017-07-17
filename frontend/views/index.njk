@@ -1,0 +1,15 @@
+{% extends 'base.njk' %}
+
+{% from './components/header/index.njk' import header %}
+
+{% block userdefinedhead %}
+    <link rel="stylesheet"  href="/static/css/index.css"/>
+{% endblock %}
+{% block app %}
+    <div class="container">
+        {{ header() }}
+    </div>
+{% endblock %}
+{% block userdefinedfoot %}
+      <script type='text/javascript' src='/static/js/main.js'></script> 
+{% endblock %}
