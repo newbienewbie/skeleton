@@ -1,0 +1,105 @@
+#module{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    >div{
+        background-color: beige;
+        flex:75%;
+        article.ebook-detail{
+
+            div:nth-child(2){
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+
+                /* 图片 */
+                >div:first-child{
+                    flex:0 0 30%;
+                }
+
+                /* 元信息 */
+                >div:nth-child(2){
+                    flex:0 0 50%;
+                    dl.meta{
+                        width:100%;
+                        display: flex;
+                        flex-direction:column;
+                        justify-content: space-between;
+                        align-content: space-between;
+                        div {
+                            display: table;
+                            width:100%;
+                            >dd{
+                                width:10%;
+                                display: table-cell;
+                            }
+                            >dt {
+                                display: table-cell;
+                                width:40%;
+                            }
+                        }
+                    }
+                }
+
+                /* 简介信息 */
+                >div:last-child{
+                    flex:0 0 100%;
+                    >div{
+                        word-wrap: break-word;
+                        word-break: break-all;
+                    }
+                }
+    
+            }
+        }
+
+        >article{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            
+            >div.list-item{
+                flex:0 0 24%;
+                width:24%;
+                background-color: palegreen;
+                margin-bottom: 0.5em; 
+                h2 {
+                    text-align: center;
+                    font-size: 1.3em;
+                    overflow: hidden;
+                }
+                /* 作者、日期 */
+                >div:nth-child(2){
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                }
+                /* 摘要 */
+                >div:nth-child(4){
+                    height: 150px;
+                    width:100%;
+                    overflow: hidden;
+                }
+        
+                /* 配图 */
+                >div:nth-child(3){
+                    img{
+                        width:100%;
+                    }
+                }
+            }
+    
+        }
+ 
+
+    }
+    >aside{
+        flex:25%;
+        background-color: salmon;
+    }
+}

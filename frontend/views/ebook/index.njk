@@ -4,11 +4,12 @@
 {% from "../components/post-list-item/index.njk" import postListItem %}
 
 {% block app %}
-<div id="post">
-    <div className="ebook-main">
-        <div id="article-container">
+<div id="module">
+    {% block main %}
+        {# ebook模块的内容，比如列表（含分页）、明细 #}
+        <div>
             <article>
-                 {% for i in ebooks.rows %}
+                {% for i in ebooks.rows %}
                     {% set item={
                             id:i.id,
                             title:i.title,
@@ -21,14 +22,16 @@
                         }
                     %} 
                     {{ postListItem(item) }}
-                 {% endfor %}
+                {% endfor %}
             </article>
             {{ pagination(pagesInfo) }}
         </div>
-    </div>
-    <aside>
-        <div> categories </div>
-        {{ toTree(categories) }}
-    </aside>
+    {% endblock %}
+    {% block aside %}
+        <aside>
+            <div> categories </div>
+            {{ toTree(categories) }}
+        </aside>
+    {% endblock %}
 </div>
 {% endblock %}
