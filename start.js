@@ -36,9 +36,6 @@ if (cluster.isMaster) {
     });
   }
 } else {
-  const defaultConfig=require('./config');
-  const {createSkeleton}=require('./index.js');
-  const skeleton=createSkeleton({config:defaultConfig});
-  skeleton.run();
+  require('./server');
 }
 
