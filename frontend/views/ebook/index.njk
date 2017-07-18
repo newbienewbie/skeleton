@@ -30,7 +30,7 @@
     {% block aside %}
         <aside>
             <div> categories </div>
-            {{ toTree(categories) }}
+            {{ toTree(categories,convertCategoryIdToHref) }}
         </aside>
     {% endblock %}
 </div>

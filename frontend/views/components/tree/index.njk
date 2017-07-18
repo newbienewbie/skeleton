@@ -1,14 +1,14 @@
 
 
-{% macro toTree(list) %}
+{% macro toTree(list,convertToHref) %}
     <ul class="tree">
          {% for i in list %}
              <li key={{i.value.id}} data={{i.value.id}}> 
-                <a class={{i.value.active}} href="/ebook?categoryId={{i.value.id}}" >
+                <a class="{{i.value.active}}" href="{{ convertToHref( i.value.id )}}" >
                     {{i.value.name}} 
                 </a> 
                 {% if i.children %}
-                    {{ toTree(i.children) }}
+                    {{ toTree(i.children,convertToHref) }}
                 {% endif %}  
             </li> 
         {% endfor %} 
