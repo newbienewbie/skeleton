@@ -4,9 +4,54 @@
     justify-content: space-between;
     align-items: flex-start;
 
+    /* main */
     >div{
         background-color: beige;
         flex:75%;
+
+        /* 文章列表区，不含分页 */
+        >article{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            
+            /* 文章单项 */
+            >div.list-item{
+                flex:0 0 24%;
+                width:24%;
+                background-color: palegreen;
+                margin-bottom: 0.5em; 
+                h2 {
+                    text-align: center;
+                    font-size: 1.3em;
+                    overflow: hidden;
+                }
+                /* 作者、日期 */
+                >div:nth-child(2){
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                }
+                /* 摘要 */
+                >div:nth-child(4){
+                    height: 150px;
+                    width:100%;
+                    overflow: hidden;
+                }
+        
+                /* 配图 */
+                >div:nth-child(3){
+                    img{
+                        width:100%;
+                    }
+                }
+            }
+    
+        }
+        
         article.ebook-detail{
 
             div:nth-child(2){
@@ -54,50 +99,8 @@
     
             }
         }
-
-        >article{
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            justify-content: space-between;
-            
-            >div.list-item{
-                flex:0 0 24%;
-                width:24%;
-                background-color: palegreen;
-                margin-bottom: 0.5em; 
-                h2 {
-                    text-align: center;
-                    font-size: 1.3em;
-                    overflow: hidden;
-                }
-                /* 作者、日期 */
-                >div:nth-child(2){
-                    display: flex;
-                    flex-direction: row;
-                    align-items: flex-start;
-                    justify-content: space-between;
-                }
-                /* 摘要 */
-                >div:nth-child(4){
-                    height: 150px;
-                    width:100%;
-                    overflow: hidden;
-                }
-        
-                /* 配图 */
-                >div:nth-child(3){
-                    img{
-                        width:100%;
-                    }
-                }
-            }
-    
-        }
- 
-
     }
+    /* 侧边栏 */
     >aside{
         flex:25%;
         background-color: salmon;
