@@ -24,7 +24,7 @@
                     {{ postListItem(item) }}
                 {% endfor %}
             </article>
-            {{ pagination(pagesInfo) }}
+            {{ pagination(pagesInfo,convertPageToHref) }}
         </div>
     {% endblock %}
     {% block aside %}

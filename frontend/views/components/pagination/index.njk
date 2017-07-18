@@ -1,35 +1,25 @@
 
 
-{# todo #}
-{% macro _genHref(digit)%}#{% endmacro %}
 
-{% macro _genFirstDigitLink(firstDigit) %}
-    <li>
-        <a href="{{_genHref(firstDigit)}}"> << </a>
-    </li>
-{% endmacro %}
-
-{% macro _genLastDigitLink(lastDigit) %}
-    <li>
-        <a href="{{_genHref(lastDigit)}}"> >> </a>
-    </li>
-{% endmacro %}
-
-{% macro pagination(pagesInfo) %}
+{% macro pagination(pagesInfo,convertPageToHref) %}
     <nav>
         <ul class="pagination">
             {# 首数字 #}
             {% if pagesInfo.shouldDisply %}
-                {{ _genFirstDigitLink(pagesInfo.firstDigit) }}
+                <li>
+                    <a href="{{convertPageToHref(pagesInfo.firstDigit)}}"> << </a>
+                </li>
             {% endif %}
 
             {% for p in pagesInfo.array %}
-                <li><a href="{{_genHref(p)}}">{{p}}</a></li>
+                <li><a href="{{convertPageToHref(p)}}">{{p}}</a></li>
             {% endfor %}
 
             {# 尾数字 #}
             {% if pagesInfo.shouldDisply %}
-                {{_genLastDigitLink(pagesInfo.lastDigit)}}
+                <li>
+                    <a href="{{convertPageToHref(pagesInfo.lastDigit)}}"> >> </a>
+                </li>
             {% endif %}
         </ul>
     </nav>
