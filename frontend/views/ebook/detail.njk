@@ -1,0 +1,60 @@
+{% extends "./index.njk" %}
+{% from "../components/tree/index.njk" import toTree %}
+
+
+{# 用于生成 detail 的宏，私有 #}
+{% macro _detail(props) %}
+    <article class="ebook-detail">
+        <h2>{{props.title}}</h2>
+        <div>
+            <div><img src={{props.posterUrl}} width="100%" height="100%"/></div>
+            <div>
+                <dl class="meta">
+                    <div>
+                        <dt>isbn</dt><dd> {{props.isbn}}</dd>
+                    </div>
+                    <div>
+                        <dt>作者</dt><dd>{{props.author}}</dd>
+                    </div>
+                    <div>
+                        <dt>发布时间</dt><dd>{{moment(props.createdAt).format("YYYY-MM-DD")}}</dd>
+                    </div>
+                    <div>
+                        <dt>关键词</dt>
+                        <dd>
+                            {% for kw in props.keywords %}
+                                <span>{{ kw.tag }}</span>
+                            {% endfor %}
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+            <div>
+                <span>简介:</span>
+                <div>{{props.content|safe}}</div>
+            </div>
+        </div>
+        <div><a target="_blank" href={{props.url}} >下载</a></div>
+    </article>
+{% endmacro %}
+
+
+{# -------------------------------------------------------------- #}
+
+
+{# ebook模块的内容，比如明细，评论 #}
+{% block main %}
+    <div>
+        <article>
+            {{ _detail(ebook) }}
+        </article>
+        <div>
+            评论区：todo
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block aside %}
+    {{ super() }}
+{% endblock %}
