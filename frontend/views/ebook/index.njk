@@ -1,11 +1,30 @@
 {% extends "../index.njk" %}
 {% from '../components/pagination/index.njk' import pagination %}
 {% from "../components/tree/index.njk" import toTree %}
+{% from "../components/post-list-item/index.njk" import postListItem %}
 
 {% block app %}
 <div id="post">
     <div className="ebook-main">
-        {{ pagination(pagesInfo) }}
+        <div id="article-container">
+            <article>
+                 {% for i in ebooks.rows %}
+                    {% set item={
+                            id:i.id,
+                            title:i.title,
+                            author:i.author.username,
+                            authorUrl:i.author.username,
+                            imageUrl:i.posterUrl,
+                            detailUrl:"/ebook/detail/"+i.id,
+                            excerpt:i.description,
+                            publishedAt:i.updatedAt
+                        }
+                    %} 
+                    {{ postListItem(item) }}
+                 {% endfor %}
+            </article>
+            {{ pagination(pagesInfo) }}
+        </div>
     </div>
     <aside>
         <div> categories </div>

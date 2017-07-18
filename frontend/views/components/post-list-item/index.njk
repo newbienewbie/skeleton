@@ -1,0 +1,23 @@
+
+{% macro postListItem(props) %}
+    <div>
+        <h2><a href="{{props.detailUrl}}">{{props.title}}</a></h2>
+        <div>
+            <span>
+                by <a href="#">{{props.author}}</a>  
+            </span>
+            <span>
+                {{ moment(props.publishedAt).format('YYYY-MM-DD') }}
+            </span>
+        </div>
+        <div>
+            <a href="{{props.detailUrl}}"><img src="{{props.imageUrl}}" alt="图片"/></a>
+        </div>
+        <div>
+            <p>{{props.excerpt}}</p>
+        </div>
+        <div>
+            <a href="{{props.detailUrl}}">Read More</a>
+        </div>
+    </div>
+{% endmacro %}
