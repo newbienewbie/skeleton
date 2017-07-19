@@ -1,0 +1,37 @@
+{% extends "../index.njk" %}
+{% from '../components/pagination/index.njk' import pagination %}
+{% from "../components/tree/index.njk" import toTree %}
+{% from "../components/post-list-item/index.njk" import postListItem %}
+
+{% block app %}
+<div id="module">
+    {% block main %}
+        {# post 模块的内容，比如列表（含分页）、明细 #}
+        <div>
+            <article>
+                {% for i in posts.rows %}
+                    {% set item={
+                            id:i.id,
+                            title:i.title,
+                            author:i.author.username,
+                            authorUrl:i.author.username,
+                            imageUrl:i.featureImageUrl,
+                            detailUrl:"/post/detail/"+i.id,
+                            excerpt:i.excerpt,
+                            publishedAt:i.publishedAt
+                        }
+                    %} 
+                    {{ postListItem(item) }}
+                {% endfor %}
+            </article>
+            {{ pagination(pagesInfo,convertPageToHref) }}
+        </div>
+    {% endblock %}
+    {% block aside %}
+        <aside>
+            <div> 分类 </div>
+            {{ toTree(categories,convertCategoryIdToHref) }}
+        </aside>
+    {% endblock %}
+</div>
+{% endblock %}
