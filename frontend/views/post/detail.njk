@@ -1,0 +1,45 @@
+{% extends "./index.njk" %}
+{% from "../components/tree/index.njk" import toTree %}
+
+
+{# 用于生成 detail 的宏，私有 #}
+{% macro _detail(props) %}
+    <article class="post-detail">
+        <h2>{{props.title}}</h2>
+        <p>
+            <div> {{prosp.id}} </div>
+            <span>作者： {{ props.post.author}}</span>
+            <span>发布时间：{{moment(props.post.publishedAt).format('YYYY-MM-DD')}}</span>
+            <img src="/{{props.featureImageUrl}}" width="100%" />
+            <div> {{props.excerpt}} </div>
+            <div> 关键词:
+                {% for kw in props.keywords %}
+                    <span>{{kw.tag}}</span>
+                {% endfor %}
+            </div>
+        </p>
+        <div> {{ props.content | safe}} </div>
+        </article>
+    </article>
+{% endmacro %}
+
+
+{# -------------------------------------------------------------- #}
+
+
+{# post 模块的内容，比如明细，评论 #}
+{% block main %}
+    <div>
+        <article>
+            {{ _detail(post) }}
+        </article>
+        <div>
+            评论区：todo
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block aside %}
+    {{ super() }}
+{% endblock %}
