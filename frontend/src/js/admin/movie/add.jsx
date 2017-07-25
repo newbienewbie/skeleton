@@ -5,6 +5,7 @@ import 'whatwg-fetch';
 
 import SelectStuff from '../utils/select-stuff.jsx';
 import UploadAttachment from '../upload-attachment.jsx';
+import CategorySelector from './category-selector.jsx';
 
 /**
  * 初始值，永不改变，用作initial state，
@@ -59,7 +60,12 @@ const Add=React.createClass({
                         this.setState({ movie: movie });
                     } }/>
                 </Form.Item>
-
+                <Form.Item label="分类" help="分类" {...formItemLayout} >
+                    <CategorySelector value={this.state.movie.categoryId} onChange={(value)=>{
+                        const movie=Object.assign({},this.state.movie,{categoryId:value});
+                        this.setState({movie:movie});
+                    }} />
+                </Form.Item>
                 <Form.Item label="上传电影"  {...formItemLayout} >
                     <UploadAttachment action="/upload/meiying/video?action=uploadvideo"
                         onChange={(fileList) => {
