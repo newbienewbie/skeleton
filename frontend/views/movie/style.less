@@ -1,36 +1,80 @@
 
+#module{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
 
-.movie-list-item {
+    /* main  */
+    >div{
 
-    >div:first-child{
-        border: 2px orange solid  ;
-        position: relative  ;
-        margin:0 ;
-        margin-top: 2em  ;
-        padding:0 ;
-
-        img.movie-poster{
-            display: inline-block  ;
-            width: 100%  ;
-            vertical-align: middle  ; 
+        .movie-list-item {
+        
+            >div:first-child{
+                border: 2px orange solid  ;
+                position: relative  ;
+                margin:0 ;
+                margin-top: 2em  ;
+                padding:0 ;
+        
+                img.movie-poster{
+                    display: inline-block  ;
+                    width: 100%  ;
+                    vertical-align: middle  ; 
+                }
+        
+                img.movie-play-button{
+                    position:absolute;
+                    left: 50%  ;
+                    top: 50%  ;
+                    margin: -32px -32px   ; /* 播放按钮大小为64*64 */
+                }
+            }
+        
+            >div:nth-child(2){
+        
+                h4{
+                    text-align: center;
+                    margin-top: 0.2em ;
+                }
+        
+            }
+        
+        
         }
-
-        img.movie-play-button{
-            position:absolute;
-            left: 50%  ;
-            top: 50%  ;
-            margin: -32px -32px   ; /* 播放按钮大小为64*64 */
+        
+        .movie-detail{
+            .movie-detail-heading {
+            }
+            
+            .movie-detail-play {
+                position:relative;
+                margin:auto;
+                .movie-detail-video { }
+                .movie-detail-tips{
+                    display: block;
+                    position: absolute;
+                    left:50%;
+                    top: 25%;
+                    margin:auto;
+    
+                    /* 不能正常播放时的提示 */
+                    >div{
+                        position: relative;
+                        left: -50%;
+                        top: -50%;
+                        color: red ;
+                        background: rgb(220,220,220,0.3);
+                        font-size: 2em;
+                        >a{
+                        color: olivedrab;
+                        }
+                    }
+                }
+            }
         }
     }
 
-    >div:nth-child(2){
-
-        h4{
-            text-align: center;
-            margin-top: 0.2em ;
-        }
-
-    }
-
-
+    /* aside */
+    >aside{ }
 }

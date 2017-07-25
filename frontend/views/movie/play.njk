@@ -1,0 +1,69 @@
+{% extends "./index.njk" %}
+{% from "../components/tree/index.njk" import toTree %}
+
+
+{# -------------------------------------------------------------- #}
+{# --------------------------   helper  ------------------------- #}
+{# -------------------------------------------------------------- #}
+
+{# 用于生成 detail 的宏，私有 #}
+{% macro _detail(props) %}
+    <article class="movie-detail">
+        <div class="movie-detail-heading">
+            <h2>{{props.title}}</h2>
+        </div>
+        <div class="movie-detail-play">
+            <div class="movie-detail-video" >
+                <video width="100%" controls poster="/{{props.posterUrl}}">
+                    <source src="/{{props.url}}" type="video/mp4" onError="" />
+                    <source src="/{{props.url}}" type="video/ogg" onError="" />
+                    <object type="application/x-shockwave-flash" data="__FLASH__.SWF" onError="" >
+                        <param name="movie" value="__FLASH__.SWF" />
+                        <param name="flashvars" value="controlbar=over&amp;image=__POSTER__.JPG&amp;file='{{url}}'" />
+                        <img src="__VIDEO__.JPG" width="640" height="360" alt="__TITLE__" title="No video playback capabilities, please download the video below" />
+                    </object>
+                </video>
+            </div>
+            <div class="movie-detail-tips">
+                <div >
+                    对不起，您的浏览器不支持在线播放，但是您可以
+                    <a target="_blank" href="/{{props.url}}" >下载到本地</a> ，
+                    然后使用合适的播放器观看
+                </div>
+            </div>
+        </div>
+
+        <div class="movie-detail-download">
+            <a target="_blank" href={{props.url}}>下载到本地</a>
+        </div>
+        <div class="movie-detail-intro">
+            <h5>简介</h5>{{props.content}}
+        </div>
+        <div>
+            <Comment topicId={{props.id}} scope="movie" />
+        </div>
+    </article>
+{% endmacro %}
+
+
+{# -------------------------------------------------------------- #}
+{# --------------------------   入口    ------------------------- #}
+{# -------------------------------------------------------------- #}
+
+
+{# movie 模块的内容，比如明细，评论 #}
+{% block main %}
+    <div>
+        <article>
+            {{ _detail(movie) }}
+        </article>
+        <div>
+            评论区：todo
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block aside %}
+    {{ super() }}
+{% endblock %}
