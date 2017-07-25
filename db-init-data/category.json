@@ -32,5 +32,9 @@
     {"id":31,"name":"软考","scope":"ebook","note":null,"pid":7},
     {"id":32,"name":"移动端编程","scope":"ebook","note":null,"pid":7},
     {"id":33,"name":"IoT PLC","scope":"ebook","note":null,"pid":7},
-    {"id":34,"name":"杂项","scope":"ebook","note":null,"pid":7}
+    {"id":34,"name":"杂项","scope":"ebook","note":null,"pid":7},
+    {"id":35,"name":"视频","scope":"movie","note":null,"pid":null},
+    {"id":36,"name":"电影","scope":"movie","note":null,"pid":35},
+    {"id":37,"name":"综艺","scope":"movie","note":null,"pid":35},
+    {"id":38,"name":"咨讯","scope":"movie","note":null,"pid":35}
 ]
