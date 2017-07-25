@@ -2,7 +2,7 @@
 {% from '../components/pagination/index.njk' import pagination %}
 {% from "../components/tree/index.njk" import toTree %}
 
-{% macro listItem() %}
+{% macro listItem(props) %}
 <div class="movie-list-item col-md-3">
     <div>
         <a href="/movie/play/{{props.id}}" >
@@ -35,19 +35,8 @@
         {# ebook模块的内容，比如列表（含分页）、明细 #}
         <div>
             <article>
-                {% for i in ebooks.rows %}
-                    {% set item={
-                            id:i.id,
-                            title:i.title,
-                            author:i.author.username,
-                            authorUrl:i.author.username,
-                            imageUrl:i.posterUrl,
-                            detailUrl:"/ebook/detail/"+i.id,
-                            excerpt:i.description,
-                            publishedAt:i.updatedAt
-                        }
-                    %} 
-                    {{ listItem(item) }}
+                {% for m in movies.rows %}
+                    {{ listItem(m) }}
                 {% endfor %}
             </article>
             {{ pagination(pagesInfo,convertPageToHref) }}
