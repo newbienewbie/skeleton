@@ -1,0 +1,38 @@
+
+
+.movie-list-item {
+
+    >div:first-child{
+        border: 2px orange solid  ;
+        position: relative  ;
+        margin:0 ;
+        margin-top: 2em  ;
+        padding:0 ;
+        height: 200px  ; 
+
+        img.movie-poster{
+            display: inline-block  ;
+            width: 100%  ;
+            height: 100%  ;
+            vertical-align: middle  ; 
+        }
+
+        img.movie-play-button{
+            position:absolute;
+            left: 50%  ;
+            top: 50%  ;
+            margin: -32px -32px   ; /* 播放按钮大小为64*64 */
+        }
+    }
+
+    >div:nth-child(2){
+
+        h4{
+            text-align: center;
+            margin-top: 0.2em ;
+        }
+
+    }
+
+
+}

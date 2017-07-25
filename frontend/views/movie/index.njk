@@ -1,0 +1,63 @@
+{% extends "../index.njk" %}
+{% from '../components/pagination/index.njk' import pagination %}
+{% from "../components/tree/index.njk" import toTree %}
+
+{% macro listItem() %}
+<div class="movie-list-item col-md-3">
+    <div>
+        <a href="/movie/play/{{props.id}}" >
+            <img src="{{props.posterUrl}}" class="movie-poster" />
+            <img src="/static/img/播放按钮.png" class="movie-play-button" />
+        </a>
+    </div>
+    <div >
+        <a href="/movie/play/{{props.id}}">
+            <h4 class="media-heading">{{props.title}}</h4>
+        </a>
+        <div>
+        {% for kw in props.keyword %}
+            <span>{{props.keyWord}}</span>
+        {% endfor %}
+        </div>
+        <a href="/movie/play/{{props.id}}">
+            <div>
+                {{props.description}}
+            </div>
+        </a>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% block app %}
+<div id="module">
+    {% block main %}
+        {# ebook模块的内容，比如列表（含分页）、明细 #}
+        <div>
+            <article>
+                {% for i in ebooks.rows %}
+                    {% set item={
+                            id:i.id,
+                            title:i.title,
+                            author:i.author.username,
+                            authorUrl:i.author.username,
+                            imageUrl:i.posterUrl,
+                            detailUrl:"/ebook/detail/"+i.id,
+                            excerpt:i.description,
+                            publishedAt:i.updatedAt
+                        }
+                    %} 
+                    {{ listItem(item) }}
+                {% endfor %}
+            </article>
+            {{ pagination(pagesInfo,convertPageToHref) }}
+        </div>
+    {% endblock %}
+    {% block aside %}
+        <aside>
+            <div> categories </div>
+            {{ toTree(categories,convertCategoryIdToHref) }}
+        </aside>
+    {% endblock %}
+</div>
+{% endblock %}
