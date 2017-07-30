@@ -105,7 +105,7 @@ function createRootUser(username="root",password="toor",email="itminus@163.com")
  */
 function initData(){
     const entityNames=["country","language","role","category","ebook"];
-    const PATH=path.join(__dirname,"..","..","..","..","db-init-data");
+    const PATH=path.join(__dirname,"..","..","..","db-init-data");
     const promises=entityNames.map(i=>{
         let s=`${i}.json`;
         return { name:i, path:path.join(PATH,i) };

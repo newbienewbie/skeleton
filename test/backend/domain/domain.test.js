@@ -1,6 +1,6 @@
 require('../../init-test-config');
 const assert=require('assert');
-const domain=require('../../../lib/backend/domain');
+const domain=require('../../../backend/domain');
 
 
 

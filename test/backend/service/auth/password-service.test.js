@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 const assert = require('assert');
-const passwordService = require('../../../../lib/backend/service/auth/password-service.js');
+const passwordService = require('../../../../backend/service/auth/password-service.js');
 const bcrypt = require('bcryptjs');
 
 

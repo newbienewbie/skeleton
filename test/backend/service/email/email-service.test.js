@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 var assert=require('assert');
-var mailService=require("../../../../lib/backend/service/email/email-service");
+var mailService=require("../../../../backend/service/email/email-service");
 
 var mail = {
     from: mailService.sender, // sender address 

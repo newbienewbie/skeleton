@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 const assert=require('assert');
-const keywordService=require('../../../../lib/backend/service/keyword');
+const keywordService=require('../../../../backend/service/keyword');
 
 describe("测试 keyword-service",function(){
 

@@ -1,7 +1,7 @@
 require('../../../init-test-config');
 const assert=require('assert');
-const keywordService=require('../../../../lib/backend/service/keyword')('movie');
-const movieService=require('../../../../lib/backend/service/movie');
+const keywordService=require('../../../../backend/service/keyword')('movie');
+const movieService=require('../../../../backend/service/movie');
 
 
 describe('测试movie-service',function(){

@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 var assert=require('assert');
-var transport=require('../../../../lib/backend/service/email/transport.js');
+var transport=require('../../../../backend/service/email/transport.js');
 
 describe('测试transport',function () {
     this.timeout(10000);

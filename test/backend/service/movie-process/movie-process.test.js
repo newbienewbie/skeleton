@@ -1,7 +1,7 @@
 require('../../../init-test-config.js');
 const path=require('path');
 const fs=require('fs');
-const movieProcess=require('../../../../lib/backend/service/movie-process/movie-process.js');
+const movieProcess=require('../../../../backend/service/movie-process/movie-process.js');
 const assert=require('assert');
 
 
@@ -23,9 +23,9 @@ describe('测试视频处理函数',function(){
                 .catch(done);
         });
 
-        it('当输入文件存在，应获取到相应信息', function (done) {
+        it('当输入文件存在，应获取到相应信息', function () {
             const p = path.join(__dirname, '1.avi');
-            movieProcess.getVideoFormat(p)
+            return movieProcess.getVideoFormat(p)
                 .then(
                     function (format) {
                         assert.ok(format.duration,"应该有duration属性");
@@ -34,9 +34,7 @@ describe('测试视频处理函数',function(){
                     function (reason) {
                         assert.fail(reason);
                     }
-                )
-                .then(done,done)
-                .catch(done);
+                );
         });
     });
 

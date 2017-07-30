@@ -1,5 +1,5 @@
 const http= require('http');
-const config=require('./lib/backend/config');
+const config=require('./backend/config');
 const defaultConfig=require('./config');
 
 
@@ -11,7 +11,7 @@ function createSkeleton(opts={config:{}}){
     };
     init(opts);
     
-    const {createApp}=require('./lib');
+    const {createApp}=require('./backend');
     const app=createApp(opts);
 
     return {
