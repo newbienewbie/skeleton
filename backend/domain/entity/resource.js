@@ -29,16 +29,16 @@ module.exports=(sequelize,DataType)=>{
                 allowNull:false,
                 comment:'资源路径',
             },
+            description:{
+                type:DataType.STRING,   
+                comment:'描述',
+            },
             status:{
-                type: DataTypes.STRING,
+                type: DataType.STRING,
                 allowNull: false,
                 defaultValue:'test',
                 comment:'状态',    
             },
-            description:{
-                type:DataType.STRING,   
-                comment:'描述',
-            }
         },
         {
             tableName:'resource'
