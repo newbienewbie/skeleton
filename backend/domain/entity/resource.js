@@ -29,6 +29,12 @@ module.exports=(sequelize,DataType)=>{
                 allowNull:false,
                 comment:'资源路径',
             },
+            status:{
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue:'test',
+                comment:'状态',    
+            },
             description:{
                 type:DataType.STRING,   
                 comment:'描述',
