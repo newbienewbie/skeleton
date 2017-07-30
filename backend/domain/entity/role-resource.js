@@ -4,7 +4,7 @@ module.exports=(sequelize,DataType)=>{
         'roleResource',
         {
             roleId:{
-                type:DataType.INTEGER,
+                type:DataType.STRING,
                 field:'role_id',
                 allowNull:false,
                 comment:'角色id',
