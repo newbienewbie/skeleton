@@ -1,9 +1,10 @@
 # skeleton
 
 * 用于快速开发的脚手架
-* 可直接架设在OpenShift
-* 后端使用Express
-* 前端使用ReactJS，配合react-router，可以极速开发模块化的单页面应用
+* 可直接架设在`OpenShift`
+* 后端使用`Express`
+* 前端的后台部分使用`ReactJS`，配合`react-router`，可以极速开发模块化的单页面应用
+* 前端的前台部分使用`Nunjucks`
 
 ## 要求
 
@@ -86,49 +87,16 @@
 #### views
 
 * 网站后端模板，不会被浏览器访问到。
-* 支持服务端渲染+客户端渲染两种模式。
 * 默认的服务端模板语法是`nunjucks`，类似于PHP的`twig`。
 
 #### src
 
-前端源码，不可被浏览器访问。源码经过`webpack`打包后会放入`static/`下的相应目录里。
+前端源码，不可被浏览器直接访问。源码经过`webpack`打包后会放入`static/`下的相应目录里。
+
+此部分主要涉及的后台页面的前端源码、安装页面的前端源码
 
 * 入口文件：与 `webpack.config.js` 的 `entry` 配置相对应。
 * 模块化： React组件化开发。
-
-需要子路径导航的组件，应该以文件夹形式来组织源码，比如一个 `Post` 组件，相应的源码文件组织为:
-
-* Post/
-    * Post.jsx
-    * Home.jsx
-    * Detail.jsx
-    * List.jsx
-    * Add.jsx
-    * ...
-
-其中，`Post.jsx`文件为该组件的入口文件，使用一个`Main`组件渲染子组件：
-
-```JavaScript
-
-const Main=React.createClass({
-
-    render:function(){
-        return (<div>
-            {this.props.children}
-        </div>);
-    }
-});
-
-```
-
-
-此`Main`同时与子组件导出:
-
-```JavaScript
-export defualt {Main,Home,Detail,List,Add}; 
-```
-
-以供`react-router`路由使用。
 
 #### static
 
