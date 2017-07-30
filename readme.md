@@ -3,8 +3,8 @@
 * 用于快速开发的脚手架
 * 可直接架设在`OpenShift`
 * 后端使用`Express`
-* 前端的后台部分使用`ReactJS`，配合`react-router`，可以极速开发模块化的单页面应用
-* 前端的前台部分使用`Nunjucks`
+* 前端的前台部分：使用`Nunjucks`
+* 前端的后台部分/安装页面部分：使用`ReactJS`
 
 ## 要求
 
@@ -23,11 +23,12 @@
 0. 安装`ffmpeg`，确保`ffmpeg`、`ffprobe`可执行程序在`PATH`下
 1. `git clone 这个仓库`
 2. `npm install` 安装所有依赖
-3. 在`config/`下添加一个`config.dev.js`文件，
+3. 在`config/`下添加一个`config.dev.js`文件，填写相关配置
 4. `npm run webpack --watch` 打包前端文件
-5. `npm run start` 运行即可
-6. 访问 `http://localhost:3000/install`，安装数据库、创建管理员、填充基本数据
-7. `npm run test` 确保所有测试都通过
+5. `npm run lessc` 为前台页面编译`css`样式代码
+6. `npm run start` 运行即可
+7. 访问 `http://localhost:3000/install`，安装数据库、创建管理员、填充基本数据
+8. `npm run test` 确保所有测试都通过
 
 ### 其他：
 
@@ -41,17 +42,24 @@
 
 相应的文件结构为：
 
-* lib/
-    * backend/
+* config/
+    * config.dev.js          # 测试环境配置
+    * config.prod.js         # 生产环境配置
+    * config.default.json    # 默认配置
+* backend/                   # 后端
+    * domain/
+    * router/
+    * service/
+    * utils/
     * index.js
-* frontend/
-    * src/
-    * views/
-    * static/
-* test/
+* frontend/                  # 前端
+    * src/                   # 安装页面、后台页面等的源码
+    * views/                 # 视图
+    * static/                # 静态资源文件夹，编译后的js文件也放这里
+* test/                      # 测试
 
 
-具体功能开发的后端代码置入`lib/backend/`文件夹下，前端代码置入`frontend/`文件夹下。
+配置放入`/config`文件夹下,具体功能开发的后端代码置入`backend/`文件夹下，前端代码置入`frontend/`文件夹下。
 
 
 ### 后端部分
@@ -59,9 +67,9 @@
 文件夹结构为：
 
 * backend/
-    * config/
-    * domain/
-    * service/ # 服务
+    * config/            # 配置功能模块，对外暴露存、取接口
+    * domain/            # 对领域的抽象，定义各模型实体及其之间的关系
+    * service/           # 服务
         * account/       # 账号服务，如角色服务、注册服务
         * auth/          # 认证相关服务，如密码比较、密码生成、检查角色、检查登陆等
         * email/         # 邮件服务
@@ -69,8 +77,8 @@
         * install/       # 安装
         * movie-process/ # 电影处理服务，如截图
         * ...
-    * router/
-    * utils/
+    * router/            # 相关路由器
+    * utils/             # 小功能
 
 
 
