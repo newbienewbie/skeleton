@@ -78,6 +78,8 @@ module.exports={
     movie,
     screenshot,
     role,
+    resource,
+    roleResource,
     post,
     category,
     keyword,

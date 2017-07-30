@@ -10,6 +10,11 @@ module.exports=(sequelize,DataType)=>{
                 allowNull:false,
                 comment:'资源名，唯一',
             },
+            categoryId:{
+                type: DataType.INTEGER,
+                allowNull:false,
+                field:'category_id'
+            },
             method:{
                 type:DataType.STRING,
                 field:'method',
