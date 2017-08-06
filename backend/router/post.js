@@ -3,7 +3,7 @@ const bodyParser=require('body-parser');
 const checker=require('../service/auth/authorization-checker');
 const postService=require('../service/post');
 const categoryService=require('../service/category');
-const paginationInfo=require('pagination-info');
+const {calculatePaginationInfo}=require('pagination-info');
 
 
 const router=express.Router();
@@ -201,7 +201,7 @@ router.get("/",function(req,res){
             });
         })
         .then(_=>{
-            const pagesInfo=paginationInfo(posts.count,size,page,5);
+            const pagesInfo=calculatePaginationInfo(posts.count,size,page,5);
             res.render("post/index.njk",{
                 posts,
                 pagesInfo,

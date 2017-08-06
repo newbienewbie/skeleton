@@ -6,9 +6,7 @@ const videoProcess=require('../service/movie-process/movie-process.js');
 const checker=require('../service/auth/authorization-checker');
 const express=require('express');
 const bodyParser=require('body-parser');
-const paginationInfo=require('pagination-info');
-
-
+const {calculatePaginationInfo}=require('pagination-info');
 
 
 const router=express.Router();
@@ -214,7 +212,7 @@ router.get("/",function(req,res){
             });
         })
         .then(_=>{
-            const pagesInfo=paginationInfo(movies.count,size,page,5);
+            const pagesInfo=calculatePaginationInfo(movies.count,size,page,5);
             res.render("movie/index.njk",{
                 movies,
                 pagesInfo,

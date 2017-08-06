@@ -3,7 +3,7 @@ const bodyParser=require('body-parser');
 const checker=require('../service/auth/authorization-checker');
 const ebookService=require('../service/ebook');
 const categoryService=require('../service/category');
-const paginationInfo=require('pagination-info');
+const {calculatePaginationInfo}=require('pagination-info');
 
 
 
@@ -191,7 +191,7 @@ router.get('/',(req,res)=>{
             categories=list;
         })
         .then(_=>{
-            const pagesInfo=paginationInfo(ebooks.count,size,page,5);
+            const pagesInfo=calculatePaginationInfo(ebooks.count,size,page,5);
             res.render("ebook/index.njk",{
                 ebooks,
                 pagesInfo,
