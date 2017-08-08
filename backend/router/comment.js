@@ -5,7 +5,11 @@ const commentService=require('../service/comment');
 
 const router=express.Router();
 
-router.post('/list/reply',bodyParser.json(),function(req,res,next){
+
+/**
+ * 列出某分页下的评论的前N条回复及计数
+ */
+router.post('/list/reply-list-of-page',bodyParser.json(),function(req,res,next){
     let {scope,topicId,page,size,replyPageSize}=req.body;
     topicId=parseInt(topicId);
     page=page?parseInt(page):1;
