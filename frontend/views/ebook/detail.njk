@@ -48,13 +48,15 @@
         <article>
             {{ _detail(ebook) }}
         </article>
-        <div>
-            评论区：todo
-        </div>
+        <div id="react-comment-container" data-topicId="{{ebook.id}}" data-scope="ebook">评论区</div>
     </div>
 {% endblock %}
 
 
 {% block aside %}
     {{ super() }}
+{% endblock %}
+
+{% block userdefinedfoot%}
+    <script src="/static/js/comment.js"></script>
 {% endblock %}

@@ -39,9 +39,7 @@
         <div class="movie-detail-intro">
             <h5>简介</h5>{{props.content}}
         </div>
-        <div>
-            <Comment topicId={{props.id}} scope="movie" />
-        </div>
+
     </article>
 {% endmacro %}
 
@@ -57,9 +55,7 @@
         <article>
             {{ _detail(movie) }}
         </article>
-        <div>
-            评论区：todo
-        </div>
+        <div id="react-comment-container" data-topicId="{{movie.id}}" data-scope="movie">评论区</div>
     </div>
 {% endblock %}
 
