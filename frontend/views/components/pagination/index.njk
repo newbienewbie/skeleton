@@ -5,18 +5,15 @@
     <nav>
         <ul class="pagination">
             {# 首数字 #}
-            {% if pagesInfo.shouldDisply %}
+            {% if pagesInfo.shouldDisplay %}
                 <li>
                     <a href="{{convertPageToHref(pagesInfo.firstDigit)}}"> << </a>
                 </li>
-            {% endif %}
+                {% for p in pagesInfo.array %}
+                    <li><a href="{{convertPageToHref(p)}}">{{p}}</a></li>
+                {% endfor %}
 
-            {% for p in pagesInfo.array %}
-                <li><a href="{{convertPageToHref(p)}}">{{p}}</a></li>
-            {% endfor %}
-
-            {# 尾数字 #}
-            {% if pagesInfo.shouldDisply %}
+                {# 尾数字 #}
                 <li>
                     <a href="{{convertPageToHref(pagesInfo.lastDigit)}}"> >> </a>
                 </li>
