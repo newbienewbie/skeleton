@@ -115,7 +115,7 @@ function listByReplyUnder(scope,topicId,replyUnder,page=1,size=10){
         limit:size,
         offset:(page-1)*size,
         order:[
-            ['createdAt','desc'],
+            ['createdAt','asc'],
         ],
         include:[
             {model:domain.user,as:'author'}
