@@ -9,6 +9,7 @@ const signupService=require('../service/account/signup-service.js');
 const express=require('express');
 const bodyParser=require('body-parser');
 const checker=require('../service/auth/authorization-checker.js');
+const userService=require('../service/account/user-service');
 
 
 const router=express.Router();
@@ -172,7 +173,23 @@ router.get('/user/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']),funct
         console.log(`读取用户列表错误:${e}`);
     });
 
+});
 
+
+/**
+ * 当前用户的profile
+ */
+router.use('/profile/me',checker.requireLogin(),function(req,res,next){
+    const authorId=req.session.userid;
+    userService.findById(authorId)
+        .then(user=>{
+            user=JSON.parse(JSON.stringify(user));
+            delete user.password;
+            res.end(JSON.stringify(user));
+        })
+        .catch(e=>{
+            console.log(`以id: ${id} 读取用户错误`,e);
+        })
 });
 
 /**
