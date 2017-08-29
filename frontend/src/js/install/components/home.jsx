@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Card,Row,Col,Button,Steps,Form,Input,Alert} from 'antd';
-import Request from './request.js';
+import Api from '../api';
 
 
 const Home=React.createClass({
@@ -31,7 +31,7 @@ const Home=React.createClass({
         this.setState({status:'process'},()=>{
             let current=0;
             // 创建数据库
-            Request.createDb()
+            Api.createDb()
                 .then(()=>{
                     //完成后，进入下一步骤
                     return this.promiseSetState({current:++current},);
@@ -40,14 +40,14 @@ const Home=React.createClass({
             .then(
                 ()=>{
                     const rootUser=this.state.rootUser;
-                    return Request.createRootUser(rootUser.username,rootUser.password,rootUser.email);
+                    return Api.createRootUser(rootUser.username,rootUser.password,rootUser.email);
                 }
             )
                 .then(()=>{
                     return this.promiseSetState({current:++current});
                 })
             .then(()=>{
-                return Request.initializeTable();
+                return Api.initializeTable();
             })
                 .then(()=>{
                     return this.promiseSetState({current:++current});
