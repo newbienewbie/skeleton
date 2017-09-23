@@ -42,4 +42,33 @@ export const Aside = React.createClass({
     }
 });
 
+
+
+export const AsideOfUserControl = React.createClass({
+    render: function () {
+        return (<Menu mode="inline">
+            <Menu.SubMenu key="user" title="用户">
+                <Menu.ItemGroup key="userGroup">
+                    <Menu.Item key="userList">
+                        <Link to="/user/list"> 列表</Link>
+                    </Menu.Item>
+                    <Menu.Item key="userInvite">
+                        <Link to="/user/invite"> 邀请 </Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
+            <Menu.SubMenu key="role" title="角色">
+                <Menu.ItemGroup key="roleGroup">
+                    <Menu.Item key="roleList">
+                        <Link to="/role/list"> 列表</Link>
+                    </Menu.Item>
+                    <Menu.Item key="roleCreate">
+                        <Link to="/role/create"> 创建 </Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
+        </Menu>);
+    }
+});
+
 export default Aside;
