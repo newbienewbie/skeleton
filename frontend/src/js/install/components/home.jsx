@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Card,Row,Col,Button,Steps,Form,Input,Alert} from 'antd';
-import Api from '../api';
+import Api from '../../api/install';
 
 
 const Home=React.createClass({
