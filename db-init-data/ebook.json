@@ -4618,5 +4618,66 @@
         "status": "draft",
         "createdAt": "2017-04-24",
         "updatedAt": "2017-04-24"
+    },
+    {
+        "id": 309,
+        "title": "编译原理(清华大学 第二版)",
+        "author": "吕映芝 张素琴 蒋维杜",
+        "description": "步至晴",
+        "isbn": "",
+        "category_id": 11,
+        "poster_url": "#",
+        "url": "ebook-init-files/编译原理 PL/《编译原理》 清华大学 吕映芝 张素琴 蒋维杜.pdf",
+        "note": null,
+        "uploaderId": 1,
+        "status": "draft",
+        "createdAt": "2017-04-24",
+        "updatedAt": "2017-04-24"
+    },
+    {
+        "id": 310,
+        "title": "编译原理(清华大学 第二版)习题答案",
+        "author": "吕映芝 张素琴 蒋维杜",
+        "description": "步至晴",
+        "isbn": "",
+        "category_id": 11,
+        "poster_url": "#",
+        "url": "ebook-init-files/编译原理 PL/《编译原理》清华大学（第二版）-答案.pdf",
+        "note": null,
+        "uploaderId": 1,
+        "status": "draft",
+        "createdAt": "2017-04-24",
+        "updatedAt": "2017-04-24"
+    },
+    {
+        "id": 311,
+        "title": "数据结构（c++语言版）第3版 清华大学",
+        "author": "邓俊辉",
+        "description": "步至晴",
+        "isbn": "",
+        "category_id": 26,
+        "poster_url": "#",
+        "url": "ebook-init-files/数据结构 算法/数据结构（c++语言版）  第3版 邓俊辉 清华.pdf",
+        "note": null,
+        "uploaderId": 1,
+        "status": "draft",
+        "createdAt": "2017-04-24",
+        "updatedAt": "2017-04-24"
+    },
+    {
+        "id": 312,
+        "title": "C程序设计语言（第2版·新版）",
+        "author": "魏登极",
+        "description": "步至晴",
+        "isbn": "",
+        "category_id": 18,
+        "poster_url": "#",
+        "url": "ebook-init-files/C CPP ASM/C程序设计语言（第2版·新版）.pdf",
+        "note": null,
+        "uploaderId": 1,
+        "status": "draft",
+        "createdAt": "2017-04-24",
+        "updatedAt": "2017-04-24"
     }
+
 ]
