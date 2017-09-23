@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 /**
  * Dashboard 的侧边栏
  */
-export const Aside = React.createClass({
+export const AsideOfConsole = React.createClass({
     render: function () {
         return (<Menu mode="inline">
             <Menu.SubMenu key='video' title="视频" >
@@ -71,4 +71,4 @@ export const AsideOfUserControl = React.createClass({
     }
 });
 
-export default Aside;
+export default AsideOfConsole;

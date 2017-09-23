@@ -3,7 +3,7 @@ import {Row,Col} from 'antd';
 import Add from './add/index.js';
 import Edit from './edit';
 import List from './list';
-import {Aside} from '../utils/aside.jsx';
+import {AsideOfConsole} from '../utils/aside.jsx';
 
 const Main=React.createClass({
 
@@ -11,7 +11,7 @@ const Main=React.createClass({
 
         return (<Row>
             <Col span={4}>
-                <Aside />
+                <AsideOfConsole />
             </Col>
             <Col span={20}>
                 <div className="container">
