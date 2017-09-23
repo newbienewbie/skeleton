@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router,Route,hashHistory,IndexRoute} from 'react-router';
-import Admin from './js/admin/components/admin.jsx';
+import Admin from './js/components/admin/admin.jsx';
 require('es6-promise').polyfill();
 
 ReactDOM.render(
