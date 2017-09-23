@@ -29,6 +29,9 @@ ReactDOM.render(
                 <Route path="/user/list" component={Admin.User.List} ></Route>
                 <Route path="/user/invite" component={Admin.User.Invite} ></Route>
             </Route>
+            <Route path="/role" component={Admin.Role.Main}>
+                <Route path="/role/create" component={Admin.Role.Add} ></Route>
+            </Route>
         </Route>
     </Router>),
     document.getElementById('app')
