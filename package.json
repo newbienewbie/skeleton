@@ -29,6 +29,7 @@
     "moment": "^2.18.1",
     "multer": "^1.1.0",
     "mysql": "^2.11.1",
+    "mysql2": "^1.4.2",
     "nodemailer": "^2.5.0",
     "nunjucks": "^2.5.2",
     "pagination-info": "^0.5.1",
@@ -37,7 +38,7 @@
     "react-dom": "^15.4.1",
     "react-router": "^2.6.1",
     "remarkable": "^1.6.2",
-    "sequelize": "^3.23.6",
+    "sequelize": "^4.10.2",
     "simple-react-ui": "^2.8.8",
     "whatwg-fetch": "^1.0.0"
   },
