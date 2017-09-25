@@ -129,6 +129,21 @@ function updateRolesOfUser(userId,roles=[]){
         });
 }
 
+/**
+ * 为某个用户设置角色列表
+ * @param {Integer} userId 
+ * @param {Array} roles 
+ */
+function updateRolesOfUsername(username,roles=[]){
+    return domain.user.findOne({where:{username}})
+        .then(user=>{
+            if(user){
+                return user.setRoles(roles);
+            }else{
+                return Promise.reject(`user with id ${userId} not found`);
+            }
+        });
+}
 
 
 
@@ -141,6 +156,7 @@ module.exports={
     listAll,
     load,
     updateRolesOfUser,
+    updateRolesOfUsername,
     addRolesForUser,
     removeRolesForUser,
 };
