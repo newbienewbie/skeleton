@@ -158,7 +158,7 @@ const UserRole=sequelize.define(
         userId: {
             type: Sequelize.INTEGER,
             field: 'user_id',
-            allowNull: false,
+            // allowNull: false,
             references:{
                 model:User,
                 key:'id',
@@ -168,7 +168,7 @@ const UserRole=sequelize.define(
         roleId: {
             type: Sequelize.INTEGER,
             field: 'role_id',
-            allowNull: false,
+            // allowNull: false,
             comment: '角色id',
             references:{
                 model:Role,
@@ -192,13 +192,21 @@ const RoleResource=sequelize.define(
         roleId:{
             type:Sequelize.INTEGER,
             field:'role_id',
-            allowNull:false,
+            // allowNull:false,
+            references:{
+                model:Role,
+                key:'id',
+            },
             comment:'角色id',
         },
         resourceId:{
             type:Sequelize.INTEGER,
             field:'resource_id',
-            allowNull:false,
+            // allowNull:false,
+            references:{
+                model:Resource,
+                key:'id',
+            },
             comment:'资源id',
         },
         description:{
