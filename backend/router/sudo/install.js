@@ -30,6 +30,28 @@ router.get('/create-db',function(req,res){
         );
 });
 
+/**
+ * 初始化核心基础表
+ */
+router.post('/init-core',function(req,res,next){
+    const info={ status:'SUCCESS', msg:'', }; 
+    installService.initCoreData()
+        .then(
+            ()=>{
+                res.end(JSON.stringify(info));
+            },
+            (reason)=>{
+                info.status="FAIL";
+                info.msg=reason;
+                res.end(JSON.stringify(info));
+            }
+        ).catch(e=>{
+            info.status="FAIL";
+            info.msg=e;
+            res.end(JSON.stringify(info));
+        });
+});
+
 
 /**
  * 安装网站之：创建根用户
@@ -61,7 +83,7 @@ router.post('/create-root-user',bodyParser.json(),function(req,res){
 
 router.post('/init-db',function(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
-    installService.initData()
+    installService.initPredefinedData()
         .then(
             ()=>{
                 res.end(JSON.stringify(info));
