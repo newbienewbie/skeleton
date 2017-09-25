@@ -18,6 +18,18 @@ function findById(roleId){
     return domain.role.findById(roleId);
 }
 
+/**
+ * find one role by role name
+ * @param {String} rolename 
+ */
+function findByName(rolename){
+    return domain.role.findOne({
+        where:{
+            name:rolename,
+        }
+    });
+}
+
 
 function remove(roleId){
     return domain.role.destroy({where:{id:roleId}});
@@ -125,6 +137,7 @@ function updateRolesOfUser(userId,roles=[]){
 module.exports={
     createRole,
     findById,
+    findByName,
     remove,
     listAll,
     load,
