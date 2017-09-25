@@ -7,8 +7,25 @@ const checker=require('../service/auth/authorization-checker');
 
 const router=express.Router();
 
+router.post('/create',bodyParser.json(),function(req,res){
+    const {name,description}=req.body;
+    if(!name || !description){
+        return res.end(JSON.stringify({
+            error:'name and description required',
+        }));
+    }
+    return roleService.createRole(name,description)
+        .then((role)=>{
+            res.end(JSON.stringify(role));
+        })
+        .catch(e=>{
+            res.end(JSON.stringify({
+                error:'错误',
+            }));
+            console.log(e);
+        });
+});
 
-router.use('/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']));
 router.use('/list',function(req,res){
     roleService.listAll()
         .then((roles)=>{
@@ -23,7 +40,6 @@ router.use('/list',function(req,res){
 });
 
 
-router.post('/update',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']));
 router.post('/update',bodyParser.json(),function(req,res){
     const info=req.body;
     const username=info.username;
@@ -33,7 +49,7 @@ router.post('/update',bodyParser.json(),function(req,res){
         status:'SUCCESS',
         msg:'',
     };
-    roleService.update(username,roles)
+    return roleService.updateRolesOfUsername(username,roles)
         .then(()=>{
             res.end(JSON.stringify(result));
         })
