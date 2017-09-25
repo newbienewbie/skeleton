@@ -11,23 +11,22 @@ describe('测试注册服务',function(){
         let username="test"+Math.ceil(Math.random()*1000000);
         let email=username+"@snp.virtual-host.email";
 
-        it('用户名应该不存在,账号可用',function(done){
+        it('用户名应该不存在,账号可用',function(){
             const accoutAvaible=false;
-            signupService.checkAccountAvailble(username,email)
+            return signupService.checkAccountAvailble(username,email)
                 .then(
                     (name)=>{
                         assert.equal(name,username);
-                        done();
                     },
                     (msg)=>{
-                        done(msg);
+                        return Promise.reject(msg);
                     }
                 );
         });
 
-        it('一旦用户名被注册，再次检查则不可用',function(done){
+        it('一旦用户名被注册，再次检查则不可用',function(){
             let userEnttiy={};    // 用于暂存创建的 user
-            domain.user.create({
+            return domain.user.create({
                 username:username,
                 email:email,
                 password:'password',
@@ -42,10 +41,10 @@ describe('测试注册服务',function(){
                     )
             })
             .then((msg)=>{ 
-                userEnttiy.destroy().then(()=>{done()}); 
+                return userEnttiy.destroy(); 
             })
             .catch(e=>{
-                userEnttiy.destroy().then(()=>{ done(e); });
+                return userEnttiy.destroy();
             }) ;
         })
 
@@ -54,18 +53,17 @@ describe('测试注册服务',function(){
 
     describe('测试 #checkInvitationCodeAvaible()',function(){
         
-        it('邀请码不存在，则不可用',function(done){
+        it('邀请码不存在，则不可用',function(){
             let activateCode="test"+Math.ceil(Math.random()*1000000);
-            signupService.checkInvitationCodeAvaible(activateCode)
+            return signupService.checkInvitationCodeAvaible(activateCode)
                 .then(
-                    ()=>{done('激活码不存在时理应reject！');},
+                    ()=>{return Promise.reject('激活码不存在时理应reject！');},
                     (msg)=>{
                         assert.ok(msg);
-                        done();
                     }
                 )
                 .catch(e=>{
-                    done(e);
+                    return Promise.reject(e);
                 });
         });
 
@@ -125,15 +123,14 @@ describe('测试注册服务',function(){
         const password = 'hello,world';
         const state = "active";
 
-        it('当activateCode无效，创建失败',function(done){
+        it('当activateCode无效，创建失败',function(){
             let activateCode="a45b9660-7691-11e6-a0ec-89eecebac3b7";
-            signupService.signup(username,password,email,activateCode)
+            return signupService.signup(username,password,email,activateCode)
                 .then(
-                    ()=>{done('理应创建失败')},
+                    ()=>{return Promise.reject('理应创建失败')},
                     (msg)=>{ 
                         // 用户名是随机产生的，基本上不会重复，但是激活码是不存在的，所以会触发reject动作
                         assert.equal(msg,"激活码不存在或者已经过期"); 
-                        done();
                     }
                 );
         });
