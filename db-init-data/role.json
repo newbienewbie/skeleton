@@ -1,1 +1,23 @@
-﻿[{"id":"ROLE_ADMIN","h_name":"管理员","description":"管理员","createdAt":"2016-09-29 10:17:07","updatedAt":"2016-09-29 10:17:10"},{"id":"ROLE_ROOT","h_name":"根用户","description":"超级管理员","createdAt":"2016-09-29 10:16:42","updatedAt":"2016-09-29 10:16:45"},{"id":"ROLE_USER","h_name":"普通用户","description":"普通用户","createdAt":"2016-09-29 10:18:22","updatedAt":"2016-09-29 10:18:24"}]
+﻿[
+    {
+        "id": "1",
+        "h_name": "根用户",
+        "description": "超级管理员",
+        "createdAt": "2016-09-29 10:16:42",
+        "updatedAt": "2016-09-29 10:16:45"
+    },
+    {
+        "id": "2",
+        "h_name": "管理员",
+        "description": "管理员",
+        "createdAt": "2016-09-29 10:17:07",
+        "updatedAt": "2016-09-29 10:17:10"
+    },
+    {
+        "id": "3",
+        "h_name": "普通用户",
+        "description": "普通用户",
+        "createdAt": "2016-09-29 10:18:22",
+        "updatedAt": "2016-09-29 10:18:24"
+    }
+]
