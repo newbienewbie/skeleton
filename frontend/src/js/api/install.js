@@ -37,6 +37,21 @@ export const createDb=()=>{
         );
 };
 
+export const initializeCore=()=>{
+    return client.post('/install/init-core')
+        .then(resp=>resp.data,(e)=>{throw e;})
+        .then(
+            info=>checkStatus(info),
+            (e)=>{
+                console.log(e);
+                throw {
+                    status:'FAIL',
+                    msg:e.toString(),
+                };
+            }
+        );
+};
+
 
 export const createRootUser=(username,password,email)=>{
     return client.post('/install/create-root-user',{
@@ -70,6 +85,7 @@ export const initializeTable=()=>{
 
 export default {
     createDb,
+    initializeCore,
     createRootUser,
     initializeTable,
 };

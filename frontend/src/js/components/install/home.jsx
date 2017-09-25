@@ -36,6 +36,17 @@ const Home=React.createClass({
                     //完成后，进入下一步骤
                     return this.promiseSetState({current:++current},);
                 })
+            // 填充核心信息
+            .then(
+                ()=>{
+                    const rootUser=this.state.rootUser;
+                    return Api.initializeCore();
+                }
+            )
+                .then(()=>{
+                    return this.promiseSetState({current:++current});
+                })
+
             // 创建根用户
             .then(
                 ()=>{
@@ -88,8 +99,9 @@ const Home=React.createClass({
                     <Card title="安装进度">
                         <Steps direction="vertical" current={this.state.current} status={this.state.status}>
                             <Steps.Step title="安装数据库" description="数据库安装" />
+                            <Steps.Step title="初始化核心数据" description="填充角色表等" />
                             <Steps.Step title="创建超级管理员" description="安装超级管理员" />
-                            <Steps.Step title="填充基本的数据" description="填充角色表、语言表、国家表" />
+                            <Steps.Step title="填充基本的数据" description="填充语言表、国家表等" />
                             <Steps.Step title="完成" description="" />
                         </Steps>
                     </Card>
