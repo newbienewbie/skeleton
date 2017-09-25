@@ -164,6 +164,7 @@ router.get('/user/list',function(req,res){
             ['id','desc'],
         ],
         attributes:['id','username','email','state','createdAt','updatedAt'],
+        include:["roles"],
     })
     .then(info=>{
         res.end(JSON.stringify(info));
