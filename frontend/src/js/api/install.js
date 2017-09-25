@@ -54,13 +54,15 @@ export const initializeCore=()=>{
 
 
 export const createRootUser=(username,password,email)=>{
-    return client.post('/install/create-root-user',{
-        headers:{
-            'Content-Type':'application/json',
-        },
-        data:JSON.stringify({username,password,email}),
-    })
-    .then(resp=>resp.data,(e)=>{throw e;})
+    return client.post('/install/create-root-user',
+        JSON.stringify({username,password,email}),
+        {
+            headers:{
+                'Content-Type':'application/json',
+            },
+            
+        }
+    ).then(resp=>resp.data,(e)=>{throw e;})
     .then(info=>checkStatus(info))
     ;
 };
