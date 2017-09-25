@@ -50,24 +50,23 @@ function listAll(){
  *     成功则resolve({username,roles})
  *     失败则reject(reason)
  */
-function load(username){
-    return new Promise(function(resolve,reject){
-        domain.user.find({
+function load(username,req){
+    return domain.user.find({
             where: { username: username }
-        }).then( (user)=>{
+        })
+        .then( (user)=>{
             if (user) {
                 req.session.userid=user.id;
                 req.session.username = user.username;
-                req.session.roles = JSON.parse(user.roles) || [];
-                resolve({
-                    username:username,
-                    roles:user.roles,
-                });
+                return user.getRoles()
+                    .then(roles=>{
+                        req.session.roles =roles.map(r=>r.toJSON());
+                        return Promise.resolve({ username:user.username, roles, });
+                    });
             } else {
-                reject(`the user with ${username} not found`);
+                return Promise.reject(`the user with ${username} not found`);
             }
         });
-    });
 }
 
 
