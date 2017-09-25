@@ -151,7 +151,7 @@ router.get('/invite',(req,res)=>{
 /**
  * 列出用户信息
  */
-router.get('/user/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']),function(req,res){
+router.get('/user/list',function(req,res){
     let page=parseInt(req.query.page?req.query.page:1);
     page=page>0?page:1;
     let size=parseInt(req.query.size?req.query.size:10);
@@ -163,7 +163,7 @@ router.get('/user/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']),funct
         order:[
             ['id','desc'],
         ],
-        attributes:['id','username','email','roles','state','createdAt','updatedAt'],
+        attributes:['id','username','email','state','createdAt','updatedAt'],
     })
     .then(info=>{
         res.end(JSON.stringify(info));
