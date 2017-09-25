@@ -7,7 +7,7 @@ const client=axios.create({
 
 
 export function createRole(name,description){
-    return client.post('',{
+    return client.post('/role/create',{
         headers:{
             'Content-Type':'application/json',
         },
@@ -16,6 +16,16 @@ export function createRole(name,description){
 }
 
 
+export function listRolesOfCurrentUser(){
+    return client.post('/role/list',{
+        headers:{
+            'Content-Type':'application/json',
+        },
+    }).then(resp=>resp.data,e=>{throw e;});
+}
+
+
 export default {
     createRole,
+    listRolesOfCurrentUser,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card,Transfer,Button,message} from 'antd';
 import 'whatwg-fetch';
-
+import {listRolesOfCurrentUser,createRole} from '../../../../api/admin';
 
 
 /**
@@ -26,11 +26,7 @@ const RoleManager=React.createClass({
     },
 
     fetchAllRoles:function(){
-        return fetch('/role/list',{
-            credentials: 'same-origin',
-        })
-        .then(resp=>resp.json())
-        .then(roles=>{
+        return listRolesOfCurrentUser().then(roles=>{
             this.setState({
                 dataSource:roles.map(r=>{
                     return {
@@ -57,11 +53,11 @@ const RoleManager=React.createClass({
             return;
         }else{
             let roles=nextProps.record.roles;
-            let targetKeys=typeof roles =="object"? roles: JSON.parse(roles);
-            Promise.all([
-                this.setState({ targetKeys}),
-                this.fetchAllRoles()
-            ]);
+            let targetKeys= roles.map(r=>r.id);
+            return this.fetchAllRoles()
+                .then(_=>{
+                    this.setState({ targetKeys})
+                });
         }
     },
 
