@@ -228,7 +228,7 @@ User.belongsToMany(Role,{
     foreignKey:'user_id',
     otherKey:'role_id',
 });
-Role.belongsTo(User,{
+Role.belongsToMany(User,{
     through: UserRole,
     foreignKey:'role_id',
     otherKey:'user_id',
