@@ -2,6 +2,7 @@ const express=require('express');
 const bodyParser=require('body-parser');
 const roleService=require('../service/account/role-service.js');
 const checker=require('../service/auth/authorization-checker');
+const helper=require('../utils/helper');
 
 
 
@@ -26,8 +27,11 @@ router.post('/create',bodyParser.json(),function(req,res){
         });
 });
 
-router.use('/list',function(req,res){
-    roleService.listAll()
+router.post('/list',bodyParser.json(),function(req,res){
+    let {page,size,condition}=req.body;
+    page=helper.toPositiveInteger(page);
+    size=helper.toPositiveInteger(size);
+    roleService.list(page,size,condition)
         .then((roles)=>{
             res.end(JSON.stringify(roles));
         })
@@ -37,6 +41,16 @@ router.use('/list',function(req,res){
             }));
             console.log(e);
         });
+});
+
+router.post("/list-of-current-user",bodyParser.json(),function(req,res){
+    let {page,size,condition}=req.body;
+    page=helper.toPositiveInteger(page);
+    size=helper.toPositiveInteger(size);
+    roleService.listRolesOfUser(req.session.userid,page,size)
+        .then((list)=>{
+            console.log(list);
+        })
 });
 
 
