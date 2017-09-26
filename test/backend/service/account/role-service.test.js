@@ -30,7 +30,7 @@ describe('测试role-service',function(){
             });
     });
 
-    it('#addRoleForUser()',function(){
+    it('#addRoleForUser() #listRolesOfUser() #removeRolesForUser',function(){
         return domain.user.create({username:'x7',password:'x7',email:'x7',state:'a'})
             .then(user=>{
                 const _ = 111;
@@ -38,7 +38,7 @@ describe('测试role-service',function(){
                     .then(function (role) {
                         return user.addRoles([role])
                             .then(_=>{
-                                return user.getRoles()
+                                return roleService.listRolesOfUser(user.id)
                                     .then(roles=>roles.map(r=>r.id))
                                     .then(roles=>{
                                         assert.ok(roles.some(r=>r==role.id));

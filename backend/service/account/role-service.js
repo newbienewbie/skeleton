@@ -40,8 +40,12 @@ function remove(roleId){
 /**
  * 列出所有的角色集合
  */
-function listAll(){
-    return domain.role.findAll();
+function list(page=1,size=10,condition={}){
+    return domain.role.findAll({
+        where:condition,
+        offset:(page-1)*size,
+        limit:size,
+    });
 }
 
 
@@ -100,14 +104,27 @@ function removeRolesForUser(userId,roles){
 
 /**
  * 获取某个用户的当前角色列表
- * @param {Integer} userId 
- * @param {Array} roles 
+ * @param {Number} userId 
+ * @param {Number} page 
+ * @param {Number} size 
+ * @param {Object} condition 
  */
-function getRolesOfUser(userId){
-    return domain.user.find({
-        where:{
-            id:userId,
-        },
+function listRolesOfUser(userId,page=1,size=8,condition={}){
+
+    return domain.role.findAll({
+        where:condition,
+        offset:(page-1)*size,
+        limit:size,
+        include:[
+            {
+                model:domain.user,
+                through:{
+                    where:{ 
+                        userId:1, 
+                    }
+                },
+            }
+        ],
     });
 }
 
@@ -153,8 +170,9 @@ module.exports={
     findById,
     findByName,
     remove,
-    listAll,
+    list,
     load,
+    listRolesOfUser,
     updateRolesOfUser,
     updateRolesOfUsername,
     addRolesForUser,
