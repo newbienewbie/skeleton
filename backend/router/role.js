@@ -27,6 +27,26 @@ router.post('/create',bodyParser.json(),function(req,res){
         });
 });
 
+router.post('/update',bodyParser.json(),function(req,res){
+    const {id,name,description}=req.body;
+    if(!id || !name ||!description){
+        return res.end(JSON.stringify({
+            error:'id , name and description required',
+        }));
+    }
+    return roleService.update(id,{name,description})
+        .then(role=>{
+            res.end(JSON.stringify(role));
+        })
+        .catch(e=>{
+            res.end(JSON.stringify({
+                status:"FAIL",
+                error:'error happens',
+            }));
+            console.log(e);
+        });
+});
+
 router.post('/list',bodyParser.json(),function(req,res){
     let {page,size,condition}=req.body;
     page=helper.toPositiveInteger(page);
