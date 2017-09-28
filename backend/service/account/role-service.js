@@ -36,6 +36,17 @@ function remove(roleId){
 }
 
 
+/**
+ * 更新角色本身信息
+ * @param {Number} roleId 
+ * @param {Object} newRole 
+ */
+function update(roleId,newRole){
+    delete newRole.id;
+    return domain.role.update(newRole,{
+        where:{ id:roleId, }
+    });
+}
 
 /**
  * 列出所有的角色集合
@@ -170,6 +181,7 @@ module.exports={
     findById,
     findByName,
     remove,
+    update,
     list,
     load,
     listRolesOfUser,
