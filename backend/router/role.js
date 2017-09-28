@@ -54,7 +54,7 @@ router.post("/list-of-current-user",bodyParser.json(),function(req,res){
 });
 
 
-router.post('/update',bodyParser.json(),function(req,res){
+router.post('/update-roles-of-username',bodyParser.json(),function(req,res){
     const info=req.body;
     const username=info.username;
     const roles=info.roles;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card,Transfer,Button,message} from 'antd';
 import 'whatwg-fetch';
-import {listRolesOfCurrentUser,createRole} from '../../../../api/admin';
+import {listRolesOfCurrentUser,updateRolesOfUsername,createRole} from '../../../../api/admin';
 
 
 /**
@@ -77,24 +77,16 @@ const RoleManager=React.createClass({
 
             <div>
                 <Button type="primary" onClick={()=>{
-                    fetch('/role/update',{
-                        method:'POST',
-                        headers: {
-                            "Content-Type": 'application/json',
-                        },
-                        credentials: 'same-origin',
-                        body:JSON.stringify({
-                            username:this.props.record.username,
-                            roles:this.state.targetKeys,
+                    const username=this.props.record.username;
+                    const roles=this.state.targetKeys;
+                    updateRolesOfUsername(username,roles)
+                        .then((resp)=>{
+                            if(resp.status=="SUCCESS"){
+                                message.info('修改角色成功');
+                            }else{
+                                message.error(`操作失败：${resp.msg}`);
+                            }
                         })
-                    }).then(resp=>resp.json())
-                    .then((resp)=>{
-                        if(resp.status=="SUCCESS"){
-                            message.info('修改角色成功');
-                        }else{
-                            message.error(`操作失败：${resp.msg}`);
-                        }
-                    })
                 }}>
                     确定
                 </Button>
