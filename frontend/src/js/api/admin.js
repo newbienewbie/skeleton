@@ -18,6 +18,17 @@ export function createRole(name,description){
 }
 
 
+export function updateRole(id,name,description){
+    return client.post('/role/update',
+        JSON.stringify({id,name,description}),
+        {
+            headers:{
+                'Content-Type':'application/json',
+            }
+        },
+    ).then(resp=>resp.data,(e)=>{throw e;});
+}
+
 export function listRoles(page=1,size=8,condition={}){
     return client.post('/role/list',
         JSON.stringify({page,size,condition}),
@@ -54,6 +65,7 @@ export function updateRolesOfUsername(username,roles){
 
 export default {
     createRole,
+    listRoles,
     listRolesOfCurrentUser,
     updateRolesOfUsername,
 };
