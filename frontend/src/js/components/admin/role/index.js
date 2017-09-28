@@ -2,7 +2,7 @@ import React from 'react';
 import {Row,Col} from 'antd';
 import {AsideOfUserControl} from '../utils/aside.jsx';
 import {Add} from './add';
-
+import {List} from './list';
 
 class Main extends React.Component{
 
@@ -20,4 +20,4 @@ class Main extends React.Component{
 
 
 
-export default {Main,Add};
+export default {Main,Add,List};

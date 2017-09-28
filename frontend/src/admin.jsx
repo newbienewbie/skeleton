@@ -30,6 +30,7 @@ ReactDOM.render(
                 <Route path="/user/invite" component={Admin.User.Invite} ></Route>
             </Route>
             <Route path="/role" component={Admin.Role.Main}>
+                <Route path="/role/list" component={Admin.Role.List} ></Route>
                 <Route path="/role/create" component={Admin.Role.Add} ></Route>
             </Route>
         </Route>
