@@ -1,5 +1,5 @@
 import React from 'React';
-import {Form,message,Input,Button} from 'antd';
+import {Form,message,Input,Button,Modal} from 'antd';
 
 
 class PlainAddOrEditForm extends React.Component{
@@ -14,19 +14,12 @@ class PlainAddOrEditForm extends React.Component{
         const hasErrors=(fieldsError)=>Object.keys(fieldsError).some(field => fieldsError[field]);
         const FormItem=Form.Item;
         return (
-        <Form onSubmit={e=>{
-            e.preventDefault();
-            validateFields((err, values) => {
-                if (!err) {
-                    console.log(values);
-                    console.log(this.props.url);
-                }
-            });
-        }}>
+        <Form >
             <FormItem label='角色名' validateStatus={hasFieldError('name')} help={hasFieldError('name')||''} >
             {
                 getFieldDecorator('name',{
                     rules:[{required:true,message:'角色名必填'}],
+                    initialValue:this.props.initialValues.name,
                 })(
                     <Input placeholder='角色名' />
                 )
@@ -37,21 +30,52 @@ class PlainAddOrEditForm extends React.Component{
             {
                 getFieldDecorator('description',{
                     rules:[{required:true,message:'角色描述必填'}],
+                    initialValue:this.props.initialValues.description,
                 })(
                     <Input placeholder='description' />
                 )
             }
             </FormItem>
         
-            <FormItem>
-                <Button htmlType='submit' type="primary" size="large" disabled={hasErrors(getFieldsError())}>Submit</Button>
-            </FormItem>
         </Form>);
         
     }
 }
 
 PlainAddOrEditForm.defaultProps={
+    initialValues:{
+        name:'',
+        description:'',
+    },
 };
 
-export const AddOrEditForm=Form.create()(PlainAddOrEditForm);
+
+class PlainAddOrEditFormWithSubmitButton extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return <div>
+            <PlainAddOrEditForm form={this.props.form} initialValues={this.props.initialValues}/>
+            <Button htmlType="submit" type="primary" onClick={this.props.onOk}> 提交 </Button>
+        </div>;
+    }
+}
+
+class PlainAddOrEditFormWithModal extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return <Modal title="Title" okText="提交" cancelText="取消"
+            visible={this.props.visible} data={this.props.data}
+            onOk={this.props.onOk} onCancel={this.props.onCancel}
+        >
+            <PlainAddOrEditForm form={this.props.form} initialValues={this.props.initialValues} />
+        </Modal>
+        ;
+    }
+}
+
+export const AddOrEditForm=Form.create()(PlainAddOrEditFormWithSubmitButton);
+export const AddOrEditFormModal=Form.create()(PlainAddOrEditFormWithModal);
