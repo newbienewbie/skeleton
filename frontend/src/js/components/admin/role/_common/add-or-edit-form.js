@@ -2,7 +2,7 @@ import React from 'React';
 import {Form,message,Input,Button,Modal} from 'antd';
 
 
-class PlainAddOrEditForm extends React.Component{
+export class PlainAddOrEditForm extends React.Component{
     constructor(props){
         super(props);
     }
@@ -48,34 +48,3 @@ PlainAddOrEditForm.defaultProps={
         description:'',
     },
 };
-
-
-class PlainAddOrEditFormWithSubmitButton extends React.Component{
-    constructor(props){
-        super(props);
-    }
-    render(){
-        return <div>
-            <PlainAddOrEditForm form={this.props.form} initialValues={this.props.initialValues}/>
-            <Button htmlType="submit" type="primary" onClick={this.props.onOk}> 提交 </Button>
-        </div>;
-    }
-}
-
-class PlainAddOrEditFormWithModal extends React.Component{
-    constructor(props){
-        super(props);
-    }
-    render(){
-        return <Modal title="Title" okText="提交" cancelText="取消"
-            visible={this.props.visible} data={this.props.data}
-            onOk={this.props.onOk} onCancel={this.props.onCancel}
-        >
-            <PlainAddOrEditForm form={this.props.form} initialValues={this.props.initialValues} />
-        </Modal>
-        ;
-    }
-}
-
-export const AddOrEditForm=Form.create()(PlainAddOrEditFormWithSubmitButton);
-export const AddOrEditFormModal=Form.create()(PlainAddOrEditFormWithModal);

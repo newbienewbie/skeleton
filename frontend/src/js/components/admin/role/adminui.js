@@ -1,8 +1,108 @@
 import React from 'react'; 
-import {Row,Col,Table,Modal,Popconfirm,message,Form} from 'antd';
+import {Row,Col,Table,Modal,Popconfirm,message,Form,Button} from 'antd';
 
+/**
+ * 默认提供的 DecoratedFormComponent 对象，提供工厂函数，用于创建普通AddOrEdit表单、和带Modal表单
+ */
+export const defaultDecoratedForm={
+
+    /**
+     * 工厂函数，用于创建装饰过的 AddOrEditForm 表单
+     */
+    createDecoratedAddOrEditForm:function(PlainAddOrEditForm){
+
+        class PlainAddOrEditFormWithSubmitButton extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return <div>
+                    <PlainAddOrEditForm form={this.props.form} initialValues={this.props.initialValues}/>
+                    <Button htmlType="submit" type="primary" onClick={this.props.onOk}> 提交 </Button>
+                </div>;
+            }
+        }
+
+        return Form.create()(PlainAddOrEditFormWithSubmitButton);
+    },
+
+    /**
+     * 工厂函数，用于创建装饰过的 AddOrEditFormModal 表单
+     */
+    createDecoratedAddOrEditFormModal:function(PlainAddOrEditForm){
+
+        class PlainAddOrEditFormWithModal extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return <Modal title="Title" okText="提交" cancelText="取消"
+                    visible={this.props.visible} data={this.props.data}
+                    onOk={this.props.onOk} onCancel={this.props.onCancel}
+                >
+                    <PlainAddOrEditForm form={this.props.form} initialValues={this.props.initialValues} />
+                </Modal>
+                ;
+            }
+        }
+        return Form.create()(PlainAddOrEditFormWithModal);
+    }
+};
+
+
+
+/**
+ * AddForm
+ */
+export const addform={
+
+    /**
+     * 工厂函数，生成一个 AddForm 组件
+     */
+    create:function(model,AddOrEditForm){
+
+        class AddForm extends React.Component{
+            constructor(props){
+                super(props);
+                this.formRef=null;
+                // bind `this`
+                this.onOk=this.onOk.bind(this);
+            }
+
+            onOk(){
+                return this.formRef.validateFields((err,value)=>{
+                    if(!err){
+                        model.methods.create(value)
+                            .then(resp=>{
+                                message.success(`创建成功`);
+                                this.formRef.resetFields();
+                            })
+                            .catch(e=>{
+                                message.error(`失败`+e);
+                            });
+                    }
+                });
+            }
+        
+            render() {
+                return <AddOrEditForm ref={form=>this.formRef=form} onOk={this.onOk} /> ;
+            }
+        }
+
+        return AddForm;
+    },
+};
+
+
+
+/**
+ * Datagrid
+ */
 export const datagrid={
 
+    /**
+     * 工厂函数，生成一个 Datagrid 组件
+     */
     create:function(model,AddOrEditFormModal){
 
         class List extends React.Component{
@@ -124,37 +224,3 @@ export const datagrid={
 
 };
 
-export const addform={
-    create:function(model,AddOrEditForm){
-
-        class AddForm extends React.Component{
-            constructor(props){
-                super(props);
-                this.formRef=null;
-                // bind `this`
-                this.onOk=this.onOk.bind(this);
-            }
-
-            onOk(){
-                return this.formRef.validateFields((err,value)=>{
-                    if(!err){
-                        model.methods.create(value)
-                            .then(resp=>{
-                                message.success(`创建成功`);
-                                this.formRef.resetFields();
-                            })
-                            .catch(e=>{
-                                message.error(`失败`+e);
-                            });
-                    }
-                });
-            }
-        
-            render() {
-                return <AddOrEditForm ref={form=>this.formRef=form} onOk={this.onOk} /> ;
-            }
-        }
-
-        return AddForm;
-    },
-};

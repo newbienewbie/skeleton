@@ -1,10 +1,10 @@
 import React from 'react';
 import {Row,Col,message} from 'antd';
-import {AddOrEditForm} from './_common/add-or-edit-form';
+import {PlainAddOrEditForm} from './_common/add-or-edit-form';
 import {model} from './_common/model';
-import {addform} from "./adminui";
+import {defaultDecoratedForm,addform} from "./adminui";
 
-
+const AddOrEditForm=defaultDecoratedForm.createDecoratedAddOrEditForm(PlainAddOrEditForm);
 
 const AddForm=addform.create(model,AddOrEditForm);
 
