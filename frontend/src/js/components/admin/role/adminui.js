@@ -110,3 +110,38 @@ export const datagrid={
     },
 
 };
+
+export const addform={
+    create:function(model,AddOrEditForm){
+
+        class AddForm extends React.Component{
+            constructor(props){
+                super(props);
+                this.formRef=null;
+                // bind `this`
+                this.onOk=this.onOk.bind(this);
+            }
+
+            onOk(){
+                return this.formRef.validateFields((err,value)=>{
+                    if(!err){
+                        model.methods.create(value)
+                            .then(resp=>{
+                                message.success(`创建成功`);
+                                this.formRef.resetFields();
+                            })
+                            .catch(e=>{
+                                message.error(`失败`+e);
+                            });
+                    }
+                });
+            }
+        
+            render() {
+                return <AddOrEditForm ref={form=>this.formRef=form} onOk={this.onOk} /> ;
+            }
+        }
+
+        return AddForm;
+    },
+};
