@@ -52,7 +52,7 @@ function update(roleId,newRole){
  * 列出所有的角色集合
  */
 function list(page=1,size=10,condition={}){
-    return domain.role.findAll({
+    return domain.role.findAndCount({
         where:condition,
         offset:(page-1)*size,
         limit:size,
