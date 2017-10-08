@@ -10,17 +10,44 @@ export const datagrid={
             constructor(props){
                 super(props);
                 this.state={
-                data:[],
-                    pagination:{},
-                    loading:true,
-                    editModalVisible:false,
-                    currentRecord:{},
+                    data:[],                   // 当前数据源
+                    pagination:{},             // 当前分页
+                    loading:true,              // 表格是否正在加载，用于控制动画
+                    currentRecord:{},          // 执行操作时的当前行记录
+                    editModalVisible:false,    // 编辑表单是否可见
                 };
+                // 对 编辑表单组件 的引用
                 this.editForm=null;
-                // bind function to this
+                // bind `this`
+                this.onTableChange=this.onTableChange.bind(this);
                 this.onRemove=this.onRemove.bind(this);
                 this.onEditFormSubmit=this.onEditFormSubmit.bind(this);
                 this.onEditFormCancel=this.onEditFormCancel.bind(this);
+            }
+
+            /**
+             * 当表单发生分页变化、过滤器变化、或者排序器变化时，应该从服务器重新加载数据
+             * @param {*} pagination 
+             * @param {*} filters 
+             * @param {*} sorter 
+             */
+            onTableChange(pagination, filters={}, sorter={}) {
+
+                // const pager = Object.assign({},this.state.pagination);
+                // pager.current = pagination.current;
+                // this.setState({ pagination: pager, });
+
+                const {pageSize,current}=pagination;
+                
+                return model.methods.list(pageSize,current /* ,condition */)
+                    .then(result=>{
+                        const {count,rows}=result;
+
+                        const pagination = Object.assign({}, this.state.pagination );
+                        pagination.total = count;
+
+                        this.setState({ loading: false, data: rows, pagination, });
+                    });
             }
 
             onRemove(record){
@@ -31,12 +58,7 @@ export const datagrid={
                     })
                     // 刷新数据源
                     .then(_=>{
-                        const {current,pageSize,}=this.state.pagination;
-                        return model.methods.list(current,pageSize);
-                    })
-                    .then(models=>{
-                        const dataSource=models.map((r,i)=>Object.assign({},r,{key:i}));
-                        this.setState({data:dataSource,loading:false});
+                        return this.onTableChange(this.state.pagination);
                     });
             }
 
@@ -50,12 +72,7 @@ export const datagrid={
                                 console.log(resp);
                                 this.setState({editModalVisible:false},()=>{
                                     // 刷新数据源
-                                    const {current,pageSize,}=this.state.pagination;
-                                    return model.methods.list(current,pageSize)
-                                        .then(models=>{
-                                            const dataSource=models.map((r,i)=>Object.assign({},r,{key:i}));
-                                            this.setState({data:dataSource,loading:false});
-                                        });
+                                    this.onTableChange(this.state.pagination);
                                 });
                             })
                     }
@@ -69,18 +86,14 @@ export const datagrid={
 
             componentDidMount(){
                 this.setState({loading:true},()=>{
-                    const {current,pageSize}=this.state.pagination;
-                    return model.methods.list(current,pageSize).then(models=>{
-                        const dataSource=models.map((r,i)=> Object.assign({},r,{key:i}) );
-                        this.setState({data:dataSource,loading:false});
-                    });
+                    return this.onTableChange(this.state.pagination);
                 });
             }
             render() {
                 const {Column,ColumnGroup}=Table;
                 const fields=model.fields;
                 return (<div>
-                <Table dataSource={this.state.data} pagination={this.state.pagination} loading={this.state.loading} onChange={this.state.onChange} >
+                <Table dataSource={this.state.data} pagination={this.state.pagination} loading={this.state.loading} onChange={this.onTableChange} >
                     { Object.keys(fields).map(k=>{
                         const field=fields[k];
                         return <Column title={field.title} key={k} dataIndex={k} />;
