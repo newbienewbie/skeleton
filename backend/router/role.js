@@ -27,6 +27,23 @@ router.post('/create',bodyParser.json(),function(req,res){
         });
 });
 
+router.post('/remove',bodyParser.json(),function(req,res){
+    const {id}=req.body;
+    if(!id ){
+        return res.end(JSON.stringify({
+            error:'id required',
+        }));
+    }
+    return roleService.remove(id)
+        .then(_=>{
+            res.end(JSON.stringify({status:'SUCCESS',msg:""}));
+        })
+        .catch(e=>{
+            res.end(JSON.stringify({ status:"FAIL",msg:'错误', }));
+            console.log(e);
+        });
+});
+
 router.post('/update',bodyParser.json(),function(req,res){
     const {id,name,description}=req.body;
     if(!id || !name ||!description){
