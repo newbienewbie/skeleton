@@ -2,7 +2,7 @@ import React from 'react';
 import {Row,Col,Table,Modal,Popconfirm,message} from 'antd';
 import {listRoles,listRolesOfCurrentUser,updateRole} from '../../../api/admin';
 import {AddOrEditFormModal} from './_common/add-or-edit-form';
-import {datagrid} from "./datagrid";
+import {datagrid} from "./adminui";
 import {model} from './_common/model';
 
 
