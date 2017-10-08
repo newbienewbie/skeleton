@@ -17,6 +17,17 @@ export function createRole(name,description){
     ).then(resp=>resp.data,(e)=>{throw e;});
 }
 
+export function removeRole(id){
+    return client.post('/role/remove',
+        JSON.stringify({id}),
+        {
+            headers:{
+                'Content-Type':'application/json',
+            }
+        },
+    ).then(resp=>resp.data,(e)=>{throw e;});
+}
+
 
 export function updateRole(id,name,description){
     return client.post('/role/update',
