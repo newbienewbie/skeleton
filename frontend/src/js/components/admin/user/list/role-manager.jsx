@@ -25,7 +25,9 @@ const RoleManager=React.createClass({
     },
 
     fetchAllRoles:function(){
-        return listRolesOfCurrentUser().then(roles=>{
+        return listRolesOfCurrentUser().then(result=>{
+            const count=result.count;
+            const roles=result.rows;
             this.setState({
                 dataSource:roles.map(r=>{
                     return {
