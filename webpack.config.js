@@ -15,6 +15,10 @@ module.exports={
         path:PATHS.build,
         filename:"[name].js",
     },
+    externals:{
+        "react":"React",
+        "react-dom":"ReactDOM",
+    },
     module:{
         loaders:[
             {
