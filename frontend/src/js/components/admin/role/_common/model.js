@@ -12,7 +12,10 @@ const model={
         },
     },
     methods:{
-        create:createRole,
+        create:function(record){
+            const {name,description}=record;
+            return createRole(name,description);
+        },
         remove:removeRole,
         update:function(id,record){
             const{name,description}=record;

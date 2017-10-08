@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row,Col,message} from 'antd';
 import {AddOrEditForm} from './_common/add-or-edit-form';
-import {createRole} from '../../../api/admin';
+import {model} from './_common/model';
 
 
 export class Add extends React.Component{
@@ -15,8 +15,7 @@ export class Add extends React.Component{
             <AddOrEditForm ref={form=>this.formRef=form} onOk={_=>{
                 this.formRef.validateFields((err,value)=>{
                     if(!err){
-                        const {name,description}=value;
-                        createRole(name,description)
+                        model.methods.create(value)
                             .then(resp=>{
                                 message.success(`创建成功`);
                                 this.formRef.resetFields();
