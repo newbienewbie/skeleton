@@ -39,7 +39,7 @@ export const datagrid={
 
                 const {pageSize,current}=pagination;
                 
-                return model.methods.list(pageSize,current /* ,condition */)
+                return model.methods.list(current,pageSize /* ,condition */)
                     .then(result=>{
                         const {count,rows}=result;
 
