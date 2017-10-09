@@ -1,13 +1,9 @@
 import {API} from 'tiny-api';
 
-import axios from 'axios';
-
-const client=axios.create({
-    withCredentials: true,
-});
-
 export const roleapi=API('role');
+export const resourceapi=API('resource');
 
+const client=roleapi.getTransport();
 
 export function listRolesOfCurrentUser(page=1,size=8,condition={}){
     return client.post('/role/list',
