@@ -1,5 +1,6 @@
-import {createRole,removeRole,updateRole,listRoles} from '../../../../api/admin';
+import {roleapi} from '../../../../api/admin';
 
+const {create,remove,update,list}=roleapi;
 
 const model={
     name:"role",
@@ -12,16 +13,10 @@ const model={
         },
     },
     methods:{
-        create:function(record){
-            const {name,description}=record;
-            return createRole(name,description);
-        },
-        remove:removeRole,
-        update:function(id,record){
-            const{name,description}=record;
-            return updateRole(id,name,description);
-        },
-        list:listRoles,
+        create,
+        remove,
+        update,
+        list,
     }
 };
 

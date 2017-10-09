@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card,Transfer,Button,message} from 'antd';
-import {listRolesOfCurrentUser,updateRolesOfUsername,createRole} from '../../../../api/admin';
+import {listRolesOfCurrentUser,updateRolesOfUsername,roleapi} from '../../../../api/admin';
 
 
 /**
