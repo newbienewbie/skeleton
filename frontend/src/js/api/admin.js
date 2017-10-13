@@ -30,6 +30,7 @@ export function updateRolesOfUsername(username,roles){
 
 export default {
     roleapi,
+    resourceapi,
     listRolesOfCurrentUser,
     updateRolesOfUsername,
 };

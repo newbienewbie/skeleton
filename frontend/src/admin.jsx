@@ -33,6 +33,10 @@ ReactDOM.render(
                 <Route path="/role/list" component={Admin.Role.List} ></Route>
                 <Route path="/role/create" component={Admin.Role.Add} ></Route>
             </Route>
+            <Route path="/resource" component={Admin.Resource.Main}>
+                <Route path="/resource/list" component={Admin.Resource.List} ></Route>
+                <Route path="/resource/create" component={Admin.Resource.Add} ></Route>
+            </Route>
         </Route>
     </Router>),
     document.getElementById('app')

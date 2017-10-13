@@ -67,6 +67,16 @@ export const AsideOfUserControl = React.createClass({
                     </Menu.Item>
                 </Menu.ItemGroup>
             </Menu.SubMenu>
+            <Menu.SubMenu key="resource" title="资源管理">
+                <Menu.ItemGroup key="resourceGroup">
+                    <Menu.Item key="resourceList">
+                        <Link to="/resource/list"> 列表</Link>
+                    </Menu.Item>
+                    <Menu.Item key="resourceCreate">
+                        <Link to="/resource/create"> 创建 </Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
         </Menu>);
     }
 });

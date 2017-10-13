@@ -7,6 +7,7 @@ import User from './user/main.jsx';
 import Ebook from './ebook';
 import {Home} from './home.jsx';
 import Role from './role';
+import Resource from './resource';
 
 /**
  * 初始化message，全局配置
@@ -29,4 +30,4 @@ const Main = React.createClass({
     }
 });
 
-export default {Main,Post,Movie,Ebook,User,Role};
+export default {Main,Post,Movie,Ebook,User,Role,Resource};
