@@ -1,87 +1,53 @@
+const {Service}=require('tiny-service');
 const domain=require('../../domain');
-const categoryService=require('../category');
 
 
-/**
- * @param {Integer} id resource id
- * @return {Promise} resource 的JSON对象
- */
-function findById(id){
-    return domain.resource.findById(id)
-        .then(resource=>{
-            if(!resource){ return resource; }
-            // 创建一个拷贝
-            return JSON.parse(JSON.stringify(resource));
-        });
-}
-
-
+const resourceService=Service(domain.resource);
 
 /**
- * 指定categoryId，找出相应分页的记录。如果categoryId为false，则检索全部。
- * 注意，它会递归查找categoryId的子类
- * @param {Number} categoryId 
+ * 获取某个角色获得授权的资源列表
+ * @param {Number} roleId 
  * @param {Number} page 
  * @param {Number} size 
- * @param {Object} condition 条件对象（注意：在condition中设置condition.categoryId是无效的）
+ * @param {Object} condition 
  */
-function list(categoryId=null,page=1,size=8,condition={}){
-    let _categoryId=!!categoryId?categoryId:null;
-    return categoryService.getCategorySubnodeIdList(categoryId,{scope:'resource'})
-        .then(ids=>{
-            ids.push(categoryId);
-            condition.categoryId={ $in:ids };
-        })
-        .then(_=>{
-            return domain.resource.findAndCount({
-                limit:size,
-                offset:(page-1)*size,
-                order:[['createdAt','asc']],
-                where:condition,
-            })
-        })
-        .then(result=>{
-            // todo 将来其他处理
-            return result;
+resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,size=8,condition={}){
+
+    return domain.resource.findAll({
+        where:condition,
+        offset:(page-1)*size,
+        limit:size,
+        include:[
+            {
+                model:domain.role,
+                through:{
+                    where:{ 
+                        userId:roleId, 
+                    }
+                },
+            }
+        ],
+    });
+}
+    
+    
+    
+/**
+ * 为角色授权资源列表
+ * @param {Integer} userId 
+ * @param {Array} roles 
+ */
+resourceService.updateResourcesOfRole=function updateResourcesOfRole(roleId,resources=[]){
+    return domain.role.findById(roleId)
+        .then(role=>{
+            if(role){
+                return role.setResources(resources);
+            }else{
+                return Promise.reject(`role with id ${roleId} not found`);
+            }
         });
 }
 
 
-/**
- * 创建 resource 的服务
- * @param {Object} resource 资源对象模型，
- * @return {Promise} 返回创建的 resource 对象的Promise
- */
-function create(resource){
-    return domain.resource.create(resource);   // 创建 resource 本体
-}
 
-function remove(id){
-    return domain.resource.destroy({ where:{id:id} });
-}
-
-
-/**
- * 可以对 name、categoryId、method、path、description 进行修改
- */
-function edit(resource){
-    let id=resource.id;
-    // todo：检查id
-
-    let params={
-        name:resource.name,
-        categoryId:resource.categoryId,
-        method:resource.method,
-        path:resource.path,
-        description:resource.description,
-        status:resource.status,
-    };
-    return domain.resource.update( params, {where:{id}} );
-}
-
-
-
-module.exports={
-    findById, list,
-    create, remove, edit,
-};
+module.exports=resourceService;

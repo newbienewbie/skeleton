@@ -1,6 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const resourceService=require('../service/resource');
+const resourceService=require('../service/account/resource-service');
 const {Middleware}=require('tiny-service');
 
 
