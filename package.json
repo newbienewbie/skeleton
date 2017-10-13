@@ -40,7 +40,7 @@
     "remarkable": "^1.6.2",
     "sequelize": "^4.10.2",
     "simple-react-ui": "^2.8.8",
-    "tiny-admin": "^0.0.4",
+    "tiny-admin": "^0.0.5",
     "tiny-api": "^0.0.3",
     "tiny-service": "^0.0.1",
     "whatwg-fetch": "^1.0.0"

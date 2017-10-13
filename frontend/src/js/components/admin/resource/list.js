@@ -10,6 +10,8 @@ const DG=datagrid.create(model,AddOrEditFormModal);
 
 export class List extends React.Component{
     render(){
-        return <DG/> ;
+        return <DG onRowClick={_=>{
+            console.log(_);
+        }}/> ;
     }
 }
