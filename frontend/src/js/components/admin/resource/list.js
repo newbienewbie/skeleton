@@ -6,7 +6,7 @@ import {defaultDecoratedForm,datagrid} from 'tiny-admin';
 
 
 const AddOrEditFormModal=defaultDecoratedForm.createDecoratedAddOrEditFormModal(PlainAddOrEditForm);
-const DG=datagrid.create(model,AddOrEditFormModal);
+const DG=datagrid(model,AddOrEditFormModal);
 
 export class List extends React.Component{
     render(){

@@ -6,6 +6,9 @@ import {defaultDecoratedForm,addform} from 'tiny-admin';
 
 
 
+const AddOrEditForm=defaultDecoratedForm.createDecoratedAddOrEditForm(PlainAddOrEditForm);
+const AddForm=addform(model,AddOrEditForm);
+
 export class Add extends React.Component{
 
     constructor(props){
@@ -13,8 +16,6 @@ export class Add extends React.Component{
     }
 
     render(){
-        const AddOrEditForm=defaultDecoratedForm.createDecoratedAddOrEditForm(PlainAddOrEditForm);
-        const AddForm=addform.create(model,AddOrEditForm);
         return <AddForm/>;
     }
 }
