@@ -10,7 +10,7 @@ describe('测试role-service',function(){
     const description='描述';
 
     it('#createRole() #findById() #remove',function(){
-        return roleService.createRole(name,description)
+        return roleService.createRole({name,description})
             .then(role=>{
                 return roleService.findById(role.id);
             })
