@@ -3,82 +3,51 @@ const bodyParser=require('body-parser');
 const roleService=require('../service/account/role-service.js');
 const checker=require('../service/auth/authorization-checker');
 const helper=require('../utils/helper');
+const {Middleware,message}=require('tiny-service');
 
+const middleware=Middleware(roleService);
 
 
 const router=express.Router();
 
-router.post('/create',bodyParser.json(),function(req,res){
-    const {name,description}=req.body;
-    if(!name || !description){
-        return res.end(JSON.stringify({
-            error:'name and description required',
-        }));
-    }
-    return roleService.createRole(name,description)
-        .then((role)=>{
-            res.end(JSON.stringify(role));
-        })
-        .catch(e=>{
-            res.end(JSON.stringify({
-                error:'错误',
-            }));
-            console.log(e);
-        });
-});
+router.post('/create',bodyParser.json(),
+    function(req,res,next){
+        const {record}=req.body;
+        const {name,description}=record;
+        if(!name || !description){
+            return res.json(message.fail(`name and description required`));
+        }
+        next();
+    },
+    middleware.create
+);
 
-router.post('/remove',bodyParser.json(),function(req,res){
-    const {id}=req.body;
-    if(!id ){
-        return res.end(JSON.stringify({
-            error:'id required',
-        }));
-    }
-    return roleService.remove(id)
-        .then(_=>{
-            res.end(JSON.stringify({status:'SUCCESS',msg:""}));
-        })
-        .catch(e=>{
-            res.end(JSON.stringify({ status:"FAIL",msg:'错误', }));
-            console.log(e);
-        });
-});
+router.post('/remove',bodyParser.json(),
+    function(req,res,next){
+        const {id}=req.body;
+        if(!id ){
+            return res.json(message.fail('id required'));
+        }
+        next();
+    },
+    middleware.remove
+);
 
-router.post('/update',bodyParser.json(),function(req,res){
-    const {id,name,description}=req.body;
-    if(!id || !name ||!description){
-        return res.end(JSON.stringify({
-            error:'id , name and description required',
-        }));
-    }
-    return roleService.update(id,{name,description})
-        .then(role=>{
-            res.end(JSON.stringify(role));
-        })
-        .catch(e=>{
-            res.end(JSON.stringify({
-                status:"FAIL",
-                error:'error happens',
-            }));
-            console.log(e);
-        });
-});
+router.post('/update',bodyParser.json(),
+    function(req,res,next){
+        const {record}=req.body;
+        const {id,name,description}=record;
+        if(!id || !name ||!description){
+            return res.json(message.fail('id , name and description required'));
+        }
+        next();
+    },
+    middleware.update
+);
 
-router.post('/list',bodyParser.json(),function(req,res){
-    let {page,size,condition}=req.body;
-    page=helper.toPositiveInteger(page);
-    size=helper.toPositiveInteger(size);
-    roleService.list(page,size,condition)
-        .then((roles)=>{
-            res.end(JSON.stringify(roles));
-        })
-        .catch(e=>{
-            res.end(JSON.stringify({
-                error:'错误',
-            }));
-            console.log(e);
-        });
-});
+router.post('/list',bodyParser.json(),
+    middleware.list
+);
 
 router.post("/list-of-current-user",bodyParser.json(),function(req,res){
     let {page,size,condition}=req.body;
