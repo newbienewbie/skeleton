@@ -24,7 +24,7 @@ resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,
                 model:domain.role,
                 through:{
                     where:{ 
-                        userId:roleId, 
+                        roleId:roleId, 
                     }
                 },
             }
