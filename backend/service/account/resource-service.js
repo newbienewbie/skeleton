@@ -34,7 +34,7 @@ resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,
     
 
 /**
- * 为角色添加授权的资源
+ * 为角色添加授权的资源(同时创建资源)
  */
 resourceService.addResourceOfRole=function(roleId,resource){
     return Promise.all([
@@ -51,7 +51,21 @@ resourceService.addResourceOfRole=function(roleId,resource){
             }
         });
 }
-    
+
+
+
+/**
+ * 取消角色已授权的资源的关联关系，(并不删除角色或者资源)
+ */
+resourceService.removeResourceOfRole=function(roleId,resource){
+    return domain.resource.findById(resource.id)
+        .then(resource=>{
+            return resource.removeRole(roleId);
+        });
+}
+
+
+
 /**
  * 为角色授权资源列表
  * @param {Integer} userId 
