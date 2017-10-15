@@ -13,7 +13,7 @@ const TopNav = React.createClass({
                     <Link to={"/"}>控制台</Link>
                 </Menu.Item>
                 <Menu.Item key="settings">
-                    <Link to={"/user/list"}>用户管理</Link>
+                    <Link to={"/user/list"}>系统管理</Link>
                 </Menu.Item>
                 <Menu.Item key="help">
                     <a href="#" target="_blank">帮助</a>
