@@ -6,14 +6,14 @@ const assert=require('assert');
 
 describe('test resource service',function(){
 
-    it("#addRosourceOfRole() #removeResourceOfRole #remove",function(){
+    it("#createRosourceOfRole() #removeResourceOfRole #remove",function(){
         const _role={name:'x8',description:'x8'};
         const _resource={name:'shit',categoryId:1,method:'post',path:'/test',description:'',status:'test'};
         // 创建角色
         return roleService.create(_role)
             .then(role=>{
                 // 创建 资源 及 角色-资源关联关系
-                return resourceService.addResourceOfRole(role.id,_resource)
+                return resourceService.createResourceOfRole(role.id,_resource)
                     .then(roleResources=>{
                         const x=JSON.parse(JSON.stringify(roleResources[0][0]));
                         // 检查角色-资源的关联关系

@@ -34,9 +34,9 @@ resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,
     
 
 /**
- * 为角色添加授权的资源(同时创建资源)
+ * 创建资源，添加角色-资源关联
  */
-resourceService.addResourceOfRole=function(roleId,resource){
+resourceService.createResourceOfRole=function(roleId,resource){
     return Promise.all([
             domain.role.findById(roleId),
             domain.resource.create(resource),
@@ -55,7 +55,7 @@ resourceService.addResourceOfRole=function(roleId,resource){
 
 
 /**
- * 取消角色已授权的资源的关联关系，(并不删除角色或者资源)
+ * 取消角色已授权的资源的关联关系，并不删除角色或者资源
  */
 resourceService.removeResourceOfRole=function(roleId,resource){
     return domain.resource.findById(resource.id)
