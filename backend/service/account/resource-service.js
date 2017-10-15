@@ -4,6 +4,8 @@ const domain=require('../../domain');
 
 const resourceService=Service(domain.resource);
 
+
+
 /**
  * 获取某个角色获得授权的资源列表
  * @param {Number} roleId 
@@ -30,7 +32,25 @@ resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,
     });
 }
     
-    
+
+/**
+ * 为角色添加授权的资源
+ */
+resourceService.addResourceOfRole=function(roleId,resource){
+    return Promise.all([
+            domain.role.findById(roleId),
+            domain.resource.create(resource),
+        ])
+        .then(result=>{
+            const role=result[0];
+            const resource=result[1];
+            if(role){
+                return role.addResource(resource,{through:{  }});
+            }else{
+                return Promise.reject(`role with id ${roleId} not found`);
+            }
+        });
+}
     
 /**
  * 为角色授权资源列表
