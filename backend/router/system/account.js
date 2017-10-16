@@ -2,15 +2,15 @@
  * 账号相关的路由器
  */
 
-const domain=require('../domain');
-const passwordService=require('../service/auth/password-service.js');
-const sendEmailToActivate=require('../service/email/send-email-to-activate.js');
-const signupService=require('../service/account/signup-service.js');
+const domain=require('../../domain');
+const passwordService=require('../../service/auth/password-service.js');
+const sendEmailToActivate=require('../../service/email/send-email-to-activate.js');
+const signupService=require('../../service/account/signup-service.js');
 const express=require('express');
 const bodyParser=require('body-parser');
-const checker=require('../service/auth/authorization-checker.js');
-const userService=require('../service/account/user-service');
-const roleService=require('../service/account/role-service');
+const checker=require('../../service/auth/authorization-checker.js');
+const userService=require('../../service/account/user-service');
+const roleService=require('../../service/account/role-service');
 
 const router=express.Router();
 

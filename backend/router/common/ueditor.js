@@ -3,7 +3,7 @@
  */
 const express=require('express');
 const UEditor=require('express-ueditor');
-const checker=require('../service/auth/authorization-checker');
+const checker=require('../../service/auth/authorization-checker');
 
 
 

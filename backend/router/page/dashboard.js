@@ -2,7 +2,7 @@
  * 后台管理路由器
  */
 const express=require('express');
-const checker=require('../service/auth/authorization-checker');
+const checker=require('../../service/auth/authorization-checker');
 
 
 

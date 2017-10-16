@@ -1,7 +1,7 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const resourceService=require('../service/account/resource-service');
-const roleService=require('../service/account/role-service');
+const resourceService=require('../../service/account/resource-service');
+const roleService=require('../../service/account/role-service');
 const {Middleware,message}=require('tiny-service');
 
 
