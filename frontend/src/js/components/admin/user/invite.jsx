@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button,Alert,Row,Col,message} from 'antd';
-import 'whatwg-fetch';
+import { accountapi } from "../../../api/admin";
 
 
 
@@ -14,13 +14,10 @@ export const Invite=React.createClass({
 
 
     fetchDataAndChangeState:function(){
-        return fetch('/account/invite',{
-            credentials: 'same-origin',
-        })
-        .then( resp=>resp.text() )
-        .then((code)=>{
-            this.setState({ code:code, });
-        });
+        return accountapi.getInviteCode()
+            .then((code)=>{
+                this.setState({ code:code, });
+            });
     },
 
     componentDidMount:function(){

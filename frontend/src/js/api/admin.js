@@ -2,6 +2,7 @@ import {API} from 'tiny-api';
 
 export const roleapi=API('role');
 export const resourceapi=API('resource');
+export const accountapi=API('account');
 
 const client=roleapi.getTransport();
 
@@ -9,6 +10,11 @@ const defaultClientOpts= {
     headers:{
         'Content-Type':'application/json',
     },
+};
+
+accountapi.getInviteCode=function(){
+    return client.get('/account/invite')
+        .then( resp=>resp.data,e=>{throw e;})
 };
 
 export function listRolesOfCurrentUser(page=1,size=8,condition={}){
@@ -129,6 +135,7 @@ resourceapi.grantResourceToRoleCancel=function(resourceId,context){
 
 
 export default {
+    accountapi,
     roleapi,
     resourceapi,
     listRolesOfCurrentUser,
