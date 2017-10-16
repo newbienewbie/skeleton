@@ -2,13 +2,13 @@ import React from 'React';
 import { Row,Col,Button,Modal,message,Table} from "antd";
 import {defaultDecoratedForm,datagrid} from 'tiny-admin';
 import {model as roleModel} from '../_common/model';
-import {model as resourceModel} from '../_common/resource-model';
+import {model as associcationModel} from '../_common/resource-model';
 import {PlainAddOrEditForm} from '../_common/add-or-edit-form';
 
 
 const AddOrEditFormModal=defaultDecoratedForm.createDecoratedAddOrEditFormModal(PlainAddOrEditForm);
 const MainDatagrid=datagrid(roleModel,AddOrEditFormModal);
-const DetailDatagrid=datagrid(resourceModel,AddOrEditFormModal);
+const DetailDatagrid=datagrid(associcationModel,AddOrEditFormModal);
 
 
 export class AssocationsAdminTable extends React.Component{
@@ -40,7 +40,7 @@ export class AssocationsAdminTable extends React.Component{
 
         const {pageSize,current}=pagination;
         
-        return resourceModel.methods.listAll(current, pageSize ,condition , context)
+        return associcationModel.methods.listAll(current, pageSize ,condition , context)
             .then(result=>{
                 const {count,rows}=result;
                 const pagination = Object.assign({}, this.state.pagination );
@@ -48,7 +48,7 @@ export class AssocationsAdminTable extends React.Component{
                 pagination.current=current;
 
                 const headItem=this.props.headItem;
-                return resourceModel.methods.determineWhetherResourcesAssociatedWithRole(rows.map(r=>r.id),{headItem})
+                return associcationModel.methods.determineWhetherResourcesAssociatedWithRole(rows.map(r=>r.id),{headItem})
                     .then(assocations=>{
                         console.log(`assocations`,assocations);
                         return this.promiseSetState({ 
@@ -67,13 +67,11 @@ export class AssocationsAdminTable extends React.Component{
     componentWillReceiveProps(nextProps){
         console.log('receive');
         if(nextProps.headItem.id== this.props.headItem.id){
-            return;
-        }else{
-            console.log('reload');
-            const pagination=Object.assign({},this.state.pagination,{current:1});
-            this.onTableChange(pagination);
+            // return;  // 注释掉：不管怎么样，都强制刷新
         }
-
+        console.log('reload');
+        const pagination=Object.assign({},this.state.pagination,{current:1});
+        this.onTableChange(pagination);
     }
 
     componentDidMount(){
@@ -81,9 +79,8 @@ export class AssocationsAdminTable extends React.Component{
     }
 
     grantResourceToRole(resourceId,headItem){
-        const model=resourceModel;
         return this.promiseSetState({loading:true})
-            .then(_=>model.methods.grantResourceToRole(resourceId,{headItem}) ) 
+            .then(_=>associcationModel.methods.grantResourceToRole(resourceId,{headItem}) ) 
             .then(result=>{
                 if(result && result.status=="SUCCESS"){message.success(`授权成功`);}
                 else{ message.error(`授权失败`);console.log(result);}
@@ -92,9 +89,8 @@ export class AssocationsAdminTable extends React.Component{
     }
 
     grantResourceToRoleCancel(resourceId,headItem){
-        const model=resourceModel;
         return this.promiseSetState({loading:true})
-            .then(_=>model.methods.grantResourceToRoleCancel(resourceId,{headItem}) ) 
+            .then(_=>associcationModel.methods.grantResourceToRoleCancel(resourceId,{headItem}) ) 
             .then(result=>{
                 if(result && result.status=="SUCCESS"){message.success(`操作成功`);}
                 else{ message.error(`操作失败`);console.log(result);}
@@ -103,8 +99,7 @@ export class AssocationsAdminTable extends React.Component{
     }
 
     render(){
-        const model=resourceModel;
-        const fields=model.fields;
+        const fields=associcationModel.fields;
         return( 
         <Table loading={false} 
             dataSource={this.state.data}
