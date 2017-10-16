@@ -1,7 +1,7 @@
-const {Service}=require('tiny-service');
+const {Service,message}=require('tiny-service');
 const domain=require('../../domain');
 
-
+const roleService=require('./role-service');
 const resourceService=Service(domain.resource);
 
 
@@ -82,6 +82,76 @@ resourceService.updateResourcesOfRole=function updateResourcesOfRole(roleId,reso
             }
         });
 }
+
+
+/**
+ * 判断一些资源是否已经授权给角色
+ */
+resourceService.whetherResourcesAssociatedWithRole=function(roleId,resourceIds){
+    return roleService.findById(roleId)
+        .then(role=>{
+            if(!role){
+                return [];
+            }else{
+                return role.getResources().then(resources=>{
+                    return resourceIds.map(id=>{ 
+                        const flag= resources.some(r=>r.id==id); 
+                        return {id,flag}; 
+                    });
+                });
+            }
+        });
+};
+
+
+/**
+ * 资源授权
+ */
+resourceService.grantResourceToRole=function(roleId,resourceId){
+    return Promise.all([
+        roleService.findById(roleId),
+        resourceService.findById(resourceId),
+    ])
+        .then(result=>{
+            const role=result[0];
+            const resource=result[1];
+            if(!role){
+                return message.fail(`cannot find role with id: ${roleId}`);
+            }
+            if(!resource){
+                return message.fail(`cannot find resource with id: ${resourceId}`);
+            }
+            else{
+                return role.addResource(resource,{through:{  }})
+                    .then(_=>{ return message.success(); });
+            }
+        });
+};
+
+
+/**
+ * 资源授权取消
+ */
+resourceService.grantResourceToRoleCancel=function(roleId,resourceId){
+    return Promise.all([
+        roleService.findById(roleId),
+        resourceService.findById(resourceId),
+    ])
+        .then(result=>{
+            const role=result[0];
+            const resource=result[1];
+            if(!role){
+                return message.fail(`cannot find role with id: ${roleId}`);
+            }
+            if(!resource){
+                return message.fail(`cannot find resource with id: ${resourceId}`);
+            }
+            else{
+                return role.removeResource(resource)
+                    .then(_=>{ return message.success(); });
+            }
+        });
+};
 
 
 
