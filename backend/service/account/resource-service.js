@@ -1,87 +1,158 @@
+const {Service,message}=require('tiny-service');
 const domain=require('../../domain');
-const categoryService=require('../category');
 
-
-/**
- * @param {Integer} id resource id
- * @return {Promise} resource 的JSON对象
- */
-function findById(id){
-    return domain.resource.findById(id)
-        .then(resource=>{
-            if(!resource){ return resource; }
-            // 创建一个拷贝
-            return JSON.parse(JSON.stringify(resource));
-        });
-}
+const roleService=require('./role-service');
+const resourceService=Service(domain.resource);
 
 
 
 /**
- * 指定categoryId，找出相应分页的记录。如果categoryId为false，则检索全部。
- * 注意，它会递归查找categoryId的子类
- * @param {Number} categoryId 
+ * 获取某个角色获得授权的资源列表
+ * @param {Number} roleId 
  * @param {Number} page 
  * @param {Number} size 
- * @param {Object} condition 条件对象（注意：在condition中设置condition.categoryId是无效的）
+ * @param {Object} condition 
  */
-function list(categoryId=null,page=1,size=8,condition={}){
-    let _categoryId=!!categoryId?categoryId:null;
-    return categoryService.getCategorySubnodeIdList(categoryId,{scope:'resource'})
-        .then(ids=>{
-            ids.push(categoryId);
-            condition.categoryId={ $in:ids };
-        })
-        .then(_=>{
-            return domain.resource.findAndCount({
-                limit:size,
-                offset:(page-1)*size,
-                order:[['createdAt','asc']],
-                where:condition,
-            })
-        })
+resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,size=8,condition={}){
+
+    return domain.resource.findAndCount({
+        where:condition,
+        offset:(page-1)*size,
+        limit:size,
+        include:[
+            {
+                model:domain.role,
+                required:true,
+                through:{
+                    where:{ 
+                        roleId:roleId, 
+                    }
+                },
+            }
+        ],
+    });
+}
+    
+
+/**
+ * 创建资源，添加角色-资源关联
+ */
+resourceService.createResourceOfRole=function(roleId,resource){
+    return Promise.all([
+            domain.role.findById(roleId),
+            domain.resource.create(resource),
+        ])
         .then(result=>{
-            // todo 将来其他处理
-            return result;
+            const role=result[0];
+            const resource=result[1];
+            if(role){
+                return role.addResource(resource,{through:{  }});
+            }else{
+                return Promise.reject(`role with id ${roleId} not found`);
+            }
+        });
+}
+
+
+
+/**
+ * 取消角色已授权的资源的关联关系，并不删除角色或者资源
+ */
+resourceService.removeResourceOfRole=function(roleId,resource){
+    return domain.resource.findById(resource.id)
+        .then(resource=>{
+            return resource.removeRole(roleId);
+        });
+}
+
+
+
+/**
+ * 为角色授权资源列表
+ * @param {Integer} userId 
+ * @param {Array} roles 
+ */
+resourceService.updateResourcesOfRole=function updateResourcesOfRole(roleId,resources=[]){
+    return domain.role.findById(roleId)
+        .then(role=>{
+            if(role){
+                return role.setResources(resources);
+            }else{
+                return Promise.reject(`role with id ${roleId} not found`);
+            }
         });
 }
 
 
 /**
- * 创建 resource 的服务
- * @param {Object} resource 资源对象模型，
- * @return {Promise} 返回创建的 resource 对象的Promise
+ * 判断一些资源是否已经授权给角色
  */
-function create(resource){
-    return domain.resource.create(resource);   // 创建 resource 本体
-}
-
-function remove(id){
-    return domain.resource.destroy({ where:{id:id} });
-}
+resourceService.whetherResourcesAssociatedWithRole=function(roleId,resourceIds){
+    return roleService.findById(roleId)
+        .then(role=>{
+            if(!role){
+                return [];
+            }else{
+                return role.getResources().then(resources=>{
+                    return resourceIds.map(id=>{ 
+                        const flag= resources.some(r=>r.id==id); 
+                        return {id,flag}; 
+                    });
+                });
+            }
+        });
+};
 
 
 /**
- * 可以对 name、categoryId、method、path、description 进行修改
+ * 资源授权
  */
-function edit(resource){
-    let id=resource.id;
-    // todo：检查id
-
-    let params={
-        name:resource.name,
-        categoryId:resource.categoryId,
-        method:resource.method,
-        path:resource.path,
-        description:resource.description,
-        status:resource.status,
-    };
-    return domain.resource.update( params, {where:{id}} );
-}
-
-
-
-module.exports={
-    findById, list,
-    create, remove, edit,
+resourceService.grantResourceToRole=function(roleId,resourceId){
+    return Promise.all([
+        roleService.findById(roleId),
+        resourceService.findById(resourceId),
+    ])
+        .then(result=>{
+            const role=result[0];
+            const resource=result[1];
+            if(!role){
+                return message.fail(`cannot find role with id: ${roleId}`);
+            }
+            if(!resource){
+                return message.fail(`cannot find resource with id: ${resourceId}`);
+            }
+            else{
+                return role.addResource(resource,{through:{  }})
+                    .then(_=>{ return message.success(); });
+            }
+        });
 };
+
+
+/**
+ * 资源授权取消
+ */
+resourceService.grantResourceToRoleCancel=function(roleId,resourceId){
+    return Promise.all([
+        roleService.findById(roleId),
+        resourceService.findById(resourceId),
+    ])
+        .then(result=>{
+            const role=result[0];
+            const resource=result[1];
+            if(!role){
+                return message.fail(`cannot find role with id: ${roleId}`);
+            }
+            if(!resource){
+                return message.fail(`cannot find resource with id: ${resourceId}`);
+            }
+            else{
+                return role.removeResource(resource)
+                    .then(_=>{ return message.success(); });
+            }
+        });
+};
+
+
+
+module.exports=resourceService;

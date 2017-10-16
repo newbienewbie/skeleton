@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router,Route,hashHistory,IndexRoute} from 'react-router';
-import Admin from './js/admin/admin.jsx';
+import Admin from './js/components/admin/admin.jsx';
 require('es6-promise').polyfill();
 
 ReactDOM.render(
@@ -28,6 +28,14 @@ ReactDOM.render(
                 <IndexRoute component={Admin.User.Home} />
                 <Route path="/user/list" component={Admin.User.List} ></Route>
                 <Route path="/user/invite" component={Admin.User.Invite} ></Route>
+            </Route>
+            <Route path="/role" component={Admin.Role.Main}>
+                <Route path="/role/list" component={Admin.Role.List} ></Route>
+                <Route path="/role/create" component={Admin.Role.Add} ></Route>
+            </Route>
+            <Route path="/resource" component={Admin.Resource.Main}>
+                <Route path="/resource/list" component={Admin.Resource.List} ></Route>
+                <Route path="/resource/create" component={Admin.Resource.Add} ></Route>
             </Route>
         </Route>
     </Router>),

@@ -10,7 +10,7 @@ const express=require('express');
 const bodyParser=require('body-parser');
 const checker=require('../service/auth/authorization-checker.js');
 const userService=require('../service/account/user-service');
-
+const roleService=require('../service/account/role-service');
 
 const router=express.Router();
 
@@ -60,12 +60,11 @@ router.post('/login',bodyParser.urlencoded({extended:true}) ,(req,res)=>{
         }).then((result)=>{
             if(result){
                 // 设置session
-                req.session.userid=userFromDb.id;
-                req.session.username=userFromDb.username;
-                req.session.roles=JSON.parse(userFromDb.roles)||[];
-                // 重定向
-                res.redirect('/');
-                console.log(req.ip,username,"登陆成功");
+                return roleService.load(userFromDb.username,req).then(_=>{
+                    // 重定向
+                    res.redirect('/');
+                    console.log(req.ip,username,req.session.roles,"登陆成功");
+                });
             }else{
                 model.errMsg='密码输入错误',
                 res.render('login.html',model);
@@ -152,7 +151,7 @@ router.get('/invite',(req,res)=>{
 /**
  * 列出用户信息
  */
-router.get('/user/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']),function(req,res){
+router.get('/user/list',function(req,res){
     let page=parseInt(req.query.page?req.query.page:1);
     page=page>0?page:1;
     let size=parseInt(req.query.size?req.query.size:10);
@@ -164,7 +163,8 @@ router.get('/user/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']),funct
         order:[
             ['id','desc'],
         ],
-        attributes:['id','username','email','roles','state','createdAt','updatedAt'],
+        attributes:['id','username','email','state','createdAt','updatedAt'],
+        include:["roles"],
     })
     .then(info=>{
         res.end(JSON.stringify(info));

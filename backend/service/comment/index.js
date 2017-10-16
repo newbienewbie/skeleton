@@ -147,7 +147,6 @@ function listAllReplies(scope,topicId,page=1,size=10,replySize=10){
         select t.*,row_number, 
             u.username as author_username, 
             u.email as author_email, 
-            u.roles as author_roles, 
             u.state as author_state 
         from
             (select 

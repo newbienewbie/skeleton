@@ -2,29 +2,65 @@ const express=require('express');
 const bodyParser=require('body-parser');
 const roleService=require('../service/account/role-service.js');
 const checker=require('../service/auth/authorization-checker');
+const helper=require('../utils/helper');
+const {Middleware,message}=require('tiny-service');
 
+const middleware=Middleware(roleService);
 
 
 const router=express.Router();
 
+router.post('/create',bodyParser.json(),
+    function(req,res,next){
+        const {record}=req.body;
+        const {name,description}=record;
+        if(!name || !description){
+            return res.json(message.fail(`name and description required`));
+        }
+        next();
+    },
+    middleware.create
+);
 
-router.use('/list',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']));
-router.use('/list',function(req,res){
-    roleService.listAll()
-        .then((roles)=>{
-            res.end(JSON.stringify(roles));
+router.post('/remove',bodyParser.json(),
+    function(req,res,next){
+        const {id}=req.body;
+        if(!id ){
+            return res.json(message.fail('id required'));
+        }
+        next();
+    },
+    middleware.remove
+);
+
+router.post('/update',bodyParser.json(),
+    function(req,res,next){
+        const {record}=req.body;
+        const {id,name,description}=record;
+        if(!id || !name ||!description){
+            return res.json(message.fail('id , name and description required'));
+        }
+        next();
+    },
+    middleware.update
+);
+
+router.post('/list',bodyParser.json(),
+    middleware.list
+);
+
+router.post("/list-of-current-user",bodyParser.json(),function(req,res){
+    let {page,size,condition}=req.body;
+    page=helper.toPositiveInteger(page);
+    size=helper.toPositiveInteger(size);
+    roleService.listRolesOfUser(req.session.userid,page,size)
+        .then((list)=>{
+            console.log(list);
         })
-        .catch(e=>{
-            res.end(JSON.stringify({
-                error:'错误',
-            }));
-            console.log(e);
-        });
 });
 
 
-router.post('/update',checker.requireAnyRole(['ROLE_ADMIN','ROLE_ROOT']));
-router.post('/update',bodyParser.json(),function(req,res){
+router.post('/update-roles-of-username',bodyParser.json(),function(req,res){
     const info=req.body;
     const username=info.username;
     const roles=info.roles;
@@ -33,7 +69,7 @@ router.post('/update',bodyParser.json(),function(req,res){
         status:'SUCCESS',
         msg:'',
     };
-    roleService.update(username,roles)
+    return roleService.updateRolesOfUsername(username,roles)
         .then(()=>{
             res.end(JSON.stringify(result));
         })

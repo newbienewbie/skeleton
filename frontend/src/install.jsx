@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router,Route,IndexRoute,hashHistory} from 'react-router';
-import Install from './js/install/main.jsx';
+import Install from './js/components/install';
 
 
 

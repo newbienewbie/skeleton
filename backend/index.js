@@ -44,6 +44,7 @@ function createApp(opts){
     app.use('/account',require('./router/account.js'));
     // 角色管理模块
     app.use('/role',require('./router/role.js'));
+    app.use('/resource',require('./router/resource'));
     
     app.use('/404',require('./router/not-found.js'));
     

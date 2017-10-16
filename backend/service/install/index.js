@@ -3,6 +3,7 @@ const path=require('path');
 const domain=require('../../domain');
 const signupService=require('../account/signup-service.js');
 const roleService=require('../account/role-service.js'); 
+const userService=require('../account/user-service');
 const parseDbJsonToEntity=require('./parseDbJsonToEntity');
  
 /**
@@ -75,6 +76,14 @@ function ensureUtf8Database(){
     return domain.sequelize.query(`alter database ${database} character set utf8;`);
 }
 
+/**
+ * 初始化核心基础表，应该在数据库建立完成后立即执行，然后才能执行创建管理员、填充数据的任务
+ */
+function initCoreData(){
+    const entityNames=["role"];
+    return initData(entityNames);
+}
+
 
 /**
  * 创建根用户
@@ -87,11 +96,7 @@ function createRootUser(username="root",password="toor",email="itminus@163.com")
         .then(
             (info)=>{
                 // 在已经注册好的用户的角色的基础上，再追加一个'ROLE_ROOT'角色
-                const user=info.userEntity;
-                const code=info.code;
-                let roles=user.roles;
-                roles=JSON.parse(roles).concat(['ROLE_ROOT'])
-                return roleService.update(username,roles);
+                return roleService.addRolesForUser(info.userEntity.id,[1]);
             },
             (reason)=>{
                 throw reason;
@@ -101,10 +106,20 @@ function createRootUser(username="root",password="toor",email="itminus@163.com")
 
 
 /**
- * 初始化数据
+ * 初始化预定义的数据
  */
-function initData(){
-    const entityNames=["country","language","role","category","ebook"];
+function initPredefinedData(){
+    const entityNames=["country","language","category","ebook"];
+    return initData(entityNames);
+}
+
+
+/**
+ * 填充数据到数据库
+ * @private
+ * @param {Array} entityNames 
+ */
+function initData(entityNames){
     const PATH=path.join(__dirname,"..","..","..","db-init-data");
     const promises=entityNames.map(i=>{
         let s=`${i}.json`;
@@ -120,6 +135,7 @@ function initData(){
 
 module.exports={
     install,
+    initCoreData,
     createRootUser,
-    initData,
+    initPredefinedData,
 };
