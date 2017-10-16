@@ -1,35 +1,26 @@
 import React from 'react';
 import {Select} from 'antd';
-import 'whatwg-fetch';
+import {categoryapi} from '../../../../api/admin';
 
+export class CategorySelector extends React.Component{
 
-export const CategorySelector=React.createClass({
-
-    getDefaultProps(){
-        return {
-            value:-1,
-            onChange:(value)=>{}
-        };
-    },
-
-    getInitialState(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             categories:[
                 {id:-1,name:'',note:''}
             ],
             disabled:true,
         };
-    },
+    }
+
 
     componentDidMount(){
-        fetch('/category/list/post',{
-            method:'get',
-            credentials:'same-origin',
-        }).then(resp=>resp.json())
-        .then(list=>{
-            this.setState({categories:list.rows,disabled:false});
-        });
-    },
+        return categoryapi.getPostCategories()
+            .then(list=>{
+                this.setState({categories:list.rows,disabled:false});
+            });
+    }
 
 
     render(){
@@ -47,6 +38,12 @@ export const CategorySelector=React.createClass({
             })}
         </Select>;
     }
-});
+}
+
+CategorySelector.defaultProps= {
+    value:-1,
+    onChange:(value)=>{}
+};
+
 
 export default CategorySelector;
