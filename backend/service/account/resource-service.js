@@ -15,13 +15,14 @@ const resourceService=Service(domain.resource);
  */
 resourceService.listResourcesOfRole= function listResourcesOfRole(roleId,page=1,size=8,condition={}){
 
-    return domain.resource.findAndCountAll({
+    return domain.resource.findAndCount({
         where:condition,
         offset:(page-1)*size,
         limit:size,
         include:[
             {
                 model:domain.role,
+                required:true,
                 through:{
                     where:{ 
                         roleId:roleId, 
