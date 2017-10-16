@@ -1,6 +1,7 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const resourceService=require('../service/account/resource-service');
+const roleService=require('../service/account/role-service');
 const {Middleware,message}=require('tiny-service');
 
 
@@ -86,6 +87,75 @@ router.post('/list-resources-of-role',bodyParser.json(),function(req,res){
         });
 });
 
+
+router.post('/whether-resources-associated-with-role',bodyParser.json(),function(req,res){
+    const {resourceIds,context}=req.body;
+    if(!context || !context.headItem ||!context.headItem.id){
+        res.json([]);
+        return;
+    }
+    // resourceIds is like [2,5,6,8,...]
+    if(!Array.isArray(resourceIds || resourceIds.length==0)){
+        res.json([]);
+        return;
+    }
+
+    const roleId=context.headItem.id;
+    return roleService.findById(roleId)
+        .then(role=>{
+            if(!role){
+                res.end([]);
+                return;
+            }else{
+                return role.getResources()
+                    .then(resources=>{
+                        const result=resourceIds.map(id=>{
+                            const flag= resources.some(r=>r.id==id);
+                            return {id,flag};
+                        });
+                        res.json(result);
+                    });
+            }
+        })
+});
+
+
+
+router.post('/grant-resource-to-role',bodyParser.json(),function(req,res){
+    const {resourceId,context}=req.body;
+    if(!context || !context.headItem ||!context.headItem.id){
+        res.json(message.fail(`context.headItem.id required`));
+        return;
+    }
+    if(!resourceId){
+        res.json(message.fail(`resourceId required`));
+        return;
+    }
+    const roleId=context.headItem.id;
+    return Promise.all([
+        roleService.findById(roleId),
+        resourceService.findById(resourceId),
+    ])
+        .then(result=>{
+            const role=result[0];
+            const resource=result[1];
+            if(!role){
+                res.json(message.fail(`cannot find role with id: ${roleId}`));
+                return;
+            }
+            if(!resource){
+                res.json(message.fail(`cannot find resource with id: ${resourceId}`));
+                return;
+            }
+            else{
+                return role.addResource(resource,{through:{  }})
+                // return role.addResource(resource)
+                    .then(_=>{
+                        res.json(message.success());
+                    });
+            }
+        });
+});
 
 
 module.exports=router;
