@@ -101,22 +101,8 @@ router.post('/whether-resources-associated-with-role',bodyParser.json(),function
     }
 
     const roleId=context.headItem.id;
-    return roleService.findById(roleId)
-        .then(role=>{
-            if(!role){
-                res.end([]);
-                return;
-            }else{
-                return role.getResources()
-                    .then(resources=>{
-                        const result=resourceIds.map(id=>{
-                            const flag= resources.some(r=>r.id==id);
-                            return {id,flag};
-                        });
-                        res.json(result);
-                    });
-            }
-        })
+    return resourceService.whetherResourcesAssociatedWithRole(roleId,resourceIds)
+        .then(result=> res.json(result) );
 });
 
 
@@ -132,29 +118,9 @@ router.post('/grant-resource-to-role',bodyParser.json(),function(req,res){
         return;
     }
     const roleId=context.headItem.id;
-    return Promise.all([
-        roleService.findById(roleId),
-        resourceService.findById(resourceId),
-    ])
-        .then(result=>{
-            const role=result[0];
-            const resource=result[1];
-            if(!role){
-                res.json(message.fail(`cannot find role with id: ${roleId}`));
-                return;
-            }
-            if(!resource){
-                res.json(message.fail(`cannot find resource with id: ${resourceId}`));
-                return;
-            }
-            else{
-                return role.addResource(resource,{through:{  }})
-                // return role.addResource(resource)
-                    .then(_=>{
-                        res.json(message.success());
-                    });
-            }
-        });
+    return resourceService.grantResourceToRole(roleId,resourceId)
+        .then(result=>res.json(result));
+
 });
 
 
@@ -169,29 +135,8 @@ router.post('/grant-resource-to-role-cancel',bodyParser.json(),function(req,res)
         return;
     }
     const roleId=context.headItem.id;
-    return Promise.all([
-        roleService.findById(roleId),
-        resourceService.findById(resourceId),
-    ])
-        .then(result=>{
-            const role=result[0];
-            const resource=result[1];
-            if(!role){
-                res.json(message.fail(`cannot find role with id: ${roleId}`));
-                return;
-            }
-            if(!resource){
-                res.json(message.fail(`cannot find resource with id: ${resourceId}`));
-                return;
-            }
-            else{
-                return role.removeResource(resource)
-                // return role.addResource(resource)
-                    .then(_=>{
-                        res.json(message.success());
-                    });
-            }
-        });
+    return resourceService.grantResourceToRoleCancel(roleId,resourceId)
+        .then(result=>res.json(result))
 });
 
 
