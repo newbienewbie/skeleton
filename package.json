@@ -13,7 +13,7 @@
   "author": "newbienewbie <webbot@sina.com>",
   "license": "MIT",
   "dependencies": {
-    "antd": "^2.7.2",
+    "antd": "^2.13.6",
     "antd-datagrid": "^0.3.5",
     "axios": "^0.16.2",
     "bcryptjs": "^2.3.0",
@@ -40,7 +40,7 @@
     "remarkable": "^1.6.2",
     "sequelize": "^4.10.2",
     "simple-react-ui": "^2.8.8",
-    "tiny-admin": "^0.2.0",
+    "tiny-admin": "^0.2.2",
     "tiny-api": "^0.2.1",
     "tiny-service": "^0.2.1",
     "whatwg-fetch": "^1.0.0"
