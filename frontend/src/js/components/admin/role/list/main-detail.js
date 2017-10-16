@@ -143,9 +143,11 @@ export class AssocationsAdminModal extends React.Component{
         super(props);
     }
     render(){
-        return <Modal title="Title" okText="确定" cancelText="取消" width={720}
+        return <Modal title="关联管理" width={720}
             visible={this.props.visible} 
-            onOk={this.props.onOk} 
+            footer={null}
+            closable={true}
+            maskClosable={false}
             onCancel={this.props.onCancel}
         >
             <AssocationsAdminTable headItem={this.props.headItem}/>
@@ -161,6 +163,7 @@ export class MainDetailAdmin extends React.Component{
             headItem:{},
         };
         this.onMainDatagridRowClick=this.onMainDatagridRowClick.bind(this);
+        this.detailDatagrid=null;
     }
 
     onMainDatagridRowClick(record){
@@ -177,7 +180,7 @@ export class MainDetailAdmin extends React.Component{
             </Row>
             <Row>
                 <Col span={16}>
-                    <DetailDatagrid headItem={this.state.headItem}/>
+                    <DetailDatagrid ref={dg=>this.detailDatagrid=dg} headItem={this.state.headItem}/>
                 </Col>
                 <Col span={8}>
                     <Button onClick={()=>{
@@ -191,12 +194,20 @@ export class MainDetailAdmin extends React.Component{
                 </Col>
             </Row>
             <AssocationsAdminModal visible={this.state.createAssociationModalVisible} 
-                onOk={this.props.onOk} 
+                headItem={this.state.headItem}
                 onCancel={()=>{
-                    this.setState({createAssociationModalVisible:false});
+                    const headItem=this.state.headItem;
+                    this.setState(
+                        {
+                            createAssociationModalVisible:false,
+                            headItem,
+                        },
+                        ()=>{
+                            this.detailDatagrid  && this.detailDatagrid.refresh({headItem});
+                        }
+                    );
                     return false;
                 }}
-                headItem={this.state.headItem}
             />
 
         </div>);
