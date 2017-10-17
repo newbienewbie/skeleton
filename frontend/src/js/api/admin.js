@@ -19,8 +19,13 @@ accountapi.getInviteCode=function(){
 };
 
 
-categoryapi.getPostCategories=function(){
-    return client.get('/category/list/post')
+categoryapi.getCategoryList=function(scope='post'){
+    return client.get(`/category/list/${scope}`)
+        .then( resp=>resp.data,e=>{throw e;});
+}
+
+categoryapi.getCategoryTree=function(scope='post'){
+    return client.get(`/category/tree/${scope}`)
         .then( resp=>resp.data,e=>{throw e;});
 }
 
