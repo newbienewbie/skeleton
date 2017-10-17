@@ -4,7 +4,7 @@ import 'whatwg-fetch';
 import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
 import {CategorySelector} from '../../utils/category-selector'; 
 import {KeywordSelector} from '../../utils/keyword-selector.js';
-import UploadAttachment from '../../upload-attachment.jsx';
+import UploadAttachment from '../../utils/upload-attachment';
 import './style.less';
 
 /**
@@ -80,8 +80,8 @@ export const AddOrEditForm=React.createClass({
                     <div>
                         <UploadAttachment tag="特色图片" action="/upload/meiying/image?action=uploadimage"
                             onChange={(fileList) => {
-                                if (fileList && fileList[0].response && fileList[0].response.url) {
-                                    const featureImageUrl=fileList[0].response.url;
+                                if (fileList && fileList[0].url && fileList[0].status=="done") {
+                                    const featureImageUrl=fileList[0].url;
                                     this.setState({ featureImageUrl }, () => {
                                         console.log(`附件更新：${this.state.featureImageUrl}`)
                                     });
