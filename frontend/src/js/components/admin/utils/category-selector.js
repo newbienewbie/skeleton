@@ -1,15 +1,11 @@
 import React from 'react';
 import {TreeSelect} from 'antd';
 import {categoryapi} from '../../../api/admin';
+import {fixControlledValue} from './helper';
 
 
 
-function fixControlledValue(value){
-    if (typeof value === 'undefined' || value === null) {
-        return '';
-    }
-    return value;
-}
+
   
 /**
  * convert node={value,children} to the shape required by <TreeSelect/>
