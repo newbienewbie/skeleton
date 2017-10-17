@@ -1,26 +1,7 @@
 import React from 'react';
 import {Form,Button,Input,Select,message} from 'antd';
+import {CategorySelector} from '../../utils/category-selector';
 
-
-const createSelectCategory=function(opts){
-    class SelectCategory extends React.Component{
-        constructor(props){
-            super(props);
-        }
-
-        render(){
-            return <Select style={{ width: 120 }}>
-                <Select.Option value="2">z</Select.Option>
-                <Select.Option value="3">y</Select.Option>
-                <Select.Option value="1">x</Select.Option>
-                <Select.Option value="5">k</Select.Option>
-            </Select>;
-        }
-    }
-    return SelectCategory;
-};
-
-const SelectCategory=createSelectCategory();
 
 
 export class PlainAddOrEditForm extends React.Component{
@@ -51,7 +32,7 @@ export class PlainAddOrEditForm extends React.Component{
                     rules:[{required:true,message:'category required'}],
                     initialValue:this.props.initialValues.categoryId,
                 })(
-                    <Input />
+                    <CategorySelector scope="resource"/>
                 )
             }
             </FormItem>
