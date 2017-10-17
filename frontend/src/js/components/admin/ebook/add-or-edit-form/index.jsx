@@ -2,26 +2,19 @@ import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
 import 'whatwg-fetch';
 import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
-import UploadAttachment from '../../upload-attachment.jsx';
 import {KeywordSelector} from '../../utils/keyword-selector.js';
-import {CategorySelector} from './category-selector.jsx'; 
+import {CategorySelector} from '../../utils/category-selector'; 
+import {UploadAttachment} from '../../utils/upload-attachment';
 import './style.less';
 
 /**
  * <AddOrEditForm url={}/>
  */
-export const AddOrEditForm=React.createClass({
+export class AddOrEditForm extends React.Component{
 
-    getDefaultProps(){
-        return {
-            url:'#', // 表单的提交地址
-            id:null, // 如果id可转为false，则为添加模式，否则为编辑模式
-            afterInit:(ue)=>{},
-        };
-    },
-
-    getInitialState(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             title:'',
             isbn:'',
             author:'',
@@ -34,18 +27,19 @@ export const AddOrEditForm=React.createClass({
             ],
             description:'',
         };
-    },
+    }
 
-    _renderUploadFile:function(){
+
+    _renderUploadFile(){
         if(this.props.id){
             return <a href={this.state.url}>{this.state.title}</a>
         }else{
             return "";
         }
-    },
+    }
 
 
-    render:function () {
+    render() {
         return (<form id="ebookAddOrEditForm">
             <Row className="title">
                 <input name='title' required type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
@@ -85,7 +79,7 @@ export const AddOrEditForm=React.createClass({
                             <label>选择分类</label>
                         </Col>
                         <Col span={16}>
-                            <CategorySelector value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
+                            <CategorySelector scope="ebook" value={this.state.categoryId} onChange={(value)=>{this.setState({categoryId:value});}} />
                         </Col>
                     </Row>
                 </Col>
@@ -110,9 +104,10 @@ export const AddOrEditForm=React.createClass({
                     </Row>
                     <Row >
                         <UploadAttachment tag="上传书籍"  action="/ueditor/controller?action=uploadfile"
+                            listType=""
                             onChange={(fileList) => {
-                                if (fileList && fileList[0].response && fileList[0].response.url) {
-                                    const url=fileList[0].response.url;
+                                if (fileList && fileList[0].status=="done" && fileList[0].url) {
+                                    const url=fileList[0].url;
                                     this.setState({ url}, () => {
                                         console.log(`附件更新：${this.state.url}`)
                                     });
@@ -124,10 +119,10 @@ export const AddOrEditForm=React.createClass({
                 </Col>
                 <Col span={8} className="feature-image">
                     <UploadAttachment tag="特色图片"  action="/ueditor/controller?action=uploadimage"
-                        showUploadList={false}
+                        listType="picture" showUploadList={false}
                         onChange={(fileList) => {
-                            if (fileList && fileList[0].response && fileList[0].response.url) {
-                                const posterUrl=fileList[0].response.url;
+                            if (fileList && fileList[0].status=="done" && fileList[0].url) {
+                                const posterUrl=fileList[0].url;
                                 this.setState({ posterUrl }, () => {
                                     console.log(`附件更新：${this.state.posterUrl}`)
                                 });
@@ -201,7 +196,13 @@ export const AddOrEditForm=React.createClass({
             </Button>
         </form>);
     }
-});
+}
+
+AddOrEditForm.defaultProps={
+    url:'#', // 表单的提交地址
+    id:null, // 如果id可转为false，则为添加模式，否则为编辑模式
+    afterInit:(ue)=>{},
+};
 
 
 export default AddOrEditForm;
