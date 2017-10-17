@@ -2,7 +2,7 @@ import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
 import 'whatwg-fetch';
 import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
-import {CategorySelector} from './category-selector.jsx'; 
+import {CategorySelector} from '../../utils/category-selector'; 
 import {KeywordSelector} from '../../utils/keyword-selector.js';
 import UploadAttachment from '../../upload-attachment.jsx';
 import './style.less';
