@@ -33,8 +33,13 @@
     {"id":32,"name":"移动端编程","scope":"ebook","note":null,"pid":7},
     {"id":33,"name":"IoT PLC","scope":"ebook","note":null,"pid":7},
     {"id":34,"name":"杂项","scope":"ebook","note":null,"pid":7},
-    {"id":35,"name":"视频","scope":"movie","note":null,"pid":null},
-    {"id":36,"name":"电影","scope":"movie","note":null,"pid":35},
-    {"id":37,"name":"综艺","scope":"movie","note":null,"pid":35},
-    {"id":38,"name":"咨讯","scope":"movie","note":null,"pid":35}
+    {"id":100,"name":"视频","scope":"movie","note":null,"pid":null},
+    {"id":101,"name":"电影","scope":"movie","note":null,"pid":100},
+    {"id":102,"name":"综艺","scope":"movie","note":null,"pid":100},
+    {"id":103,"name":"咨讯","scope":"movie","note":null,"pid":100},
+    {"id":200,"name":"应用资源","scope":"resource","note":"该应用的资源","pid":null},
+    {"id":201,"name":"系统","scope":"resource","note":"该应用的系统资源","pid":200},
+    {"id":202,"name":"通用","scope":"resource","note":"通用资源","pid":null},
+    {"id":203,"name":"页面","scope":"resource","note":"页面相关资源，比如首页、后台、404页、about页等","pid":null},
+    {"id":204,"name":"领域","scope":"resource","note":"领域相关资源","pid":null}
 ]
