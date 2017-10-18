@@ -9,27 +9,28 @@ const router=express.Router();
 const middleware=Middleware(postService);
 
 
-router.post("/new", bodyParser.json(),
+router.post("/create", bodyParser.json(),
     (req,res,next)=>{
-        const post=req.body;
-        post.authorId=req.session.userid;
-        post.state='draft';
-        post.categoryId=parseInt(post.categoryId);
-        req.body.record=post;
+        const {record}=req.body;
+        record.authorId=req.session.userid;
+        record.state='draft';
+        record.categoryId=parseInt(record.categoryId);
+        record.featureImageUrl=record.featureImageUrl[0].url;
         next();
     },
     middleware.create
 );
 
-router.post("/edit",
+router.post('/remove',bodyParser.json(),middleware.remove);
+
+router.post("/update",
     bodyParser.json(),
     (req,res,next)=>{
-        const post=req.body;
+        const post=req.body.record;
         post.authorId=req.session.userid;
         post.state='draft';
         post.categoryId=parseInt(post.categoryId);
-        const info={ status:'SUCCESS',msg:'' };
-        req.body.record=post;
+        record.featureImageUrl=record.featureImageUrl[0].url;
         next();
     },
     middleware.update
