@@ -1,7 +1,7 @@
 import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
-import 'whatwg-fetch';
 import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
+import {model} from '../_common/model';
 import {CategorySelector} from '../../utils/category-selector'; 
 import {KeywordSelector} from '../../utils/keyword-selector.js';
 import UploadAttachment from '../../utils/upload-attachment';
@@ -10,19 +10,11 @@ import './style.less';
 /**
  * <AddOrEditForm url={}/>
  */
-export const AddOrEditForm=React.createClass({
+export class AddOrEditForm extends React.Component{
 
-    getDefaultProps(){
-        return {
-            url:'#',
-            id:null, // 如果可转为false，则为添加模式，否则为编辑模式
-            initialContent:'',
-            afterInit:()=>{},
-        };
-    },
-
-    getInitialState(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             title:'',
             categoryId:'',
             featureImageUrl:'#',
@@ -31,10 +23,10 @@ export const AddOrEditForm=React.createClass({
             ],
             commentable:true,
         };
-    },
+    }
 
 
-    render:function () {
+    render() {
         return (<form id="postAddOrEditForm">
             <Row>
                 <input name='title' type='text' placeholder='标题' value={this.state.title||''} onChange={(v)=>{ this.setState({title:v.target.value}); }}/>
@@ -57,7 +49,7 @@ export const AddOrEditForm=React.createClass({
                             <label>关键词</label>
                         </Col>
                         <Col span={16}>
-                            <KeywordSelector keywords={this.state.keywords} 
+                            <KeywordSelector value={this.state.keywords} 
                                 onChange={(list)=>{
                                     const keywords=list.map((kw,idx)=>{
                                         return { id:idx, tag:kw, };
@@ -99,16 +91,13 @@ export const AddOrEditForm=React.createClass({
                     const id=this.props.id;
                     if(!!id){    // 编辑已有文章的表单
                         // 获取最新的数据
-                        fetch(`/post/detail?id=${id}`,{
-                            method:'get',
-                            credentials:'same-origin',
-                        }).then(resp=>resp.json())
-                        .then(info=>{
-                            const state=Object.assign({},info);
-                            this.setState(state,()=>{
-                                ue.setContent(info.content);
+                        return model.methods.detail(id)
+                            .then(info=>{
+                                const state=Object.assign({},info);
+                                this.setState(state,()=>{
+                                    ue.setContent(info.content);
+                                });
                             });
-                        });
                     }else{ // 新增文章的表单
                     }
                 }} 
@@ -130,36 +119,53 @@ export const AddOrEditForm=React.createClass({
                 if(!!!content){ message.error(`内容不得为空`); return false; }
                 if(!excerpt){ message.error(`摘要不得为空`);return false;}
 
-                fetch(`${this.props.url}`,{
-                    method:'post',
-                    credentials:'same-origin',
-                    headers:{
-                        "Content-Type":"application/json",
-                    },
-                    body:JSON.stringify({ 
-                        id,title,categoryId,content, excerpt,
-                        keywords:this.state.keywords,
-                        commentable:this.state.commentable,
-                        featureImageUrl:this.state.featureImageUrl,
-                    })
-                })
-                .then(info=>info.json())
-                .then((info)=>{
-                    if(info.status=="SUCCESS"){
-                        console.log(info);
-                        message.info(`添加文章成功！`);
-                        ue.setContent('');
-                    }
-                    else{ 
-                        console.log(info);
-                        message.error(`添加文章失败！`);
-                    }
-                });
+
+                const payload={ 
+                    id,title,categoryId,content, excerpt,
+                    keywords:this.state.keywords,
+                    commentable:this.state.commentable,
+                    featureImageUrl:this.state.featureImageUrl,
+                };
+                if(!!this.props.id){
+                    console.log(payload);
+                    return model.methods.update(this.props.id,payload)
+                        .then((info)=>{
+                            if(info.status=="SUCCESS"){
+                                console.log(info);
+                                message.info(`添加文章成功！`);
+                                ue.setContent('');
+                            }
+                            else{ 
+                                console.log(info);
+                                message.error(`添加文章失败！`);
+                            }
+                        });
+                }else{
+                    return model.methods.create(payload)
+                        .then((info)=>{
+                            if(info.status=="SUCCESS"){
+                                console.log(info);
+                                message.info(`添加文章成功！`);
+                                ue.setContent('');
+                            }
+                            else{ 
+                                console.log(info);
+                                message.error(`添加文章失败！`);
+                            }
+                        });
+                }
+
             }}>提交
             </Button>
         </form>);
     }
-});
+}
 
+AddOrEditForm.defaultProps={
+    url:'#',
+    id:null, // 如果可转为false，则为添加模式，否则为编辑模式
+    initialContent:'',
+    afterInit:()=>{},
+};
 
 export default AddOrEditForm;
