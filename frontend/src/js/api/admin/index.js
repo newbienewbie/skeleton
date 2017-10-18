@@ -1,10 +1,12 @@
 import {API} from 'tiny-api';
-import {categoryapi} from './categroy';
 import {accountapi} from './system';
 
 
 
 
+export {postapi} from './post';
+
+export {categoryapi} from './categroy';
 
 export {roleapi,resourceapi,accountapi} from './system';
 
