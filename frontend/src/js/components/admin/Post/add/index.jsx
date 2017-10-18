@@ -1,17 +1,22 @@
 import React from 'react';
-import UEditor from 'simple-react-ui/dist/ueditor';
-import 'whatwg-fetch';
-import {message} from 'antd';
-import {AddOrEditForm} from '../add-or-edit-form/index.jsx';
 
-const Add=React.createClass({
+import {defaultDecoratedForm,addform} from 'tiny-admin';
+import {PlainAddOrEditForm} from '../_common/add-or-edit-form';
+import {model} from '../_common/model';
 
-    render:function () {
+
+const AddOrEditForm=defaultDecoratedForm.createDecoratedAddOrEditForm(PlainAddOrEditForm);
+const AddForm=addform(model,AddOrEditForm);
+
+export class Add extends React.Component{
+
+    constructor(props){
+        super(props);
+    }
+
+    render() {
         return (<div className="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-2 main">
-            <AddOrEditForm initialContent={''} url={'/post/new'}  />
+            <AddForm />
         </div>);
     }
-});
-
-
-export default Add;
+}

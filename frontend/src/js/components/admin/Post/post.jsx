@@ -1,14 +1,14 @@
 import React from 'react';
 import {Row,Col} from 'antd';
-import Add from './add/index.jsx';
+import {Add} from './add/index.jsx';
 import Edit from './edit/index.jsx';
 import List from './list/index.jsx';
 import {AsideOfConsole} from '../utils/aside.jsx';
 
 
-const Main=React.createClass({
+class Main extends React.Component{
 
-    render:function () {
+    render() {
         return (<Row>
             <Col span={4}> <AsideOfConsole /> </Col>
             <Col span={20}>
@@ -18,7 +18,7 @@ const Main=React.createClass({
             </Col>
         </Row>);
     }
-})
+}
 
 
 export default {Main,Add,Edit,List};
