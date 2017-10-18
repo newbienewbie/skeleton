@@ -1,7 +1,7 @@
 import {postapi} from '../../../../api/admin';
 
 
-const model={
+export const model={
     name:"post",
     fields:{
         title:{
@@ -15,9 +15,20 @@ const model={
         },
         featureImageUrl:{
             title:"配图",
+            display:false,
+            render:(text, record, index)=>{ return text; }
         },
         content:{
             title:"内容",
+            display:false,
+        },
+    },
+    actions:{
+        'delete':{
+            display:true,
+        },
+        'edit':{
+            display:false,
         },
     },
     methods:{
@@ -34,4 +45,4 @@ const model={
 };
 
 
-module.exports={model};
+export default model;
