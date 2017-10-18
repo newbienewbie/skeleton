@@ -5,42 +5,36 @@ import {ToolBar} from './toolbar.jsx';
 
 
 
-export const PostManager=React.createClass({
+export class PostManager extends React.Component{
 
-    getInitialState:function(){
-        return {
+
+    constructor(props){
+        super(props);
+        this.state={
             post:{},
+            record:{},
             onChange:()=>{},
         };
-    },
-
-    getDefaultProps:function(){
-        return { 
-            postId:'',
-            record:{}, 
-            job:'author',
-            afterOperation:()=>{}
-        };
-    },
+    }
 
 
-    componentDidMount:function(){
-    },
+    componentDidMount(){
+    }
 
     /**
      * 当收到属性时
      */
-    componentWillReceiveProps:function(nextProps){
+    componentWillReceiveProps(nextProps){
         if(nextProps.record.id==this.props.record.postId){
             return;
         }else{
-            this.setState({post:nextPorps.record});
+            this.setState({post:nextProps.record,record:nextProps.record});
         }
-    },
+    }
 
-    render:function(){
+    render(){
         return (<div>
-            <ToolBar job={this.props.job} postId={this.props.postId}
+            <ToolBar job={this.props.job} postId={this.props.postId} record={this.state.record}
                 onPublish={()=>{
                     fetch(`/post/publish?id=${this.props.postId}`,{
                         method:'post',
@@ -120,8 +114,15 @@ export const PostManager=React.createClass({
                 }}
             />
         </div>);
-    },
-})
+    }
+}
+
+PostManager.defaultProps={
+    postId:'',
+    record:{}, 
+    job:'author',
+    afterOperation:()=>{}
+};
 
 
 export default PostManager;

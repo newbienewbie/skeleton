@@ -2,29 +2,19 @@ import React from 'react';
 import {Row,Col,Button} from 'antd';
 import {Link} from 'react-router';
 
-export const ToolBar=React.createClass({
+export class ToolBar extends React.Component{
 
-    getDefaultProps:function(){
-        return {
-            postId:null,
-            job:'',
-            onPreview:function(){ },
-            onEdit:function(){ },
-            onPublish:function(){},
-            onRemove:function(){},
-            onApproval:function(){},
-            onSendback:function(){},
-            onReject:function(){},
-        };
-    },
+    constructor(props){
+        super(props);
+    }
 
-    getRoleAuthorToolBar:function(){
+    getRoleAuthorToolBar(){
         return (<Row>
             <Col span={6}>
                 <Button onClick={this.props.onPreview}>预览</Button>
             </Col>
             <Col span={6}>
-                <Link to={`/post/edit/${this.props.postId}`} >编辑</Link>
+                <Link to={ {pathname:`/post/edit/${this.props.postId}`,state:this.props.record }} >编辑</Link>
             </Col>
             <Col span={6}>
                 <Button onClick={this.props.onPublish}>发表</Button>
@@ -33,9 +23,9 @@ export const ToolBar=React.createClass({
                 <Button  onClick={this.props.onRemove}>删除</Button>
             </Col>
         </Row>);
-    },
+    }
     
-    getRoleCensorToolBar:function(){
+    getRoleCensorToolBar(){
         return (<Row>
             <Col span={6}>
                 <Button onClick={this.props.onPreview}>预览</Button>
@@ -50,7 +40,7 @@ export const ToolBar=React.createClass({
                 <Button onClick={this.props.onReject}>审核拒绝</Button>
             </Col>
         </Row>);
-    },
+    }
 
     getToolBar(){
         let toolbar={};
@@ -65,14 +55,26 @@ export const ToolBar=React.createClass({
                 toolbar=this.getRoleAuthorToolBar(); 
         }
         return toolbar;
-    },
+    }
 
-    render:function(){
+    render(){
         return (<div>
             {this.getToolBar()}
         </div>);
     }
-});
+}
+
+ToolBar.defaultProps={
+    postId:null,
+    job:'',
+    onPreview:function(){ },
+    onEdit:function(){ },
+    onPublish:function(){},
+    onRemove:function(){},
+    onApproval:function(){},
+    onSendback:function(){},
+    onReject:function(){},
+};
 
 
 export default ToolBar;
