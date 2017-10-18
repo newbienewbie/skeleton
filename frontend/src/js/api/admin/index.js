@@ -8,6 +8,8 @@ export {postapi} from './post';
 
 export {ebookapi} from './ebook';
 
+export {movieapi} from './movie';
+
 export {categoryapi} from './categroy';
 
 export {roleapi,resourceapi,accountapi} from './system';
