@@ -20,12 +20,30 @@ postapi.detail=function(id){
 const _create=postapi.create;
 postapi.create=function(record,context){
     let {featureImageUrl}=record;
-    featureImageUrl=featureImageUrl.map(i=>{
-        const {lastModified, lastModifiedDate, name,
-            originFileObj, percent, response, size, type, uid, url}=i;
-        return {lastModified, lastModifiedDate, name,
-            originFileObj, percent, response, size, type, uid, url};
-    });
+    if(Array.isArray(featureImageUrl)){
+        featureImageUrl=featureImageUrl.map(i=>{
+            const {lastModified, lastModifiedDate, name,
+                originFileObj, percent, response, size, type, uid, url}=i;
+            return {lastModified, lastModifiedDate, name,
+                originFileObj, percent, response, size, type, uid, url};
+        });
+    }
     record.featureImageUrl=featureImageUrl;
     return _create(record,context);
+}
+
+
+const _update=postapi.update;
+postapi.update=function(id,record,context){
+    let {featureImageUrl}=record;
+    if(Array.isArray(featureImageUrl)){
+        featureImageUrl=featureImageUrl.map(i=>{
+            const {lastModified, lastModifiedDate, name,
+                originFileObj, percent, response, size, type, uid, url}=i;
+            return {lastModified, lastModifiedDate, name,
+                originFileObj, percent, response, size, type, uid, url};
+        });
+    }
+    record.featureImageUrl=featureImageUrl;
+    return _update(id,record,context);
 }
