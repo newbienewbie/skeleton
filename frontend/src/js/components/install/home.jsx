@@ -4,7 +4,7 @@ import {Card,Row,Col,Button,Steps,Form,Input,Alert} from 'antd';
 import Api from '../../api/install';
 
 
-class Home extends React.Component{
+export class Home extends React.Component{
 
     constructor(props){
         super(props);
@@ -18,6 +18,8 @@ class Home extends React.Component{
                 email:'',
             },
         };
+        this.promiseSetState=this.promiseSetState.bind(this);
+        this.install=this.install.bind(this);
     }
 
 
