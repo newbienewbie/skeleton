@@ -4,8 +4,8 @@ import {Link} from 'react-router';
 import 'whatwg-fetch'; 
 
 import SelectStuff from '../utils/select-stuff.jsx';
-import UploadAttachment from '../upload-attachment.jsx';
-import CategorySelector from './category-selector.jsx';
+import {UploadAttachment} from '../utils/upload-attachment';
+import CategorySelector from '../utils/category-selector';
 
 /**
  * 初始值，永不改变，用作initial state，
@@ -61,17 +61,20 @@ const Add=React.createClass({
                     } }/>
                 </Form.Item>
                 <Form.Item label="分类" help="分类" {...formItemLayout} >
-                    <CategorySelector value={this.state.movie.categoryId} onChange={(value)=>{
-                        const movie=Object.assign({},this.state.movie,{categoryId:value});
-                        this.setState({movie:movie});
-                    }} />
+                    <CategorySelector scope="movie" 
+                        value={this.state.movie.categoryId} 
+                        onChange={(value)=>{
+                            const movie=Object.assign({},this.state.movie,{categoryId:value});
+                            this.setState({movie:movie});
+                        }} 
+                    />
                 </Form.Item>
                 <Form.Item label="上传电影"  {...formItemLayout} >
                     <UploadAttachment action="/upload/meiying/video?action=uploadvideo"
                         onChange={(fileList) => {
-                            if (fileList && fileList[0].response && fileList[0].response.url) {
+                            if (fileList && fileList[0].status=="done" && fileList[0].url) {
                                 const movie = Object.assign({}, this.state.movie, {
-                                    url: fileList[0].response.url,
+                                    url: fileList[0].url,
                                 });
                                 const btnSubmit = Object.assign({}, this.state.btnSubmit, {
                                     disabled: false,
@@ -87,11 +90,11 @@ const Add=React.createClass({
                 <Form.Item label="海报" help="如果您不上传，系统将为您自动截取" {...formItemLayout} >
                     <UploadAttachment action="/upload/meiying/image?action=uploadimage"
                         onChange={(info) => {
-                            if (!info.file.response) {
+                            if (!info || !info.file||info.file.status!='done') {
                                 return;
                             }
                             const movie = Object.assign({}, this.state.movie, {
-                                posterUrl: info.file.response.url,
+                                posterUrl: info.file.url,
                             });
                             this.setState({ movie });
                         } }
