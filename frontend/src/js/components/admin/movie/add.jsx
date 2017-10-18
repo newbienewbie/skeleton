@@ -1,11 +1,10 @@
 import React from 'react';
 import {Row,Col,Modal,InputNumber,Form,Input,Select,DatePicker,Upload,Button,message} from 'antd';
 import {Link} from 'react-router';
-import 'whatwg-fetch'; 
-
 import SelectStuff from '../utils/select-stuff.jsx';
 import {UploadAttachment} from '../utils/upload-attachment';
 import CategorySelector from '../utils/category-selector';
+import {model} from './_common/model';
 
 /**
  * 初始值，永不改变，用作initial state，
@@ -221,38 +220,36 @@ export class Add extends React.Component{
                             this.setState({
                                 modal: { visible: true, confirmLoading: true }
                             });
-                            fetch("/movie/add", {
-                                method: 'POST',
-                                headers: {
-                                    "Content-Type": 'application/json',
-                                },
-                                credentials: 'same-origin',
-                                body: JSON.stringify(Object.assign({}, this.state.movie))
-                            })
-                                .then(resp => resp.json())
-                                .then(json => {
-                                    let btnSubmit;
-                                    if (json.result == "SUCCESS") {
-                                        message.success("添加成功");
-                                        //上传成功后禁止再次提交同一个片源
-                                        btnSubmit = Object.assign({}, this.state.btnSubmit, {
-                                            disabled: true,
-                                        });
-                                    } else {
-                                        message.error("添加失败：" + json.message);
-                                        btnSubmit = Object.assign({}, this.state.btnSubmit, {
+
+                            const payload= Object.assign({}, this.state.movie);
+                            if(!this.props.id){
+
+                            }else{
+                                return model.methods.create(payload)
+                                    .then(json => {
+                                        let btnSubmit;
+                                        if (json.result == "SUCCESS") {
+                                            message.success("添加成功");
+                                            //上传成功后禁止再次提交同一个片源
+                                            btnSubmit = Object.assign({}, this.state.btnSubmit, {
+                                                disabled: true,
+                                            });
+                                        } else {
+                                            message.error("添加失败：" + json.message);
+                                            btnSubmit = Object.assign({}, this.state.btnSubmit, {
+                                                disabled: false,
+                                            });
+                                        }
+                                        this.setState({ btnSubmit, modal: { visible: false, confirmLoading: false } });
+                                    })
+                                    .catch(e => {
+                                        const btnSubmit = Object.assign({}, this.state.btnSubmit, {
                                             disabled: false,
                                         });
-                                    }
-                                    this.setState({ btnSubmit, modal: { visible: false, confirmLoading: false } });
-                                })
-                                .catch(e => {
-                                    const btnSubmit = Object.assign({}, this.state.btnSubmit, {
-                                        disabled: false,
+                                        this.setState({ btnSubmit, modal: { visible: false, confirmLoading: false } });
+                                        message.error('异常发生');
                                     });
-                                    this.setState({ btnSubmit, modal: { visible: false, confirmLoading: false } });
-                                    message.error('异常发生');
-                                })
+                            }
                         } }
                         >
                         请确认是否提交？
