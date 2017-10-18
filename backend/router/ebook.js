@@ -4,77 +4,49 @@ const checker=require('../service/auth/authorization-checker');
 const ebookService=require('../service/ebook');
 const categoryService=require('../service/category');
 const {calculatePaginationInfo}=require('pagination-info');
+const {Middleware,message}=require('tiny-service');
 
 
 
 const router=express.Router();
+const middleware=Middleware(ebookService);
 
-router.post("/new",checker.requireLogin(),bodyParser.json(),(req,res)=>{
-    const ebook=req.body;
-    ebook.uploaderId=req.session.userid;
-    ebook.state='draft';
-    ebook.categoryId=parseInt(ebook.categoryId);
-    const info={ status:'SUCCESS',msg:'' };
-    ebookService.create(ebook)
-        .then(()=>{
-            res.end(JSON.stringify(info));
-        })
-        .catch(e=>{
-            info.status="error"; info.msg=e;
-            res.end(JSON.stringify(info));
-        });
-});
+router.post("/create",bodyParser.json(),
+    (req,res,next)=>{
+        const {ebook}=req.body;
+        ebook.uploaderId=req.session.userid;
+        ebook.state='draft';
+        ebook.categoryId=parseInt(ebook.categoryId);
+        req.body.record=ebook;
+    },
+    middleware.create
+);
 
-router.post("/edit",checker.requireLogin(),bodyParser.json(),(req,res)=>{
-    const post=req.body;
-    post.authorId=req.session.userid;
-    post.state='draft';
-    post.categoryId=parseInt(post.categoryId);
-    const info={ status:'SUCCESS',msg:'' };
-    ebookService.edit(post)
-        .then(()=>{
-            res.end(JSON.stringify(info));
-        })
-        .catch(e=>{
-            info.status="error"; info.msg=e;
-            res.end(JSON.stringify(info));
-        });
-});
+router.post("/update",bodyParser.json(),
+    (req,res,next)=>{
+        const {record}=req.body;
+        post.authorId=req.session.userid;
+        post.state='draft';
+        post.categoryId=parseInt(post.categoryId);
+
+    },
+    middleware.update
+);
 
 
 router.get('/detail',(req,res)=>{
     const id=req.query.id;
     ebookService.findById(id).then((post)=>{
         delete post.password;
-        res.send(JSON.stringify(post));
+        res.json(post);
     })
 });
 
 
-router.post('/list', checker.requireLogin(), bodyParser.json(), (req,res)=>{
-    const info=req.body;
-    let page=info.page;
-    page=parseInt(page);
-    page=page>0?page:1;
+router.post('/list',  bodyParser.json(), middleware.list);
 
-    let size=info.size;
-    size=parseInt(size);
-    size=size>0?size:1;
+router.post('/recent',bodyParser.json(), middleware.recent);
 
-    let condition=info.condition;
-    return ebookService.list(page,size,condition)
-        .then((results)=>{
-            const json=JSON.stringify(results);
-            res.end(json);
-        });
-});
-
-router.post('/recent',bodyParser.json(),function(req,res,next){
-    const {categoryId,page,size}=req.body;
-    ebookService.recent(categoryId,page,size).then(list=>{
-        res.end(JSON.stringify(list));
-    });
-});
 
 function checkCanPublish(req){
     // 检查当前用户和当前文章作者是否是同一人
@@ -87,14 +59,11 @@ function checkCanPublish(req){
  */
 router.post("/publish",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return ebookService.publish(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
@@ -103,14 +72,11 @@ router.post("/publish",function(req,res){
  */
 router.post("/approval",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return ebookService.approval(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
@@ -119,14 +85,11 @@ router.post("/approval",function(req,res){
  */
 router.post("/sendback",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return ebookService.sendback(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
@@ -135,14 +98,11 @@ router.post("/sendback",function(req,res){
  */
 router.post("/reject",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return ebookService.reject(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
     
