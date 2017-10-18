@@ -6,6 +6,8 @@ import {accountapi} from './system';
 
 export {postapi} from './post';
 
+export {ebookapi} from './ebook';
+
 export {categoryapi} from './categroy';
 
 export {roleapi,resourceapi,accountapi} from './system';
