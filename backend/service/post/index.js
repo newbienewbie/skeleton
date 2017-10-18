@@ -1,21 +1,26 @@
 const domain=require('../../domain');
 const keywordService=require('../keyword')("post");
 const categoryService=require('../category');
+const {Service}=require('tiny-service');
 
+
+
+const postService=Service(domain.post);
+
+const _findById=postService.findById;
 /**
  * @param {Integer} id 文章id
- * @param {Promise} 文章post的JSON对象
+ * @return {Promise} 文章post的JSON对象
  */
-function findById(id=1){
-    return domain.post.findById(id)
-        .then(post=>{
-            if(!post){
-                return {};
-            }
-            // 创建一个拷贝
-            const p=JSON.parse(JSON.stringify(post));
-            // 获取关键词
-            return keywordService.findAllByTopicId(post.id)
+postService.findById=function(id){
+    return _findById(id).then(post=>{
+        if(!post){
+            return {};
+        }
+        // 创建一个拷贝
+        const p=JSON.parse(JSON.stringify(post));
+        // 获取关键词
+        return keywordService.findAllByTopicId(post.id)
             .then(keywords=>{ 
                 // 设置找到的关键词到之前拷贝的对象上
                 p.keywords=keywords.map(i=>{
@@ -27,20 +32,12 @@ function findById(id=1){
                 });
                 return p;
             })
-        });
-}
-
-/**
- * todo:把condition转化为where
- */
-function list(page=1,size=10,condition={}){
-    return domain.post.findAndCount({
-        offset:(page-1)*size,
-        limit:size,
     });
 }
 
-function recent(categoryId=null,page=1,size=8){
+
+
+postService.recent=function recent(categoryId=null,page=1,size=8){
     // todo:
     // condition.status="approval",
     const condition={};
@@ -90,7 +87,7 @@ function recent(categoryId=null,page=1,size=8){
  * @param {Array} post.keywords
  * @return {Promise} 返回创建的文章对象的Promise
  */
-function create(post){
+postService.create= function create(post){
     // 如果没有摘要，则自动提取前正文
     if(!post.excerpt){
         post.excerpt=post.content;
@@ -104,22 +101,14 @@ function create(post){
                 // 返回创建的文章对象
                 .then(_=>p);
         });
-}
-
-function remove(id){
-    return domain.post.findById(id)
-        .then((post)=>{
-            return post.destroy();
-        });
-}
+};
 
 
 /**
  * 可以对 title、content、slug、password、categoryId,keywords进行修改
  * 如果传递的keywords和数据库中的不同，则对数据库中没有的，予以添加；
  */
-function edit(post){
-    let id=post.id;
+postService.update= function edit(id,post){
     // todo：检查id
 
     let params={
@@ -149,40 +138,36 @@ function edit(post){
             const promiseKeywords=keywordService.edit(id,_keywords);
             return Promise.all([promiseKeywords,promiseUpdatePost]);
         });
-}
+};
 
 
 /**
  * 更改文章状态为发表状态
  */
-function publish(id){
+postService.publish= function publish(id){
     return domain.post.update( {status:'publish'} , {where:{ id,status:'draft' }} );
-}
+};
 
 /**
  * 更改文章状态-通过（至下一节点)
  */
-function approval(id){
+postService.approval= function approval(id){
     return domain.post.update({status:'approval'},{where:{id,status:'publish'}});
-}
+};
 
 /**
  * 更改文章状态-退回（至上一节点以修改）
  */
-function sendback(id){
+postService.sendback= function sendback(id){
     return domain.post.update({status:'draft'},{where:{id,status:'publish'}});
-}
+};
 
 /**
  * 更改文章状态-拒绝（至最终节点）
  */
-function reject(id){
+postService.reject= function reject(id){
     return domain.post.update({status:'reject'},{where:{id,status:'publish'}});
-}
-
-
-module.exports={
-    findById, list,recent,
-    create, remove, edit,
-    publish,sendback,reject,approval
 };
+
+
+module.exports=postService;

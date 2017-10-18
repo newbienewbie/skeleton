@@ -1,83 +1,55 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const checker=require('../service/auth/authorization-checker');
 const postService=require('../service/post');
 const categoryService=require('../service/category');
 const {calculatePaginationInfo}=require('pagination-info');
-
+const {Middleware,message}=require('tiny-service');
 
 const router=express.Router();
-
-router.post("/new",checker.requireLogin(),bodyParser.json(),(req,res)=>{
-    const post=req.body;
-    post.authorId=req.session.userid;
-    post.state='draft';
-    post.categoryId=parseInt(post.categoryId);
-    const info={ status:'SUCCESS',msg:'' };
-    postService.create(post)
-        .then(()=>{
-            res.end(JSON.stringify(info));
-        })
-        .catch(e=>{
-            info.status="error"; info.msg=e;
-            res.end(JSON.stringify(info));
-        });
-});
-
-router.post("/edit",checker.requireLogin(),bodyParser.json(),(req,res)=>{
-    const post=req.body;
-    post.authorId=req.session.userid;
-    post.state='draft';
-    post.categoryId=parseInt(post.categoryId);
-    const info={ status:'SUCCESS',msg:'' };
-    postService.edit(post)
-        .then(()=>{
-            res.end(JSON.stringify(info));
-        })
-        .catch(e=>{
-            info.status="error"; info.msg=e;
-            res.end(JSON.stringify(info));
-        });
-});
+const middleware=Middleware(postService);
 
 
-router.get('/detail',(req,res)=>{
-    const id=req.query.id;
-    postService.findById(id).then((post)=>{
-        delete post.password;
-        res.send(JSON.stringify(post));
-    })
-});
+router.post("/new", bodyParser.json(),
+    (req,res,next)=>{
+        const post=req.body;
+        post.authorId=req.session.userid;
+        post.state='draft';
+        post.categoryId=parseInt(post.categoryId);
+        req.body.record=post;
+        next();
+    },
+    middleware.create
+);
 
-
-router.post('/list',
-    checker.requireLogin(),
+router.post("/edit",
     bodyParser.json(),
+    (req,res,next)=>{
+        const post=req.body;
+        post.authorId=req.session.userid;
+        post.state='draft';
+        post.categoryId=parseInt(post.categoryId);
+        const info={ status:'SUCCESS',msg:'' };
+        req.body.record=post;
+        next();
+    },
+    middleware.update
+);
+
+
+router.get('/detail',
     (req,res)=>{
-        const info=req.body;
-        let page=info.page;
-        page=parseInt(page);
-        page=page>0?page:1;
-
-        let size=info.size;
-        size=parseInt(size);
-        size=size>0?size:1;
-
-        let condition=info.condition;
-        return postService.list(page,size,condition)
-            .then((results)=>{
-                const json=JSON.stringify(results);
-                res.end(json);
-            });
+        const id=req.query.id;
+        postService.findById(id).then((post)=>{
+            delete post.password;
+            res.json(post);
+        })
     }
 );
 
-router.post('/recent',bodyParser.json(),function(req,res,next){
-    const {categoryId,page,size}=req.body;
-    postService.recent(categoryId,page,size).then(list=>{
-        res.end(JSON.stringify(list));
-    });
-});
+
+router.post('/list', bodyParser.json(), middleware.list);
+
+router.post('/recent',bodyParser.json(),middleware.recent);
 
 function checkCanPublish(req){
     // 检查当前用户和当前文章作者是否是同一人
@@ -90,14 +62,11 @@ function checkCanPublish(req){
  */
 router.post("/publish",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return postService.publish(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
@@ -106,14 +75,11 @@ router.post("/publish",function(req,res){
  */
 router.post("/approval",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return postService.approval(id)
         .then(()=>{
             res.end(JSON.stringify(info));
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
@@ -122,14 +88,11 @@ router.post("/approval",function(req,res){
  */
 router.post("/sendback",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return postService.sendback(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
@@ -138,14 +101,11 @@ router.post("/sendback",function(req,res){
  */
 router.post("/reject",function(req,res){
     const id=req.query.id;
-    const info={ status:'SUCCESS',msg:'' };
     return postService.reject(id)
         .then(()=>{
-            res.end(JSON.stringify(info));
+            res.json(message.success());
         }).then((err)=>{
-            info.status='FAIL';
-            info.msg=err;
-            res.end(JSON.stringify(err));
+            res.json(message.fail(err));
         });
 });
 
