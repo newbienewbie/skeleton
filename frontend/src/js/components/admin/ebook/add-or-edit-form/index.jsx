@@ -92,7 +92,7 @@ export class AddOrEditForm extends React.Component{
                             <label>关键词</label>
                         </Col>
                         <Col span={16}>
-                            <KeywordSelector keywords={this.state.keywords} 
+                            <KeywordSelector value={this.state.keywords} 
                                 onChange={(list)=>{
                                     const keywords=list.map((kw,idx)=>{
                                         return { id:idx, tag:kw, };
