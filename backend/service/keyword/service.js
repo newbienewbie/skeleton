@@ -27,15 +27,19 @@ class Service{
     * @param {Array} keywords 关键词数组
     * @return {Promise} 返回批量创建关键词的Promise
     */
-    create(topicId,keywords){
-        const promiseKeywords=keywords
-            .map(i=>{
-                i.id=null;                       // 先清空keyword自带的id，因为创建时会自动生成
-                i.topicId=topicId;               // 设置 topicId
-                i.scope=this.filter;            // 设置 关键词所属的领域
-                return domain.keyword.create(i); // 创建 keyword
-            });
-        return Promise.all(promiseKeywords);
+    create(topicId,keywords=[]){
+        if(Array.isArray(keywords)){
+            const promiseKeywords=keywords
+                .map(i=>{
+                    i.id=null;                       // 先清空keyword自带的id，因为创建时会自动生成
+                    i.topicId=topicId;               // 设置 topicId
+                    i.scope=this.filter;            // 设置 关键词所属的领域
+                    return domain.keyword.create(i); // 创建 keyword
+                });
+            return Promise.all(promiseKeywords);
+        }else{
+            return Promise.resove([]);
+        }
     }
 
     /**
