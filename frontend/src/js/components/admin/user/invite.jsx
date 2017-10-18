@@ -4,33 +4,34 @@ import { accountapi } from "../../../api/admin";
 
 
 
-export const Invite=React.createClass({
+export class Invite extends React.Component{
 
-    getInitialState:function(){
-        return {
-            code: '...',
+    constructor(props){
+        super(props);
+        this.state={
+            code:'...',
         };
-    },
+    }
 
 
-    fetchDataAndChangeState:function(){
+    fetchDataAndChangeState(){
         return accountapi.getInviteCode()
             .then((code)=>{
                 this.setState({ code:code, });
             });
-    },
+    }
 
-    componentDidMount:function(){
-    },
+    componentDidMount(){
+    }
 
-    getSiteUrl:function(){
+    getSiteUrl(){
         let host=document.location.host;
         let schema=document.location.protocol?document.location.protocol:"http:";
         let path='/account';
         return schema+"//"+host+path;
-    },
+    }
 
-    render:function(){
+    render(){
         return (<div>
             <Row>
                 <Col span={4}>            
@@ -61,7 +62,7 @@ export const Invite=React.createClass({
             </Row>
         </div>);
     }
-});
+}
 
 
 

@@ -6,25 +6,18 @@ import {listRolesOfCurrentUser,updateRolesOfUsername,roleapi} from '../../../../
 /**
  * 角色管理
  */
-const RoleManager=React.createClass({
+export class RoleManager extends React.Component{
 
-    getInitialState:function(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             dataSource:[],
             targetKeys:[],
             onChange:()=>{},
         };
-    },
+    }
 
-    getDefaultProps:function(){
-        return { 
-            title:'角色管理',
-            bordered:true,
-            record:{}, 
-        };
-    },
-
-    fetchAllRoles:function(){
+    fetchAllRoles(){
         return listRolesOfCurrentUser().then(result=>{
             const count=result.count;
             const roles=result.rows;
@@ -39,17 +32,18 @@ const RoleManager=React.createClass({
                 }),
             });
         });
-    },
+    }
 
-    componentDidMount:function(){
+    componentDidMount(){
         this.fetchAllRoles();
-    },
+    }
+
     /**
      * 当收到属性时，
      *     1. 更新当前用户对应的targetKeys：载入新属性中的记录的roles 到当前state
      *     2. 重置dataSource
      */
-    componentWillReceiveProps:function(nextProps){
+    componentWillReceiveProps(nextProps){
         if(nextProps.record.username==this.props.record.username){
             return;
         }else{
@@ -60,9 +54,9 @@ const RoleManager=React.createClass({
                     this.setState({ targetKeys})
                 });
         }
-    },
+    }
 
-    render:function(){
+    render(){
         return (<Card title={this.props.title} bordered={this.props.bordered}  >
 
             <div>
@@ -93,9 +87,14 @@ const RoleManager=React.createClass({
                 </Button>
             </div>
         </Card>);
-    },
-});
+    }
+}
+
+RoleManager.defaultProps={
+    title:'角色管理',
+    bordered:true,
+    record:{}, 
+};
 
 
-
-module.exports=RoleManager;
+export default RoleManager;

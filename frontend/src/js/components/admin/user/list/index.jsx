@@ -8,13 +8,14 @@ import PasswordManager from './password-manager.jsx';
 /**
  * 列表
  */
-const List=React.createClass({
-    getInitialState:function(){
-        return {
+export class List extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
             record:{},
         };
-    },
-    render:function(){
+    }
+    render(){
         return (<div>
             <Datagrid 
                 columns={[
@@ -46,8 +47,8 @@ const List=React.createClass({
             </Row>
         </div>);
     }
-});
+}
 
 
 
-module.exports=List;
+export default List;

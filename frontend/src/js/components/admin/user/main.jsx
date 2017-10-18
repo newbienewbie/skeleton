@@ -6,9 +6,9 @@ import Invite from './invite.jsx';
 import {AsideOfUserControl} from '../utils/aside.jsx';
 
 
-const Main=React.createClass({
+export class Main extends React.Component{
 
-    render:function () {
+    render() {
         return (<Row>
             <Col span={4}> <AsideOfUserControl /> </Col>
             <Col span={20}>
@@ -18,7 +18,7 @@ const Main=React.createClass({
             </Col>
         </Row>);
     }
-})
+}
 
 
 module.exports={Main,Home,List,Invite};

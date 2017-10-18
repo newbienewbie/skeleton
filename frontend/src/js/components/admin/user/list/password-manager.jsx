@@ -1,6 +1,5 @@
 import React from 'react';
 import {Card,Button,Modal,message} from 'antd';
-import 'whatwg-fetch';
 import RoleManager from './role-manager.jsx';
 
 
@@ -8,22 +7,14 @@ import RoleManager from './role-manager.jsx';
 /**
  * 重置密码
  */
-const PasswordManager=React.createClass({
+export class PasswordManager extends React.Component{
 
-    getDefaultProps:function(){
-        return {
-            record:[],
-            title:'密码管理',
-            bordered:true,
-        };
-    },
+    constructor(props){
+        super(props);
+        this.state={ };
+    }
 
-    getInitialState:function(){
-        return { };
-    },
-
-
-    render:function(){
+    render(){
         return (<Card title={this.props.title} bordered={this.props.bordered} >
 
             <div>
@@ -43,8 +34,12 @@ const PasswordManager=React.createClass({
 
         </Card>);
     }
-});
+}
 
+PasswordManager.defaultProps= {
+    record:[],
+    title:'密码管理',
+    bordered:true,
+};
 
-
-module.exports=PasswordManager;
+export default PasswordManager;
