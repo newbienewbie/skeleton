@@ -1,6 +1,5 @@
 import React from 'react';
 import {Row,Col} from 'antd';
-import 'whatwg-fetch';
 import {PostManager} from './post-manager.jsx';
 
 import {defaultDecoratedForm,datagrid} from 'tiny-admin';
