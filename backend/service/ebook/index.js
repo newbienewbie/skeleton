@@ -1,14 +1,17 @@
 const domain=require('../../domain');
 const keywordService=require('../keyword')("ebook");
 const categoryService=require('../category');
+const {Service,message}=require('tiny-service');
 
+const ebookService=Service(domain.ebook);
 
+const _findById=ebookService.findById;
 /**
  * @param {Integer} id book id
  * @return {Promise} book 的JSON对象
  */
-function findById(id){
-    return domain.ebook.findById(id)
+ebookService.findById=function findById(id){
+    return _findById(id)
         .then(ebook=>{
             if(!ebook){
                 return ebook;
@@ -31,16 +34,6 @@ function findById(id){
         });
 }
 
-/**
- * todo:把condition转化为where
- */
-function list(page=1,size=10,condition={}){
-    return domain.ebook.findAndCount({
-        offset:(page-1)*size,
-        limit:size,
-    });
-}
-
 
 /**
  * 指定categoryId，逆序找出相应分页的记录。如果categoryId为false，则检索全部
@@ -49,7 +42,7 @@ function list(page=1,size=10,condition={}){
  * @param {Number} page 
  * @param {Number} size 
  */
-function recent(categoryId=null,page=1,size=8){
+ebookService.recent=function recent(categoryId=null,page=1,size=8){
     const condition={};
     let _categoryId=!!categoryId?categoryId:null;
     return categoryService.getCategorySubnodeIdList(categoryId,{scope:'ebook'})
@@ -77,7 +70,7 @@ function recent(categoryId=null,page=1,size=8){
  * @param {Object} book 文章对象模型，
  * @return {Promise} 返回创建的 ebook 对象的Promise
  */
-function create(ebook){
+ebookService.create=function create(ebook){
     return domain.ebook.create(ebook)    // 创建 book 本体
         // 创建附属信息
         .then(e=>{       
@@ -102,21 +95,15 @@ function create(ebook){
         });
 }
 
-function remove(id){
-    return domain.ebook.destroy({
-        where:{id:id}
-    });
-}
 
 
 /**
  * 可以对 title等进行修改
  * 如果传递的keywords和数据库中的不同，则对数据库中没有的，予以添加；
  */
-function edit(book){
-    let id=book.id;
-    // todo：检查id
-
+const _update=ebookService.update;
+ebookService.update= function edit(id,book){
+   
     let params={
         title:book.title,
         isbn:book.isbn,
@@ -126,10 +113,8 @@ function edit(book){
         url:book.url,
         note:book.note,
     };
-    return domain.ebook.update(
-            params,
-            {where:{id}}
-        ).then(_=>{    // 更新附属的关键词
+    return _update(id, params )
+        .then(_=>{    // 更新附属的关键词
             return keywordService.edit(id,book.keywords);
         });
 }
@@ -138,34 +123,30 @@ function edit(book){
 /**
  * 更改书籍状态为发表状态
  */
-function publish(id){
+ebookService.publish=function publish(id){
     return domain.ebook.update( {status:'publish'} , {where:{ id,status:'draft' }} );
 }
 
 /**
  * 更改书籍状态-通过（至下一节点)
  */
-function approval(id){
+ebookService.approval=function approval(id){
     return domain.ebook.update({status:'approval'},{where:{id,status:'publish'}});
 }
 
 /**
  * 更改书籍状态-退回（至上一节点以修改）
  */
-function sendback(id){
+ebookService.sendback=function sendback(id){
     return domain.ebook.update({status:'draft'},{where:{id,status:'publish'}});
 }
 
 /**
  * 更改书籍状态-拒绝（至最终节点）
  */
-function reject(id){
+ebookService.reject=function reject(id){
     return domain.ebook.update({status:'reject'},{where:{id,status:'publish'}});
 }
 
 
-module.exports={
-    findById, list,recent,
-    create, remove, edit,
-    publish,sendback,reject,approval
-};
+module.exports=ebookService;
