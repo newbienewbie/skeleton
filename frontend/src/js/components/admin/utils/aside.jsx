@@ -5,8 +5,8 @@ import {Link} from 'react-router';
 /**
  * Dashboard 的侧边栏
  */
-export const AsideOfConsole = React.createClass({
-    render: function () {
+export class AsideOfConsole extends React.Component{
+    render () {
         return (<Menu mode="inline">
             <Menu.SubMenu key='video' title="视频" >
                 <Menu.ItemGroup key="videoGroup">
@@ -40,12 +40,12 @@ export const AsideOfConsole = React.createClass({
             </Menu.SubMenu>
         </Menu>);
     }
-});
+};
 
 
 
-export const AsideOfUserControl = React.createClass({
-    render: function () {
+export class AsideOfUserControl extends React.Component{
+    render () {
         return (<Menu mode="inline">
             <Menu.SubMenu key="user" title="用户">
                 <Menu.ItemGroup key="userGroup">
@@ -79,6 +79,6 @@ export const AsideOfUserControl = React.createClass({
             </Menu.SubMenu>
         </Menu>);
     }
-});
+}
 
 export default AsideOfConsole;

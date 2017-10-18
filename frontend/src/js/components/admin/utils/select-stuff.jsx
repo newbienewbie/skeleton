@@ -2,33 +2,18 @@ import React from 'react';
 import {Select,message} from 'antd';
 import 'whatwg-fetch'; 
 
-const SelectStuff=React.createClass({
+export class SelectStuff extends React.Component{
 
-    getDefaultProps:function(){
-        return {
-            remoteUrl:"",
-            /**
-             * 负责把服务端返回的JSON数据转换为state中的data属性值,
-             * data 一般是[{k:'',v:''},]的格式参见 getInitialState返回的初始state 
-             */
-            convert:(json)=>{
-                return [];
-            },   
-            placeholder:'',
-            notFoundContent:'无此选项',
-            onChange:()=>{},
-        };
-    },
-
-    getInitialState:function(){
-        return {
+    constructor(props){
+        super(props);
+        this.state= {
             data:[
                 {k:'',v:''},    
             ],
         };
-    },
+    }
 
-    componentDidMount:function(){
+    componentDidMount(){
         fetch(this.props.remoteUrl,{
             credentials: 'same-origin'
         })
@@ -39,9 +24,9 @@ const SelectStuff=React.createClass({
                 ()=>{ }
             );
         });
-    },
+    }
 
-    render:function(){
+    render(){
         return(
             <Select showSearch placeholder={this.props.placeholder} defaultValue={this.props.defaultValue}
                 optionFilterProp="children" notFoundContent={this.props.notFoundContent}
@@ -54,8 +39,23 @@ const SelectStuff=React.createClass({
                 })}  
             </Select>
         ); 
-    },
+    }
 
-});
+}
+
+SelectStuff.defaultProps={
+    remoteUrl:"",
+    /**
+     * 负责把服务端返回的JSON数据转换为state中的data属性值,
+     * data 一般是[{k:'',v:''},]的格式参见 getInitialState返回的初始state 
+     */
+    convert:(json)=>{
+        return [];
+    },   
+    placeholder:'',
+    notFoundContent:'无此选项',
+    onChange:()=>{},
+};
+
 
 export default SelectStuff;

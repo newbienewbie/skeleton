@@ -21,13 +21,13 @@ message.config({
 /**
  * Dashboard 应用
  */
-const Main = React.createClass({
-    render: function () {
+class Main extends React.Component{
+    render () {
         return (<div>
             <Nav/>
             {this.props.children || <Home/>}
         </div>);
     }
-});
+}
 
 export default {Main,Post,Movie,Ebook,User,Role,Resource};

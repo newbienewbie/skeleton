@@ -5,8 +5,8 @@ import {Menu} from 'antd';
 /**
  * Dashboard的上部导航
  */
-const TopNav = React.createClass({
-    render: function (params) {
+class TopNav extends React.Component{
+    render (params) {
         return (<nav >
             <Menu mode="horizontal">
                 <Menu.Item  key="project">
@@ -24,7 +24,7 @@ const TopNav = React.createClass({
             </Menu>
         </nav>);
     }
-});
+}
 
 
 export default TopNav;

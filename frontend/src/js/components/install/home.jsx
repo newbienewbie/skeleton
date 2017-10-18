@@ -4,10 +4,11 @@ import {Card,Row,Col,Button,Steps,Form,Input,Alert} from 'antd';
 import Api from '../../api/install';
 
 
-const Home=React.createClass({
+class Home extends React.Component{
 
-    getInitialState:function(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             current:0,
             status:'wait',
             msg:'',
@@ -17,16 +18,17 @@ const Home=React.createClass({
                 email:'',
             },
         };
-    },
+    }
 
-    promiseSetState:function(state){
+
+    promiseSetState(state){
         this.setState(state,()=>{
             console.log(`已经进行到step: ${this.state.current} `);
             return Promise.resolve(this.state);
         });
-    },
+    }
 
-    install:function(){
+    install(){
         // 依次安装 ，设置状态
         this.setState({status:'process'},()=>{
             let current=0;
@@ -69,9 +71,9 @@ const Home=React.createClass({
             });
         });
 
-    },
+    }
 
-    render: function () {
+    render () {
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -109,7 +111,8 @@ const Home=React.createClass({
             </Row>
         </div>);
     }
-});
+}
+
 
 
 

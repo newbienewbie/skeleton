@@ -2,8 +2,8 @@ import React from 'react';
 import {Row,Col} from 'antd';
 import {AsideOfConsole} from './utils/aside.jsx';
 
-export const Home=React.createClass({
-    render:function(){
+export class Home extends React.Component{
+    render(){
         return (<Row>
             <Col span={4}>
                 <AsideOfConsole />
@@ -13,7 +13,7 @@ export const Home=React.createClass({
             </Col>
         </Row> );
     }
-});
+}
 
 
 export default Home;
