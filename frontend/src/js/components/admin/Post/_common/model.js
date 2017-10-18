@@ -26,6 +26,10 @@ const model={
         update:postapi.update,
         list:postapi.list,
         detail:postapi.detail,
+        publish:postapi.publish,
+        approval:postapi.approval,
+        sendback:postapi.sendback,
+        reject:postapi.reject,
     }
 };
 
