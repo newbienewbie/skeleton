@@ -1,10 +1,10 @@
 import React from 'react';
 import UEditor from 'simple-react-ui/dist/ueditor';
-import 'whatwg-fetch';
 import {Row,Col,Button,Select,Switch,Upload,message} from 'antd';
 import {KeywordSelector} from '../../utils/keyword-selector.js';
 import {CategorySelector} from '../../utils/category-selector'; 
 import {UploadAttachment} from '../../utils/upload-attachment';
+import {model} from '../_common/model';
 import './style.less';
 
 /**
@@ -139,10 +139,7 @@ export class AddOrEditForm extends React.Component{
                     const id=this.props.id;
                     if(!!id){    // 当前是在编辑模式
                         // 获取最新的数据
-                        fetch(`/ebook/detail?id=${id}`,{
-                            method:'get',
-                            credentials:'same-origin',
-                        }).then(resp=>resp.json())
+                        return model.methods.detail(id)
                         .then(info=>{
                             const state=Object.assign({},info);
                             state.keywords;
@@ -150,9 +147,7 @@ export class AddOrEditForm extends React.Component{
                                 ue.setContent(info.description);
                             });
                         });
-                    }else{ // 当前是新增模式
-                    
-                    }
+                    }else{ /*当前是新增模式*/ }
                 }} 
             /> 
             <Button onClick={e=>{
@@ -168,30 +163,39 @@ export class AddOrEditForm extends React.Component{
                 if(!!!categoryId){ message.error(`专栏不得为空`); return false; }
                 if(!!!description){ message.error(`内容不得为空`); return false; }
 
-                fetch(`${this.props.url}`,{
-                    method:'post',
-                    credentials:'same-origin',
-                    headers:{
-                        "Content-Type":"application/json",
-                    },
-                    body:JSON.stringify({ 
-                        id,title,isbn,author,categoryId,
-                        description,keywords,
-                        posterUrl, url,
-                    })
-                })
-                .then(info=>info.json())
-                .then((info)=>{
-                    if(info.status=="SUCCESS"){
-                        console.log(info);
-                        message.info(`添加文章成功！`);
-                        ue.setContent('');
-                    }
-                    else{ 
-                        console.log(info);
-                        message.error(`添加文章失败！`);
-                    }
-                });
+                const payload={
+                    id,title,isbn,author,categoryId,
+                    description,keywords,
+                    posterUrl, url,
+                };
+                if(!!id){
+                    return model.methods.update(id,payload)
+                        .then((info)=>{
+                            if(info.status=="SUCCESS"){
+                                console.log(info);
+                                message.info(`添加文章成功！`);
+                                ue.setContent('');
+                            }
+                            else{ 
+                                console.log(info);
+                                message.error(`添加文章失败！`);
+                            }
+                        });
+                }else{
+                    return model.methods.create(payload)
+                        .then((info)=>{
+                            if(info.status=="SUCCESS"){
+                                console.log(info);
+                                message.info(`添加文章成功！`);
+                                ue.setContent('');
+                            }
+                            else{ 
+                                console.log(info);
+                                message.error(`添加文章失败！`);
+                            }
+                        });
+                }
+
             }}>提交
             </Button>
         </form>);
