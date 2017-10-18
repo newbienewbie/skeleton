@@ -9,7 +9,7 @@ const model={
             title:'角色名',
         },
         "description":{
-            title:"角色米哦啊书",
+            title:"角色描述",
         },
     },
     methods:{

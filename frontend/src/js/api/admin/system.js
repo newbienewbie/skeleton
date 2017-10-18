@@ -3,7 +3,7 @@ import {API} from 'tiny-api';
 export const roleapi=API('role');
 export const resourceapi=API('resource');
 export const accountapi=API('account');
-export const categoryapi=API('category');
+
 
 const client=roleapi.getTransport();
 
@@ -13,36 +13,34 @@ const defaultClientOpts= {
     },
 };
 
+
+/**
+ * 获取邀请码
+ */
 accountapi.getInviteCode=function(){
     return client.get('/account/invite')
         .then( resp=>resp.data,e=>{throw e;})
 };
 
-
-categoryapi.getCategoryList=function(scope='post'){
-    return client.get(`/category/list/${scope}`)
-        .then( resp=>resp.data,e=>{throw e;});
-}
-
-categoryapi.getCategoryTree=function(scope='post'){
-    return client.get(`/category/tree/${scope}`)
-        .then( resp=>resp.data,e=>{throw e;});
-}
-
-
-export function listRolesOfCurrentUser(page=1,size=8,condition={}){
+/**
+ * 列举当前用户的角色
+ */
+accountapi.listRolesOfCurrentUser=function(page=1,size=8,condition={}){
     return client.post('/role/list',
         JSON.stringify({page,size,condition}),
         defaultClientOpts
     ).then(resp=>resp.data,e=>{throw e;});
-}
+};
 
-export function updateRolesOfUsername(username,roles){
+/**
+ * 通过用户名列举其角色
+ */
+accountapi.updateRolesOfUsername=function(username,roles){
     return client.post('/role/update-roles-of-username',
         JSON.stringify({username,roles}),
         defaultClientOpts
     ).then(resp=>resp.data,e=>{throw e;});
-}
+};
 
 
 
@@ -144,13 +142,4 @@ resourceapi.grantResourceToRoleCancel=function(resourceId,context){
         JSON.stringify(payload),
         defaultClientOpts
     ).then(resp=>resp.data,e=>{throw e;});
-};
-
-
-export default {
-    accountapi,
-    roleapi,
-    resourceapi,
-    listRolesOfCurrentUser,
-    updateRolesOfUsername,
 };
