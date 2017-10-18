@@ -5,16 +5,18 @@ import 'whatwg-fetch';
 
 
 
-export const List=React.createClass({
+export class List extends React.Component{
 
-    getInitialState(){
-        return {id:'',refreshCode:1};
-    },
+    constructor(props){
+        super(props);
+        this.state={
+            id:'',
+            refreshCode:1
+        };
+    }
 
-    getDefaultProps(){
-    },
 
-    render:function(){
+    render(){
         return (<div>
             <Datagrid 
                 refreshCode={this.state.refreshCode}
@@ -45,7 +47,7 @@ export const List=React.createClass({
             />
         </div>);
     }
-})
+}
 
 
 export default List;

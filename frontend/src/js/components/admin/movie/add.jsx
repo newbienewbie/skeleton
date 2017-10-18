@@ -26,24 +26,21 @@ const _movie={
 };
 
 
-const Add=React.createClass({
+export class Add extends React.Component{
 
-    getInitialState:function(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             modal:{visible:false,confirmLoading:false},
             movie:_movie,
             btnSubmit:{
                 disabled:true,
             },
         };
-    },
+    }
 
-    getDefaultProps:function(){
-        return{
-        };
-    },
 
-    render:function(){
+    render(){
         const _movie=Object.assign({},_movie);
         const formItemLayout = {
             labelCol: { span: 6 },
@@ -265,7 +262,7 @@ const Add=React.createClass({
         </div>
         );
     }
-});
+}
 
 export default Add;
 

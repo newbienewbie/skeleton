@@ -9,9 +9,9 @@ import List from './list/index.jsx';
 import {AsideOfConsole} from '../utils/aside.jsx';
 
 
-const Main=React.createClass({
+export class Main extends React.Component{
 
-    render:function () {
+    render() {
         return (<Row>
             <Col span={4}> <AsideOfConsole /> </Col>
             <Col span={20}>
@@ -21,6 +21,6 @@ const Main=React.createClass({
             </Col>
         </Row>);
     }
-});
+}
 
 export default { Main,Home,Add,List} ; 

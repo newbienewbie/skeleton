@@ -1,13 +1,13 @@
 import React from 'react';
 
 
-const Home=React.createClass({
+export class Home extends React.Component{
 
 
-    render:function(){
+    render(){
         return <div>movie home</div>;
     }
 
-});
+}
 
 export default Home;
