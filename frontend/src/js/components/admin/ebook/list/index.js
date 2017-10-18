@@ -4,19 +4,17 @@ import {Row,Col} from 'antd';
 import 'whatwg-fetch';
 import {Manager} from './manager.jsx';
 
-export const List=React.createClass({
+export class List extends React.Component{
 
-    getInitialState(){
-        return {ebookId:'',refreshCode:1};
-    },
-
-    getDefaultProps(){
-        return {
-            job:'author',
+    constructor(props){
+        super(props);
+        this.state={
+            ebookId:'',
+            refreshCode:1
         };
-    },
+    }
 
-    render:function(){
+    render(){
         return (<div>
             <Datagrid 
                 refreshCode={this.state.refreshCode}
@@ -56,7 +54,11 @@ export const List=React.createClass({
             />
         </div>);
     }
-})
+}
+
+List.defaultProps={
+    job:'author',
+};
 
 
 export default List;

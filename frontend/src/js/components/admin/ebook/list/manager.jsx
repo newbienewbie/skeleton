@@ -5,40 +5,33 @@ import {ToolBar} from './toolbar.jsx';
 
 
 
-export const Manager=React.createClass({
+export class Manager extends React.Component{
 
-    getInitialState:function(){
-        return {
+    constructor(props){
+        super(props);
+        this.state={
             ebook:{},
             onChange:()=>{},
         };
-    },
-
-    getDefaultProps:function(){
-        return { 
-            id:'',
-            record:{}, 
-            job:'author',
-            afterOperation:()=>{}
-        };
-    },
+    }
 
 
-    componentDidMount:function(){
-    },
+
+    componentDidMount(){
+    }
 
     /**
      * 当收到属性时
      */
-    componentWillReceiveProps:function(nextProps){
+    componentWillReceiveProps(nextProps){
         if(nextProps.record.id==this.props.record.id){
             return;
         }else{
             this.setState({ebook:nextPorps.record});
         }
-    },
+    }
 
-    render:function(){
+    render(){
         return (<div>
             <ToolBar job={this.props.job} id={this.props.id}
                 onPublish={()=>{
@@ -120,8 +113,15 @@ export const Manager=React.createClass({
                 }}
             />
         </div>);
-    },
-})
+    }
+}
+
+Manager.defaultProps={
+    id:'',
+    record:{}, 
+    job:'author',
+    afterOperation:()=>{}
+};
 
 
 export default Manager;

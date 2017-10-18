@@ -5,9 +5,9 @@ import Edit from './edit';
 import List from './list';
 import {AsideOfConsole} from '../utils/aside.jsx';
 
-const Main=React.createClass({
+export class Main extends React.Component{
 
-    render:function () {
+    render() {
 
         return (<Row>
             <Col span={4}>
@@ -20,7 +20,7 @@ const Main=React.createClass({
             </Col>
         </Row> );
     }
-});
+}
 
 
 export default {Main,Add,List,Edit}; 
