@@ -1,16 +1,22 @@
 const domain=require('../../domain');
 const keywordService=require('../keyword')("movie");
 const categoryService=require('../category');
+const {Service,message}=require('tiny-service');
 
 
+
+const movieService=Service(domain.movie);
+
+
+const _create=movieService.create;
 /**
  * 创建影片的服务
  * @param {Object} movie 影片对象模型，
  * @param {Array} movie.keywords
  * @return {Promise} 返回创建的影片对象的Promise
  */
-function create(movie){
-    return domain.movie.create(movie)    // 创建 movie
+movieService.create= function create(movie){
+    return _create(movie)    // 创建 movie
         // 创建附属信息
         .then(m=>{       
             if(!movie.keywords || !Array.isArray(movie.keywords)){
@@ -23,27 +29,13 @@ function create(movie){
         });
 }
 
-/**
- * 删除影片
- * @param {Number} id 
- */
-function remove(id){
-    return domain.movie.findById(id)
-        .then((movie)=>{
-            if(movie){
-                return movie.destroy();
-            }else{
-                return null;
-            }
-        });
-}
 
 
 /**
  * @param {Integer} 影片id id
  * @param {Promise} 影片JSON对象
  */
-function findById(id=1){
+movieService.findById= function findById(id=1){
     return domain.movie.findById(id,{
         include:[
             {
@@ -73,10 +65,10 @@ function findById(id=1){
             return m;
         })
     });
-}
+};
 
 
-function recent(categoryId=null,page=1,size=8){
+movieService.recent= function recent(categoryId=null,page=1,size=8){
     // todo:
     // condition.status="approval",
     const condition={};
@@ -119,7 +111,7 @@ function recent(categoryId=null,page=1,size=8){
             });
             return {rows:_list,count:total};
         });
-}
+};
 
 
 
@@ -130,11 +122,8 @@ function recent(categoryId=null,page=1,size=8){
  * @param {Object} movie
  * @param {Array} movie.keywords ，eg:[{tag:''},{tag:''},]
  */
-function edit(moive){
-    let id=movie.id;
-    // todo：检查id
-    const {
-        title,knownAs,description,categoryId,languageId,countryId,
+movieService.update= function edit(id,moive){
+    const { title,knownAs,description,categoryId,languageId,countryId,
         director,runtime,aspectRatio,releaseDate,posterUrl,url,note,keywords
     }=movie;
 
@@ -160,34 +149,30 @@ function edit(moive){
 /**
  * 更改文章状态为发表状态
  */
-function publish(id){
+movieService.publish= function publish(id){
     return domain.movie.update( {status:'publish'} , {where:{ id,status:'draft' }} );
 }
 
 /**
  * 更改文章状态-通过（至下一节点)
  */
-function approval(id){
+movieService.approval= function approval(id){
     return domain.movie.update({status:'approval'},{where:{id,status:'publish'}});
 }
 
 /**
  * 更改文章状态-退回（至上一节点以修改）
  */
-function sendback(id){
+movieService.sendback= function sendback(id){
     return domain.movie.update({status:'draft'},{where:{id,status:'publish'}});
 }
 
 /**
  * 更改文章状态-拒绝（至最终节点）
  */
-function reject(id){
+movieService.reject= function reject(id){
     return domain.movie.update({status:'reject'},{where:{id,status:'publish'}});
 }
 
 
-module.exports={
-    findById, recent,
-    create, remove, edit,
-    publish,sendback,reject,approval
-};
+module.exports=movieService;
