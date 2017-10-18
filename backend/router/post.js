@@ -15,7 +15,9 @@ router.post("/create", bodyParser.json(),
         record.authorId=req.session.userid;
         record.state='draft';
         record.categoryId=parseInt(record.categoryId);
-        record.featureImageUrl=record.featureImageUrl[0].url;
+        if(Array.isArray(record.featureImageUrl)){
+            record.featureImageUrl=record.featureImageUrl[0].url;
+        }
         next();
     },
     middleware.create
@@ -26,11 +28,13 @@ router.post('/remove',bodyParser.json(),middleware.remove);
 router.post("/update",
     bodyParser.json(),
     (req,res,next)=>{
-        const post=req.body.record;
-        post.authorId=req.session.userid;
-        post.state='draft';
-        post.categoryId=parseInt(post.categoryId);
-        record.featureImageUrl=record.featureImageUrl[0].url;
+        const {record}=req.body;
+        record.authorId=req.session.userid;
+        record.state='draft';
+        record.categoryId=parseInt(record.categoryId);
+        if(Array.isArray(record.featureImageUrl)){
+            record.featureImageUrl=record.featureImageUrl[0].url;
+        }
         next();
     },
     middleware.update
