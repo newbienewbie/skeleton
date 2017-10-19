@@ -1,6 +1,6 @@
 import React from 'react';
 import {Select,message} from 'antd';
-import 'whatwg-fetch'; 
+import {miscapi } from "../../../api/admin";
 
 export class SelectStuff extends React.Component{
 
@@ -14,16 +14,13 @@ export class SelectStuff extends React.Component{
     }
 
     componentDidMount(){
-        fetch(this.props.remoteUrl,{
-            credentials: 'same-origin'
-        })
-        .then(resp=>resp.json())
-        .then((d)=>{
-            this.setState(
-                {data:this.props.convert(d)},
-                ()=>{ }
-            );
-        });
+        return miscapi.selectStuff(this.props.remoteUrl)
+            .then((d)=>{
+                this.setState(
+                    {data:this.props.convert(d)},
+                    ()=>{ }
+                );
+            });
     }
 
     render(){

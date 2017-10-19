@@ -1,8 +1,4 @@
-import {API} from 'tiny-api';
-import {accountapi} from './system';
-
-
-
+import { accountapi } from "./system";
 
 export {postapi} from './post';
 
@@ -13,6 +9,9 @@ export {movieapi} from './movie';
 export {categoryapi} from './categroy';
 
 export {roleapi,resourceapi,accountapi} from './system';
+
+export {miscapi} from './misc';
+
 
 export const listRolesOfCurrentUser=accountapi.listRolesOfCurrentUser;
 

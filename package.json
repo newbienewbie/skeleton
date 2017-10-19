@@ -40,10 +40,9 @@
     "remarkable": "^1.6.2",
     "sequelize": "^4.10.2",
     "simple-react-ui": "^3.0.2",
-    "tiny-admin": "^0.2.5",
+    "tiny-admin": "^0.2.6",
     "tiny-api": "^0.2.1",
-    "tiny-service": "^0.2.1",
-    "whatwg-fetch": "^1.0.0"
+    "tiny-service": "^0.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
