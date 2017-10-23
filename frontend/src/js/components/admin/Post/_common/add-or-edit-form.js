@@ -13,15 +13,6 @@ export class PlainAddOrEditForm extends React.Component{
 
     constructor(props){
         super(props);
-        this.state= {
-            title:'',
-            categoryId:'',
-            featureImageUrl:'#',
-            keywords:[
-                {id:null,postId:null,tag:''},
-            ],
-            commentable:true,
-        };
     }
 
     render() {
