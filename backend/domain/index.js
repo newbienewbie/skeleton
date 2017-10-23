@@ -130,9 +130,9 @@ Role.belongsToMany(Resource,{
     otherKey:'resource_id',
 });
 
-/////////////////////////////////////////////////////////////////////
 
 
+/////////////////// common
 
 const Language=sequelize.import('./entity/common/language.js');
 const Country=sequelize.import('./entity/common/country.js');
@@ -143,207 +143,29 @@ TopicUserOpinion.belongsTo(User,{foreignKey:'user_id'});
 const TopicKeyword=sequelize.import('./entity/common/topic-keyword.js');
 
 
-const Director=sequelize.import('./entity/director.js');
-const Movie=sequelize.define(
-    'movie', 
-    {
-      id: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      knownAs: {
-        field:"known_as",
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      categoryId: {
-        type: Sequelize.INTEGER,
-        allowNull:false,
-        field:'category_id'
-      },
-      languageId: {
-        field:'language_id',
-        type: Sequelize.INTEGER(11),
-        allowNull: true,
-      },
-      director: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      runtime: {
-        type: Sequelize.INTEGER(11),
-        allowNull: true
-      },
-      aspectRatio: {
-        field:'aspect_ratio',
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      releaseDate: {
-        field:'release_date',
-        type: Sequelize.DATE,
-        allowNull: true
-      },
-      countryId: {
-        field:'country_id',
-        type: Sequelize.INTEGER(11),
-        allowNull: true,
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      posterUrl: {
-        field:'poster_url',
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      url:{
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      note: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      uploaderId:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        defaultValue:'-1',
-      },
-      status:{
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue:'draft',
-        comment:'状态：draft，censoring，published,banned',
-      },
-      publishedAt:{
-        type:Sequelize.DATE,
-        allowNull:true,
-        filed:'published_at',
-        comment:'即发布者提交的发布日期，有可能需要后续审核，不同于创建的首次保存日期', 
-      }
-    }, 
-    {
-      tableName: 'movie'
-    }
-);
 
-const Screenshot=sequelize.define(
-    'screenshot',
-    {
-        id: {
-            type: Sequelize.BIGINT,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        movieId: {
-            field: 'movie_id',
-            type: Sequelize.BIGINT,
-            allowNull: true,
-            references: {
-                model: 'movie',
-                key: 'id'
-            }
-        },
-        url: {
-            type: Sequelize.STRING,
-            allowNull: true
-        },
-        title: {
-            type: Sequelize.STRING,
-            allowNull: true
-        }
-    },
-    {
-        tableName: 'screenshot'
-    }
-);
+////////////////// cms
+const Post=sequelize.import('./entity/cms/post.js');
+const Ebook =sequelize.import('./entity/cms/ebook.js');
+const Movie=sequelize.import('./entity/cms/movie.js');
+const Screenshot=sequelize.import('./entity/cms/screenshot.js');
+const Director=sequelize.import('./entity/cms/director.js');
 
-const Post=sequelize.define(
-    'post', 
-    {
-        title: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        slug:{
-          type: Sequelize.STRING,
-          allowNull: true,
-          field:'slug',
-          comment:'slug',
-        },
-        content: {
-          type: Sequelize.TEXT,
-          allowNull: false,
-        },
-        excerpt:{
-          type:Sequelize.TEXT,
-          allowNull:false,
-          comment:'摘要',
-        },
-        featureImageUrl:{
-          type: Sequelize.STRING,
-          allowNull: true,
-          field:'feature_image_url',
-          comment:'特色图片URL',
-        },
-        authorId: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          field:'author_id',
-        },
-        password:{
-          type: Sequelize.STRING,
-          allowNull: true,
-          field:'password',
-          comment:'保护密码',
-        },
-        status: {
-          type: Sequelize.STRING,
-          allowNull: false,
-          defaultValue:'draft',
-          comment:'状态：draft，censoring，published,banned',
-        },
-        departmentId: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          field:'department_id',
-        },
-        categoryId: {
-          type: Sequelize.INTEGER,
-          allowNull:false,
-          field:'category_id'
-        },
-        publishedAt:{
-          type:Sequelize.DATE,
-          allowNull:true,
-          filed:'published_at',
-          comment:'即作者提交的发布日期，有可能需要后续审核，不同于创建的首次保存日期',
-        },
-        commentable:{
-          type:Sequelize.BOOLEAN,
-          allowNull:false,
-          defaultValue:true,
-          field:'commentable',
-          comment:'是否可以评论',
-        }
-        
-      },
-      {
-        tableName: 'post'
-      }
-);;
+Post.belongsTo(Category);
+Post.belongsTo(User,{foreignKey:'author_id',as:'author'});
+
+Director.belongsTo(Country);
+Movie.belongsTo(Language);
+Movie.belongsTo(Country);
+Movie.belongsTo(Category);
+Movie.hasMany(Screenshot);
+
+// 因为 keyword 可能是post、ebook、movie或者其他之类的id，所以要注释掉这句外键关联
+// post.hasMany(keyword,{foreignKey:'post_id'});
 
 
 
+/////////////////// comment
 const Comment=sequelize.define(
     'comment',
     {
@@ -410,81 +232,6 @@ const Comment=sequelize.define(
     }
 );
 
-
-const Ebook = sequelize.define(
-    'ebook', 
-    {
-        title: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            comment: '书名',
-        },
-        author: {
-            field: 'author',
-            type: Sequelize.STRING,
-            allowNull: false,
-            comment: '作者，注意不是发布人，必填',
-        },
-        description: {
-            type: Sequelize.TEXT,
-            allowNull: false,
-            comment: '描述，必填',
-        },
-        isbn: {
-            field: "isbn",
-            type: Sequelize.STRING,
-            allowNull: true,
-            comment: 'ISBN，之所以可以留空，是考虑到有些非出版的电子书没有ISBN',
-        },
-        categoryId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            field: 'category_id'
-        },
-        posterUrl: {
-            field: 'poster_url',
-            type: Sequelize.STRING,
-            allowNull: true,
-            comment: '封皮URL',
-        },
-        url: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            comment: '文件URL',
-        },
-        note: {
-            type: Sequelize.TEXT,
-            allowNull: true,
-            comment: '备注',
-        },
-        uploaderId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            comment: '上传者ID，发布人',
-        },
-        status: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue: 'draft',
-            comment: '状态：draft，censoring，published，banned',
-        },
-    }, 
-    {
-        tableName: 'ebook'
-    }
-);
-
-Director.belongsTo(Country);
-Movie.belongsTo(Language);
-Movie.belongsTo(Country);
-Movie.belongsTo(Category);
-Movie.hasMany(Screenshot);
-
-Post.belongsTo(Category);
-Post.belongsTo(User,{foreignKey:'author_id',as:'author'});
-
-// 因为 keyword 可能是post、ebook、movie或者其他之类的id，所以要注释掉这句外键关联
-// post.hasMany(keyword,{foreignKey:'post_id'});
 
 
 Comment.belongsTo(User,{foreignKey:'author_id',as:'author'});
