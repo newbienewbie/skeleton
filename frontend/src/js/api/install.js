@@ -11,13 +11,11 @@ const client=axios.create({
  * @param {*} info 
  */
 function checkStatus(info){
-    return info=>{
-        if(info.status=="FAIL"){
-            throw info;
-        }else{
-            return Promise.resolve(info);
-        }
-    };
+    if(info.status=="FAIL"){
+        throw info;
+    }else{
+        return Promise.resolve(info);
+    }
 }
 
 
@@ -26,7 +24,7 @@ export const createDb=()=>{
     return client.get('/install/create-db')
         .then(resp=>resp.data,(e)=>{throw e;})
         .then(
-            info=>checkStatus(info),
+            info=> checkStatus(info),
             (e)=>{
                 console.log(e);
                 throw {
