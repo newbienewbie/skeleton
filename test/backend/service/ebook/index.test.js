@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 const assert=require('assert');
-const ebookService=require('../../../../backend/service/ebook');
+const ebookService=require('../../../../backend/service/cms/ebook');
 
 
 describe("测试 ebook-service",function(){
