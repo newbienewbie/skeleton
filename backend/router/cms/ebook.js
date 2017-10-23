@@ -1,7 +1,7 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const checker=require('../service/auth/authorization-checker');
-const {categoryService,ebookService}=require('../service');
+const checker=require('../../service/auth/authorization-checker');
+const {categoryService,ebookService}=require('../../service');
 const {calculatePaginationInfo}=require('pagination-info');
 const {Middleware,message}=require('tiny-service');
 

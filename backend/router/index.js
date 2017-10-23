@@ -42,17 +42,18 @@ function register(app){
     app.use('/language',require('./common/language.js'));
 
 
+    /////////////// cms 模块
     // movie 模块
-    app.use('/movie',require('./movie.js'));
-
+    app.use('/movie',require('./cms/movie.js'));
     // post 模块
-    app.use('/post',require('./post'));
+    app.use('/post',require('./cms/post'));
+    // ebook 模块
+    app.use('/ebook',require('./cms/ebook'));
+
+
 
     // 评论模块
     app.use('/comment',require('./comment'));
-
-    // ebook 模块
-    app.use('/ebook',require('./ebook'));
 
 
     return app;
