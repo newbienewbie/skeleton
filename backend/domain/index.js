@@ -23,130 +23,14 @@ const sequelize=new Sequelize(
 /////////////////////////////////////////////////////////////////////
 // user , role , resource  and so on .
 /////////////////////////////////////////////////////////////////////
-const User=sequelize.define(
-    'user',
-    {
-        username:{
-            type:Sequelize.STRING,
-            unique:true,
-            allowNull:false,
-        },
-        email:{
-            type:Sequelize.STRING,
-            unique:true,
-            allowNull:false,
-        },
-        password:{
-            type:Sequelize.STRING,
-            allowNull:false,
-        },
-        state:{
-            type:Sequelize.STRING,   
-            defaultValue:'frozen',
-            comment:'frozen:冻结、active:激活、shutup:禁言，banned:放逐',
-        }
-    },
-    {
-        tableName:'user'
-    }
-);
-
-
-
-const ActiveCode=sequelize.define(
-    "activeCode",
-    {
-        'code':{
-            type:Sequelize.UUID,
-            allowNull:false,
-            defaultValue:Sequelize.UUIDV1,
-        },
-        'expiresAt':{
-            type:Sequelize.DATE,
-            allowNull:false
-        },
-    },{
-        tableName:'activeCode'
-    }
-);
+const User=sequelize.import('./entity/system/user.js');
+const ActiveCode=sequelize.import('./entity/system/active-code.js');
 
 User.hasOne(ActiveCode);
 
 
-const Role=sequelize.define(
-    'role',
-    {
-        id:{
-            type:Sequelize.INTEGER,
-            primaryKey:true,
-            autoIncrement: true,
-            comment:'角色id',
-        },
-        name:{
-            type:Sequelize.STRING,
-            field:'name',
-            unique:true,
-            allowNull:false,
-            comment:'角色名，唯一，用人类语言描述的角色名',
-        },
-        description:{
-            type:Sequelize.TEXT,   
-            comment:'角色描述',
-        }
-    },
-    {
-        tableName:'role'
-    }
-);
-const Resource= sequelize.define(
-    'resource',
-    {
-        id:{
-            type:Sequelize.INTEGER,
-            primaryKey:true,
-            autoIncrement: true,
-            comment:'资源id',
-        },
-        name:{
-            type:Sequelize.STRING,
-            field:'name',
-            allowNull:false,
-            comment:'资源名，唯一',
-        },
-        categoryId:{
-            type: Sequelize.INTEGER,
-            allowNull:false,
-            field:'category_id',
-            comment:'资源分类号，可用于资源的层级管理',
-        },
-        method:{
-            type:Sequelize.STRING,
-            field:'method',
-            allowNull:false,
-            comment:'访问资源的方法名，一律大写',
-        },
-        path:{
-            type:Sequelize.STRING,
-            field:'path',
-            allowNull:false,
-            comment:'资源路径',
-        },
-        description:{
-            type:Sequelize.STRING,   
-            comment:'描述',
-        },
-        status:{
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue:'test',
-            comment:'状态',    
-        },
-    },
-    {
-        tableName:'resource'
-    }
-);
-
+const Role=sequelize.import('./entity/system/role.js');
+const Resource= sequelize.import('./entity/system/resource.js');
 const UserRole=sequelize.define(
     'userRole',
     {
