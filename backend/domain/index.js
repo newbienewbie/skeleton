@@ -136,6 +136,11 @@ Role.belongsToMany(Resource,{
 
 const Language=sequelize.import('./entity/common/language.js');
 const Country=sequelize.import('./entity/common/country.js');
+const Category=sequelize.import('./entity/common/category.js');
+const TopicUserOpinion=sequelize.import('./entity/common/topic-user-opinion.js');
+TopicUserOpinion.belongsTo(User,{foreignKey:'user_id'});
+
+
 const Director=sequelize.import('./entity/director.js');
 const Movie=sequelize.define(
     'movie', 
@@ -335,7 +340,6 @@ const Post=sequelize.define(
       }
 );;
 
-const Category=sequelize.import('./entity/common/category.js');
 
 const Keyword=sequelize.define(
     'keyword', 
@@ -431,45 +435,6 @@ const Comment=sequelize.define(
     }
 );
 
-const TopicUserOpinion=sequelize.define(
-    'topicUserOpinion',
-    {
-        scope: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue: 'post',
-            field: 'scope',
-            comment: '用户意见信息所属的领域，比如comment、某些类型的文章',
-        },
-        topicId: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            field: 'topic_id',
-            comment: '用户意见主体的ID',
-        },
-        userId: {
-            type: Sequelize.BIGINT,
-            allowNull: false,
-            field: 'user_id',
-            comment: '用户ID',
-        },
-        opinion: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            field: 'opinion',
-            comment: '意见，字符串：赞同、感谢、反对、无益,etc.'
-        },
-        note: {
-            type: Sequelize.TEXT,
-            allowNull: true,
-            field: 'note',
-            comment: '备注',
-        }
-    },
-    {
-        tableName: 'topic_user_opinion'
-    }
-);
 
 const Ebook = sequelize.define(
     'ebook', 
@@ -550,7 +515,7 @@ Post.belongsTo(User,{foreignKey:'author_id',as:'author'});
 Comment.belongsTo(User,{foreignKey:'author_id',as:'author'});
 // comment.belongsTo(comment,{foreignKey:'reply_to'});
 //comment.hasMany(topicUserOpinion,{foreignKey:'comment_id'});
-TopicUserOpinion.belongsTo(User,{foreignKey:'user_id'});
+
 
 
 
