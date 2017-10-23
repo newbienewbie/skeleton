@@ -225,7 +225,7 @@ export class Add extends React.Component{
                                 return model.methods.create(payload)
                                     .then(json => {
                                         let btnSubmit;
-                                        if (json.result == "SUCCESS") {
+                                        if (json.status == "SUCCESS") {
                                             message.success("添加成功");
                                             //上传成功后禁止再次提交同一个片源
                                             btnSubmit = Object.assign({}, this.state.btnSubmit, {
