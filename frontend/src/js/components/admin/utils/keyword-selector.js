@@ -8,6 +8,7 @@ export class KeywordSelector extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            initialValue:this._getValue(this.props.initialValue),
             value:this._getValue(this.props.value),
         };
     }
@@ -32,6 +33,17 @@ export class KeywordSelector extends React.Component{
         return [];
     }
 
+    componentDidMount(){
+        let {initialValue,value}=this.props;
+        if('value' in this.props){
+            value=fixControlledValue(value);
+            initialValue=value;    
+        }else{
+            initialValue=fixControlledValue(initialValue);
+        }
+        return this.setState({value:initialValue});
+    }
+
     render(){
         return (
         <Select mode={'tags'}  searchPlaceholder="关键词" 
@@ -44,7 +56,6 @@ export class KeywordSelector extends React.Component{
 }
 
 KeywordSelector.defaultProps={
-    value:[],
     onChange:(list)=>{},
 };
 
