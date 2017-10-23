@@ -2,11 +2,14 @@ const domain=require('../../../domain');
 const keywordService=require('../../common/keyword')("movie");
 const categoryService=require('../../common/category');
 const {Service,message}=require('tiny-service');
+const {getVideoFormat,takeScreenShot}=require('./movie-process');
 
 
 
 const movieService=Service(domain.movie);
 
+movieService.getVideoFormat=getVideoFormat;
+movieService.takeScreenShot=takeScreenShot;
 
 const _create=movieService.create;
 /**

@@ -1,7 +1,7 @@
-require('../../../init-test-config.js');
+require('../../../../../init-test-config.js');
 const path=require('path');
 const fs=require('fs');
-const movieProcess=require('../../../../backend/service/movie-process/movie-process.js');
+const movieProcess=require('../../../../../../backend/service/cms/movie/movie-process.js');
 const assert=require('assert');
 
 

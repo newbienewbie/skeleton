@@ -1,7 +1,6 @@
 const path=require('path');
 const domain=require('../domain');
 const {categoryService,movieService}=require('../service');
-const videoProcess=require('../service/movie-process/movie-process.js');
 const checker=require('../service/auth/authorization-checker');
 const express=require('express');
 const bodyParser=require('body-parser');
@@ -46,7 +45,7 @@ router.post('/list', bodyParser.json(), middleware.list);
 
 router.post('/create',bodyParser.json() ,
     function(req,res){
-        const movie=req.body;
+        const movie=req.body.record;
         // 处理结果对象，用于返回至客户端
         const _result={
             result:'SUCCESS',
@@ -74,7 +73,7 @@ router.post('/create',bodyParser.json() ,
             })
             // 探针
             .then(movie=>{
-                return videoProcess.getVideoFormat(path.resolve(movie.url))
+                return movieService.getVideoFormat(path.resolve(movie.url))
             })
             .then(
                 (format)=>{
@@ -90,7 +89,7 @@ router.post('/create',bodyParser.json() ,
             // 截屏，总是位于影片同一目录下
             .then(()=>{
                 let directory=path.dirname(_format.filename);
-                return videoProcess.takeScreenShot(movie.url,2,directory);
+                return movieService.takeScreenShot(movie.url,2,directory);
             })
             .then(outs=>{
                 // 计算影片的相对URL

@@ -222,9 +222,6 @@ export class Add extends React.Component{
                             });
 
                             const payload= Object.assign({}, this.state.movie);
-                            if(!this.props.id){
-
-                            }else{
                                 return model.methods.create(payload)
                                     .then(json => {
                                         let btnSubmit;
@@ -249,7 +246,6 @@ export class Add extends React.Component{
                                         this.setState({ btnSubmit, modal: { visible: false, confirmLoading: false } });
                                         message.error('异常发生');
                                     });
-                            }
                         } }
                         >
                         请确认是否提交？
