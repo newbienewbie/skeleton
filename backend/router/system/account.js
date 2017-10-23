@@ -3,7 +3,7 @@
  */
 
 const domain=require('../../domain');
-const passwordService=require('../../service/auth/password-service.js');
+const passwordService=require('../../service/account/password-service.js');
 const sendEmailToActivate=require('../../service/email/send-email-to-activate.js');
 const signupService=require('../../service/account/signup-service.js');
 const express=require('express');

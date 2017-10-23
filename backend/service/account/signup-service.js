@@ -1,5 +1,5 @@
 const domain=require('../../domain');
-const passwordService=require('../auth/password-service.js');
+const passwordService=require('./password-service');
 const roleService=require('./role-service');
 
 /**
