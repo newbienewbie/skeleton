@@ -1,5 +1,5 @@
 const domain=require('../../domain');
-const userOpinion=require('../topic-user-opinion');
+const userOpinion=require('../common/topic-user-opinion');
 
 function create(comment){
     return domain.comment.create(comment);

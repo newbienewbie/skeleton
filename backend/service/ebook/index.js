@@ -1,6 +1,6 @@
 const domain=require('../../domain');
 const keywordService=require('../keyword')("ebook");
-const categoryService=require('../category');
+const categoryService=require('../common/category');
 const {Service,message}=require('tiny-service');
 
 const ebookService=Service(domain.ebook);

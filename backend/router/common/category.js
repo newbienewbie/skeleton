@@ -1,5 +1,5 @@
 const express=require('express');
-const categoryService=require('../../service/category');
+const {categoryService}=require('../../service');
 
 
 const router=express.Router();

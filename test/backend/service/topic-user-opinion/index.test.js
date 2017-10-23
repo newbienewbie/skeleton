@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 const assert=require('assert');
-const {hasAnyOpinion,hasAnyOpinionOf,like,hate,cancelLike,cancelHate}=require('../../../../backend/service/topic-user-opinion');
+const {hasAnyOpinion,hasAnyOpinionOf,like,hate,cancelLike,cancelHate}=require('../../../../backend/service/common/topic-user-opinion');
 
 
 describe('测试 topicUserOpinionService',function(){

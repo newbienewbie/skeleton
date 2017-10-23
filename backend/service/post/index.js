@@ -1,6 +1,6 @@
 const domain=require('../../domain');
 const keywordService=require('../keyword')("post");
-const categoryService=require('../category');
+const categoryService=require('../common/category');
 const {Service}=require('tiny-service');
 
 
@@ -35,6 +35,37 @@ postService.findById=function(id){
     });
 }
 
+postService.list=function list(page=1,size=8,condition={}){
+    return domain.post.findAndCount({
+                limit:size,
+                offset:(page-1)*size,
+                order:[['createdAt','desc']],
+                where:condition,
+                include:[
+                    {
+                        model:domain.category,
+                    },
+                    {
+                        model:domain.user,
+                        as:'author'
+                    },
+                ],
+            })
+        .then(result=>{
+            const total=result.count;
+            const list=result.rows;
+            // 避免原型链上的属性影响
+            let _list=JSON.parse(JSON.stringify(list));
+            _list=_list.map(i=>{
+                delete i.author.password;
+                delete i.author.roles;
+                delete i.author.createdAt;
+                delete i.author.updatedAt;
+                return i;
+            });
+            return {rows:_list,count:total};
+        });
+}
 
 
 postService.recent=function recent(categoryId=null,page=1,size=8){

@@ -1,6 +1,6 @@
 require('../../../init-test-config.js');
 const assert=require('assert');
-const {listToTree,subnodeIdList}=require('../../../../backend/service/category/tree');
+const {listToTree,subnodeIdList}=require('../../../../backend/service/common/category/tree');
 
 
 describe("测试 tree.js",function () {
