@@ -1,6 +1,6 @@
 const fs=require('fs');
 const path=require('path');
-const installService=require('../../service/install/index.js');
+const {installService}=require('../../service');
 const domain=require('../../domain');
 const express=require('express');
 const bodyParser=require('body-parser');
@@ -10,30 +10,39 @@ const bodyParser=require('body-parser');
 var router=express.Router();
 
 
+const installable=function(req,res,next){
+    installService.checkInstallable().then(
+        _=>{ next() },
+        reason=>{ res.json({ status:'FAIL', msg:reason, }); }
+    );
+};
+
 /**
  * 安装网站之：创建数据库
  */
-router.get('/create-db',function(req,res){
-    installService.install()
-        .then(
-            ()=>{
-                res.end(JSON.stringify({
-                    status:'SUCCESS', msg:'',
-                }));
-            },
-            (reason)=>{
-                console.log(reason);
-                res.end(JSON.stringify({
-                    status:'FAIL', msg:reason,
-                }));
-            }
-        );
-});
+router.get('/create-db',installable,
+    function(req,res){
+        installService.install()
+            .then(
+                ()=>{
+                    res.end(JSON.stringify({
+                        status:'SUCCESS', msg:'',
+                    }));
+                },
+                (reason)=>{
+                    console.log(reason);
+                    res.end(JSON.stringify({
+                        status:'FAIL', msg:reason,
+                    }));
+                }
+            );
+    }
+);
 
 /**
  * 初始化核心基础表
  */
-router.post('/init-core',function(req,res,next){
+router.post('/init-core',installable,function(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
     installService.initCoreData()
         .then(
@@ -56,7 +65,7 @@ router.post('/init-core',function(req,res,next){
 /**
  * 安装网站之：创建根用户
  */
-router.post('/create-root-user',bodyParser.json(),function(req,res){
+router.post('/create-root-user',installable,bodyParser.json(),function(req,res){
     const root=req.body;
     let username=root.username;
     username=username?username:"root";
@@ -81,9 +90,10 @@ router.post('/create-root-user',bodyParser.json(),function(req,res){
 });
 
 
-router.post('/init-db',function(req,res,next){
+router.post('/init-db',installable,function(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
     installService.initPredefinedData()
+        .then(_=>installService.createLockFile())
         .then(
             ()=>{
                 res.end(JSON.stringify(info));

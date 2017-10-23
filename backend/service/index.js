@@ -8,6 +8,8 @@ const postService=require('./cms/post');
 const movieService=require('./cms/movie');
 
 
+const installService=require('./install');
+
 module.exports={
     categoryService,
     topicUserOpinion,
@@ -15,4 +17,5 @@ module.exports={
     ebookService,
     postService,
     movieService,
+    installService,
 };

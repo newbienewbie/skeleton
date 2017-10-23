@@ -55,17 +55,12 @@ function createLockFile(){
  * 安装数据库
  */
 function install(){
-    return checkInstallable()
-        .then(()=>{
-            return ensureUtf8Database();
-        })
+
+    return ensureUtf8Database()
         .then(
             ()=>{ return domain.sequelize.sync({ force: true }); },
             (reason)=>{ return Promise.reject(reason); }
-        )
-        .then(()=>{
-            return createLockFile();
-        });
+        );
 }
 
 /**
@@ -134,8 +129,10 @@ function initData(entityNames){
 }
 
 module.exports={
+    checkInstallable,
     install,
     initCoreData,
     createRootUser,
     initPredefinedData,
+    createLockFile,
 };
