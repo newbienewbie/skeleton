@@ -1,7 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const postService=require('../service/post');
-const {categoryService}=require('../service');
+const {categoryService,postService}=require('../service');
 const {calculatePaginationInfo}=require('pagination-info');
 const {Middleware,message}=require('tiny-service');
 
