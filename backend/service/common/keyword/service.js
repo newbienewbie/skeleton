@@ -1,4 +1,4 @@
-const domain=require('../../domain');
+const domain=require('../../../domain');
 
 class Service{
 

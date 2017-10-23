@@ -1,5 +1,5 @@
 const domain=require('../../../domain');
-const keywordService=require('../../keyword')("movie");
+const keywordService=require('../../common/keyword')("movie");
 const categoryService=require('../../common/category');
 const {Service,message}=require('tiny-service');
 

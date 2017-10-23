@@ -1,7 +1,7 @@
 require('../../../../init-test-config.js');
 const assert=require('assert');
 const postService=require('../../../../../backend/service/cms/post');
-const keywordService=require('../../../../../backend/service/keyword')("post");
+const keywordService=require('../../../../../backend/service/common/keyword')("post");
 
 describe('测试post服务',function(){
     it('测试create()',function(){
