@@ -134,8 +134,8 @@ Role.belongsToMany(Resource,{
 
 
 
-const Language=sequelize.import('./entity/language.js');
-const Country=sequelize.import('./entity/country.js');
+const Language=sequelize.import('./entity/common/language.js');
+const Country=sequelize.import('./entity/common/country.js');
 const Director=sequelize.import('./entity/director.js');
 const Movie=sequelize.define(
     'movie', 
@@ -335,39 +335,7 @@ const Post=sequelize.define(
       }
 );;
 
-const Category=sequelize.define('category', 
-    {
-        name: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            field: 'name',
-            comment:'分类名',
-        },
-        scope:{
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue:'post',
-            field: 'scope',
-            comment:'本分类信息所属的领域，比如post、movie、book',
-        },
-        pid:{
-            type: Sequelize.BIGINT,
-            allowNull: true,
-            defaultValue:null,
-            field: 'pid',
-            comment:'parent id ，可以为null',
-        },
-        note: {
-            type: Sequelize.TEXT,
-            allowNull: true,
-            field: 'note',
-            comment:'备注',
-        }
-    }, 
-    {
-        tableName: 'category'
-    }
-);
+const Category=sequelize.import('./entity/common/category.js');
 
 const Keyword=sequelize.define(
     'keyword', 
