@@ -140,6 +140,8 @@ const Category=sequelize.import('./entity/common/category.js');
 const TopicUserOpinion=sequelize.import('./entity/common/topic-user-opinion.js');
 TopicUserOpinion.belongsTo(User,{foreignKey:'user_id'});
 
+const TopicKeyword=sequelize.import('./entity/common/topic-keyword.js');
+
 
 const Director=sequelize.import('./entity/director.js');
 const Movie=sequelize.define(
@@ -341,33 +343,6 @@ const Post=sequelize.define(
 );;
 
 
-const Keyword=sequelize.define(
-    'keyword', 
-    {
-        tag: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            comment:'关键词',
-        },
-        scope:{
-            type: Sequelize.STRING,
-                allowNull: false,
-                defaultValue:'post',
-                field: 'scope',
-                comment:'本分类信息所属的领域，比如post、movie、ebook', 
-        },
-        topicId:{
-            type:Sequelize.BIGINT,
-            allowNull:false,
-            field:'topic_id',
-            comment:'topic id ，比如 postId，ebookId',
-        }
-        },
-    {
-        tableName: 'keyword'
-    }
-);
-
 
 const Comment=sequelize.define(
     'comment',
@@ -535,7 +510,7 @@ module.exports={
     roleResource:RoleResource,
     post:Post,
     category:Category,
-    keyword:Keyword,
+    keyword:TopicKeyword,
     comment:Comment,
     ebook:Ebook,
     topicUserOpinion:TopicUserOpinion,
