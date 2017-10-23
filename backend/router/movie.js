@@ -1,7 +1,6 @@
 const path=require('path');
 const domain=require('../domain');
-const movieService=require('../service/movie');
-const {categoryService}=require('../service');
+const {categoryService,movieService}=require('../service');
 const videoProcess=require('../service/movie-process/movie-process.js');
 const checker=require('../service/auth/authorization-checker');
 const express=require('express');

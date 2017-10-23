@@ -1,6 +1,6 @@
-const domain=require('../../domain');
-const keywordService=require('../keyword')("movie");
-const categoryService=require('../common/category');
+const domain=require('../../../domain');
+const keywordService=require('../../keyword')("movie");
+const categoryService=require('../../common/category');
 const {Service,message}=require('tiny-service');
 
 
