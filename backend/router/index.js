@@ -36,12 +36,14 @@ function register(app){
     app.use('/ueditor',require('./common/ueditor.js'));
     // 分类
     app.use('/category',require('./common/category'));
+    // 国家地区
+    app.use('/country',require('./common/country.js'));
+    // 语言
+    app.use('/language',require('./common/language.js'));
 
 
     // movie 模块
     app.use('/movie',require('./movie.js'));
-    app.use('/country',require('./country.js'));
-    app.use('/language',require('./language.js'));
 
     // post 模块
     app.use('/post',require('./post'));
