@@ -1,7 +1,6 @@
 const path=require('path');
 const domain=require('../../domain');
 const {categoryService,movieService}=require('../../service');
-const checker=require('../../service/auth/authorization-checker');
 const express=require('express');
 const bodyParser=require('body-parser');
 const {calculatePaginationInfo}=require('pagination-info');

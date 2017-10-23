@@ -1,6 +1,5 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const checker=require('../service/auth/authorization-checker');
 const commentService=require('../service/comment');
 
 const router=express.Router();
@@ -54,7 +53,6 @@ router.post('/list',bodyParser.json(),function(req,res,next){
         });
 });
 
-router.post('/new',checker.requireLogin());
 router.post('/new',bodyParser.json(),function(req,res,next){
     const {scope,topicId,replyTo,content}=req.body;
     const authorId=req.session.userid;
@@ -75,7 +73,6 @@ router.post('/new',bodyParser.json(),function(req,res,next){
         );
 });
 
-router.post('/upvote/cancel',checker.requireLogin());
 router.post('/upvote/cancel',bodyParser.json(),function(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
@@ -91,7 +88,6 @@ router.post('/upvote/cancel',bodyParser.json(),function(req,res,next){
     
 });
 
-router.post('/upvote',checker.requireLogin());
 router.post('/upvote',bodyParser.json(),function(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
@@ -107,7 +103,6 @@ router.post('/upvote',bodyParser.json(),function(req,res,next){
     
 });
 
-router.post('/downvote/cancel',checker.requireLogin());
 router.post('/downvote/cancel',bodyParser.json(),function(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
@@ -123,7 +118,6 @@ router.post('/downvote/cancel',bodyParser.json(),function(req,res,next){
     
 });
 
-router.post('/downvote',checker.requireLogin());
 router.post('/downvote',bodyParser.json(),function(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;

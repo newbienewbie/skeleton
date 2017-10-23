@@ -3,7 +3,6 @@ const bodyParser=require('body-parser');
 const util=require('util');
 
 const domain=require('../../domain');
-const checker=require('../../service/auth/authorization-checker');
 
 const router=express.Router();
 
@@ -13,7 +12,6 @@ const _result={
 };
 
 
-router.post('/add',checker.requireLogin());
 router.post("/add",bodyParser.json(),function(req,res){
     const director=req.body;
     domain.director

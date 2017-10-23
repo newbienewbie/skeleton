@@ -8,7 +8,6 @@ const sendEmailToActivate=require('../../service/email/send-email-to-activate.js
 const signupService=require('../../service/account/signup-service.js');
 const express=require('express');
 const bodyParser=require('body-parser');
-const checker=require('../../service/auth/authorization-checker.js');
 const userService=require('../../service/account/user-service');
 const roleService=require('../../service/account/role-service');
 
@@ -22,14 +21,8 @@ router.get('/',(req,res)=>{
         signInUrl:"/account/login",
         signUpUrl:"/account/signup",
     };
-    checker.loginChecker(req)
-        .then(flag=>{
-            if(flag){
-                res.redirect(req.query.redirect || "/");
-            }else{
-                res.render("login.html",model);
-            };
-        });
+    res.redirect(req.query.redirect || "/");
+
 });
 
 /**
@@ -138,7 +131,6 @@ router.post("/signup",bodyParser.urlencoded({extended:true}),(req,res)=>{
 /**
  * 生成邀请码
  */
-router.get('/invite',checker.requireLogin());
 router.get('/invite',(req,res)=>{
     signupService.generateInvitationCode(2)
         .then((activateCode)=>{
@@ -179,7 +171,7 @@ router.get('/user/list',function(req,res){
 /**
  * 当前用户的profile
  */
-router.use('/profile/me',checker.requireLogin(),function(req,res,next){
+router.use('/profile/me',function(req,res,next){
     const authorId=req.session.userid;
     userService.findById(authorId)
         .then(user=>{
