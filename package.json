@@ -10,7 +10,7 @@
     "start": "node --use_strict start.js",
     "test": "mocha test --recursive --use_strict"
   },
-  "author": "newbienewbie <webbot@sina.com>",
+  "author": "newbienewbie <itminus@hotmail.com>",
   "license": "MIT",
   "dependencies": {
     "antd": "^2.13.6",

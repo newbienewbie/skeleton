@@ -4,6 +4,9 @@ const path=require('path');
 function register(app){
 
 
+    /////////////// session
+    app.use('/',require('./session'));
+
     /////////////// pages
     // home page
     app.use('/',require('./page/home.js'));

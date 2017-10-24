@@ -1,4 +1,17 @@
-  const defaultConfig=require('./config');
-  const {createSkeleton}=require('./index.js');
-  const skeleton=createSkeleton({config:defaultConfig});
-  skeleton.run();
+/**
+ * default running method 
+ * useful for debug
+ */
+
+
+const defaultConfig=require('./config');
+const Skeleton=require('./index.js');
+
+/**
+ * 创建skeleton
+ */
+const skeleton=new Skeleton({
+    config:defaultConfig
+});
+
+skeleton.run();

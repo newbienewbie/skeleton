@@ -1,4 +1,4 @@
-const defConfig=require('./config.default.json');
+const defConfig=require('./config.default');
 
 
 
@@ -37,8 +37,13 @@ config.database=_db;
 // config.email.username=
 // config.email.password=
 
-config.ebook={
-    "initFilesPath":"upload"
+config.basePath={
+    "lock":process.cwd(),
+    "views":[
+        path.join(__dirname,"../frontend/views"),
+    ],
+    "assets":path.join(__dirname,"../frontend/static"),
+    "ebooks":"C:/Users/itminus/pdfs",
 };
 
 config.sessionSecret="hellooooooooooowoooooooorld";

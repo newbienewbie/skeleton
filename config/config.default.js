@@ -1,4 +1,4 @@
-{
+module.exports={
     "env":"prod",
     "site":{
         "name":"72洞",
@@ -20,8 +20,23 @@
         "username":"itminus@163.com",
         "password":"your_pass" 
     },
-    "ebook":{
-        "initFilesPath":"upload"
-    },
-    "sessionSecret":"hello,world"
+    "sessionSecret":"hello,world",
+    "basePath":{
+        /**
+         * 安装锁定文件路径
+         */
+        "lock":process.cwd(),    
+        /**
+         * ebooks 路径
+         */
+        "ebooks":process.cwd(),
+        /**
+         * 模板路径列表
+         */
+        "views":[],
+        /**
+         * 资源文件路径
+         */
+        "assets":"",
+    }
 }

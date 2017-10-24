@@ -5,11 +5,12 @@ const signupService=require('../account/signup-service.js');
 const roleService=require('../account/role-service.js'); 
 const userService=require('../account/user-service');
 const parseDbJsonToEntity=require('./parseDbJsonToEntity');
+const config=require("../../config").getConfig();
  
 /**
  * 锁定文件的路径 
  */
-const lockFilePath=path.join(__dirname,"..","..","install.js.lock");
+const lockFilePath=path.join(config.basePath.lock,"install.js.lock");
 
 
 /**

@@ -12,4 +12,5 @@ frontend/static/js/install.js
 frontend/static/css/index.css
 
 # 锁定文件：当存在时禁止安装
-lib/backend/install.js.lock
+backend/install.js.lock
+install.js.lock
