@@ -27,9 +27,9 @@ class Skeleton{
         const basePath=this.config.basePath;
         // 配置模板
         let env =nunjucks.configure(basePath.views,{
-            noCache:true,
+            noCache:this.config.env=="prod"?false:true,
             express:app,
-            autoescape:true
+            autoescape:true,
         });
         env.addGlobal('moment',moment);
 
@@ -41,9 +41,12 @@ class Skeleton{
     }
 
     /**
-     * serve static files
+     * serve static files ,should be overwritten by subclass
      */
     serveStaticFiles(){
+        if(this.config.env=="prod"){
+            console.warning(`the default serveStaticFiles() method is used for development only ,you should overwirte it!`);
+        }
         const app=this.app;
         const basePath=this.config.basePath
 
