@@ -1,27 +1,101 @@
 # skeleton
 
-* 用于快速开发的脚手架
-* 可直接架设在`OpenShift`
-* 后端使用`Express`
-* 前端的前台部分：使用`Nunjucks`
-* 前端的后台部分/安装页面部分：使用`ReactJS`
-
-## 要求
-
-1. node v6 :要使用低于v6版本的node，自行babel转换之。
-2. 默认的`config.prod.js`是基于OpenShift写的，如果要运行在其他服务器上，自行修改。
+- [x] 用于快速开发的脚手架
+- [x] 支持自定义主题
+- [x] 集成后台管理，自带用户管理、权限管理功能
+- [x] 支持自定义扩展
+- [] 待开发后台管理钩子
 
 ## demo
 
-![screenshot](https://github.com/newbienewbie/skeleton/raw/master/dashboard.png)
-![screenshot](https://github.com/newbienewbie/skeleton/raw/master/dashboard2.png)
+![screenshot](https://github.com/newbienewbie/skeleton/raw/master/dashboard.gif)
 
 ## 使用
 
-### 步骤：
+前提：如果要启用视频功能，请安装`ffmpeg`，确保`ffmpeg`、`ffprobe`可执行程序在`PATH`下
 
-0. 安装`ffmpeg`，确保`ffmpeg`、`ffprobe`可执行程序在`PATH`下
-1. `git clone 这个仓库`
+```
+npm install 
+```
+
+### 傻瓜使用
+
+```javascript
+const skeleton =new Skeleton({config});
+skeleton.run();
+```
+
+### 自定义主题
+
+Skeleton也支持像`WordPress`那样支持自定义主题，只需在配置里填写好主题的相关路径即可。
+
+对于一个`skeleton-demo`项目，可以在根目录下建立`/frontend/themes`文件夹，用于存放各种不同主题的文件。比如我们有个叫`itminus`的主题，则可以再在其中建立两个文件夹：
+* views/  #各个模板
+* static/ #静态文件
+
+最后，在配置文件里填好相关路径，传递给`Skeleton`构造函数即可：
+```javascript
+// ...
+config.basePath={
+    "views":[
+        path.join(__dirname,"../frontend/themes/itminus/views"),
+    ],
+    "assets":[
+        path.join(__dirname,"../frontend/themes/itminus/static"),
+    ],
+    "ebooks":"C:/Users/itminus/pdfs",
+    "lock":process.cwd(),
+};
+
+const skeleton =new Skeleton({config});
+skeleton.run();
+```
+
+### 扩展功能
+
+要新增或者修改功能，需要对`Skelton`进行扩展。基本的扩展点如下：
+
+```javascript
+
+class MySkeleton extends Skeleton{
+    constructor(opts){
+        super(opts);
+        // 会继承到如下属性：
+        // this.config         : 配置缓存
+        // ...
+        // this.register       : 内置的路由
+        // this.service        : 内置的服务层
+        // this.domain         : 内置的数据模型层
+        // ...
+        // this.app            : 就是简单的express()生成的app！
+        // this.staticHandle   : 静态文件处理器
+        // ...
+    }
+
+    beforeRun(){
+        // ...
+        // 这里默认会配置模板、注册路由 ...
+    }
+
+    serveStaticFiles(){
+        const app=this.app;
+        const config=this.config;
+        // 可以简单的调用父类方法，甚至完全重写
+        super.serveStaticFiles();
+    }
+
+    afterRun(server,ip,port){
+        // ...
+    }
+}
+```
+
+
+## 开发
+
+### 开发环境搭建 
+
+1. `git clone` 这个仓库
 2. `npm install` 安装所有依赖
 3. 在`config/`下添加一个`config.dev.js`文件，填写相关配置
 4. `npm run webpack --watch` 打包前端文件
@@ -30,13 +104,7 @@
 7. 访问 `http://localhost:3000/install`，安装数据库、创建管理员、填充基本数据
 8. `npm run test` 确保所有测试都通过
 
-### 其他：
-
-1. 如果是163邮箱，发送激活邮件特别容易被当作垃圾邮件而遭退信。
-2. 如果采用 git 的形式推送到OpenShift，应该把 webpack 打包出来的文件纳入版本管理。
-
-
-## 开发
+### 文件结构
 
 分为前端部分和后端部分：
 
@@ -65,21 +133,27 @@
 ### 后端部分
 
 文件夹结构为：
-
+```
 * backend/
     * config/            # 配置功能模块，对外暴露存、取接口
     * domain/            # 对领域的抽象，定义各模型实体及其之间的关系
     * service/           # 服务
         * account/       # 账号服务，如角色服务、注册服务
-        * auth/          # 认证相关服务，如密码比较、密码生成、检查角色、检查登陆等
         * email/         # 邮件服务
-        * session/       # 会话服务
         * install/       # 安装
-        * movie-process/ # 电影处理服务，如截图
+        * cms/
+            * movie/     # 电影处理服务，如截图
+            * post/      # 文章服务
+            * ebook/     # 电子书服务
         * ...
     * router/            # 相关路由器
+        * system/        # 系统相关
+        * common/        # 常用
+        * session/       # 会话支持
+        * cms/           # cms相关
+        * ...
     * utils/             # 小功能
-
+```
 
 
 ### 前端

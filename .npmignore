@@ -1,0 +1,10 @@
+.git
+.vscode/
+node_modules/
+lib/backend/config/config.dev.js
+config/config.dev.js
+upload/
+
+# 锁定文件：当存在时禁止安装
+backend/install.js.lock
+install.js.lock
