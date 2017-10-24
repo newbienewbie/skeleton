@@ -37,6 +37,6 @@ module.exports={
         /**
          * 资源文件路径
          */
-        "assets":"",
+        "assets":[],
     }
 }

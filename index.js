@@ -46,10 +46,15 @@ class Skeleton{
     serveStaticFiles(){
         const app=this.app;
         const basePath=this.config.basePath
+
         // 上传的文件，令可访问
         app.use('/upload',express.static(path.join(process.cwd(),"upload")));
+
         // 静态文件，如css、js、html等
-        app.use('/static',express.static(basePath.assets));
+        basePath.assets.forEach(p=>{
+            app.use('/static',express.static(p));
+        });
+
         // ebook文件
         app.use('/ebook-init-files',express.static(basePath.ebooks));
     }

@@ -42,7 +42,9 @@ config.basePath={
     "views":[
         path.join(__dirname,"../frontend/views"),
     ],
-    "assets":path.join(__dirname,"../frontend/static"),
+    "assets":[
+        path.join(__dirname,"../frontend/static"),
+    ],
     "ebooks":"C:/Users/itminus/pdfs",
 };
 
