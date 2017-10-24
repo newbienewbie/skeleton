@@ -13,11 +13,18 @@ class Skeleton{
         // set the config
         config.setConfig(opts.config|| defaultConfig);
         this.config=config.getConfig();
+
         // and then dynamic import the backend
-        const {register}=require('./backend');
+        const {register,service,domain}=require('./backend');
         this.register=register;
+        this.service=service;
+        this.domain=domain;
+
         this.app=express();
+        this.staticHandle=express.static;
     }
+
+
 
     /**
      * hook
@@ -51,15 +58,15 @@ class Skeleton{
         const basePath=this.config.basePath
 
         // 上传的文件，令可访问
-        app.use('/upload',express.static(path.join(process.cwd(),"upload")));
+        app.use('/upload',this.staticHandle(path.join(process.cwd(),"upload")));
 
         // 静态文件，如css、js、html等
         basePath.assets.forEach(p=>{
-            app.use('/static',express.static(p));
+            app.use('/static',this.staticHandle(p));
         });
 
         // ebook文件
-        app.use('/ebook-init-files',express.static(basePath.ebooks));
+        app.use('/ebook-init-files',this.staticHandle(basePath.ebooks));
     }
 
     /**

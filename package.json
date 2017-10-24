@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "all round skeleton ,express+react",
   "private": true,
-  "main": "start.js",
+  "main": "index.js",
   "scripts": {
     "webpack": "webpack",
     "lessc": "node lessc.js",
