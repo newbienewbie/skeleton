@@ -1,6 +1,31 @@
 const config=require("../../config").getConfig();
-const emailService=require('./email-service.js');
 const domain=require('../../domain');
+const transport=require('./transport.js');
+ 
+/**
+ * 发送邮件的函数,返回一个Promise对象
+ * mail={
+ *     from:,
+ *     to:,
+ *     subject:,
+ *     text:,
+ *     html:,
+ * }
+ */
+function sendMail(mail) {
+    return new Promise((resolve,reject)=>{
+        // send mail with defined transport object 
+        transport.sendMail(mail, function(error, info){
+            if(error){
+                reject(error);
+            }else{
+                resolve(info);
+            }
+        });
+    });
+}
+
+
 
 
 /**
@@ -33,4 +58,9 @@ function sendEmailToActive(user) {
 
 
 
-module.exports=sendEmailToActive;
+module.exports={
+    sender:config.email.username,
+    sendMail,
+    sendEmailToActive,
+    transport,
+};

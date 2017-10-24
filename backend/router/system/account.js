@@ -3,13 +3,10 @@
  */
 
 const domain=require('../../domain');
-const passwordService=require('../../service/account/password-service.js');
-const sendEmailToActivate=require('../../service/email/send-email-to-activate.js');
-const signupService=require('../../service/account/signup-service.js');
+const {passwordService,signupService,roleService,userService}=require('../../service');
+const {sendEmailToActivate}=require('../../service').emailService;
 const express=require('express');
 const bodyParser=require('body-parser');
-const userService=require('../../service/account/user-service');
-const roleService=require('../../service/account/role-service');
 
 const router=express.Router();
 
@@ -21,8 +18,8 @@ router.get('/',(req,res)=>{
         signInUrl:"/account/login",
         signUpUrl:"/account/signup",
     };
-    res.redirect(req.query.redirect || "/");
-
+//    res.redirect(req.query.redirect || "/");
+    res.render('login.html',model);
 });
 
 /**

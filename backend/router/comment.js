@@ -1,6 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const commentService=require('../service/comment');
+const {commentService}=require('../service');
 
 const router=express.Router();
 

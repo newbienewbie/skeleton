@@ -1,6 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const roleService=require('../../service/account/role-service.js');
+const {roleService}=require('../../service');
 const helper=require('../../utils/helper');
 const {Middleware,message}=require('tiny-service');
 

@@ -2,7 +2,7 @@ const path=require('path');
 const express=require('express');
 const nunjucks=require('nunjucks');
 const moment=require('moment');
-const sess=require('./service/session/session.js');
+const sess=require('./router/session');
 const config=require("./config").getConfig();
 const register=require('./router');
 
