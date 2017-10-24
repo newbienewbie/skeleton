@@ -1,10 +1,11 @@
 # skeleton
 
-- [x] 用于快速开发的脚手架
-- [x] 支持自定义主题
+- [x] 极速开发、模块化开发
 - [x] 集成后台管理，自带用户管理、权限管理功能
+- [x] 支持自定义主题
 - [x] 支持自定义扩展
-- [] 待开发后台管理钩子
+- [x] 以npm包的形式安装
+- [ ] 后台管理钩子
 
 ## demo
 
@@ -50,6 +51,8 @@ config.basePath={
 const skeleton =new Skeleton({config});
 skeleton.run();
 ```
+
+[演示如何自定义主题的demo](https://github.com/newbienewbie/skeleton-demo)
 
 ### 扩展功能
 
