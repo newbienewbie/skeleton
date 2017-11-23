@@ -1,12 +1,12 @@
 import React from 'React';
 import { Row,Col,Button,Modal,message,Table} from "antd";
-import {defaultDecoratedForm,datagrid} from 'tiny-admin';
+import {decorateAddOrEditModal,datagrid} from 'tiny-admin';
 import {model as roleModel} from '../_common/model';
 import {model as associcationModel} from '../_common/resource-model';
 import {PlainAddOrEditForm} from '../_common/add-or-edit-form';
 
 
-const AddOrEditFormModal=defaultDecoratedForm.createDecoratedAddOrEditFormModal(PlainAddOrEditForm);
+const AddOrEditFormModal=decorateAddOrEditModal(PlainAddOrEditForm);
 const MainDatagrid=datagrid(roleModel,AddOrEditFormModal);
 const DetailDatagrid=datagrid(associcationModel,AddOrEditFormModal);
 

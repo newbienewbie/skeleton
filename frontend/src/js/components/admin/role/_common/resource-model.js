@@ -4,6 +4,16 @@ import { resourceapi } from "../../../../api/admin";
 export const model=Object.assign(
     {},
     { fields:m.fields },
+    {
+        actions:{
+            "edit":{
+                display:false,
+            },
+            "delete":{
+                display:false,
+            }
+        }
+    },
     { methods:{
         /**
          * add resource 
