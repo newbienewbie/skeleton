@@ -2,7 +2,6 @@
   "name": "tiny-skeleton",
   "version": "0.0.1",
   "description": "all round skeleton ,express+react",
-  "private": true,
   "main": "index.js",
   "scripts": {
     "webpack": "webpack",
@@ -40,7 +39,7 @@
     "remarkable": "^1.6.2",
     "sequelize": "^4.10.2",
     "simple-react-ui": "^3.0.3",
-    "tiny-admin": "^0.2.6",
+    "tiny-admin": "^0.2.10",
     "tiny-api": "^0.2.1",
     "tiny-service": "^0.2.1"
   },
@@ -50,7 +49,7 @@
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-import": "^1.1.0",
-    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.11.1",
     "css-loader": "^0.24.0",
     "less": "^2.7.2",
