@@ -34,7 +34,7 @@
     "nunjucks": "^2.5.2",
     "pagination-info": "^0.5.1",
     "react": "^15.4.1",
-    "react-comment": "^2.5.7",
+    "react-comment": "^2.5.9",
     "react-dom": "^15.4.1",
     "react-router": "^2.6.1",
     "remarkable": "^1.6.2",
