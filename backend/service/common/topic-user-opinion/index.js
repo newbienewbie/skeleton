@@ -18,6 +18,24 @@ function cancel(scope,topicId,userId,opinion){
     );
 }
 
+function getOpinionOfUser(scope,topicId,userId){
+    return domain.topicUserOpinion.find({
+        where:{ scope,topicId,userId, }
+    });
+}
+
+
+function getOpinionListOfUserAndTopcIds(scope,topicIds=[],userId){
+
+    return domain.topicUserOpinion.findAll({
+        where:{ 
+            scope,
+            userId,
+            topicId:{ $in:topicIds },
+        }
+    });
+}
+
 
 /**
  * 用户是否已经对某个主题有过意见
@@ -27,11 +45,10 @@ function cancel(scope,topicId,userId,opinion){
  * @return {Promsie<true>}
  */
 function hasAnyOpinion(scope,topicId,userId){
-    return domain.topicUserOpinion.find({
-        where:{ scope,topicId,userId, }
-    }).then(opinion=>{
-        return !!opinion;
-    });
+    return getOpinionOfUser(scope,topicId,userId)
+        .then(opinion=>{
+            return !!opinion;
+        });
 }
 
 function hasAnyOpinionOf(scope,topicId,userId,opinions=[]){
@@ -67,6 +84,8 @@ function cancelHate(scope,topicId,userId){
 
 
 module.exports={
+    getOpinionOfUser,
+    getOpinionListOfUserAndTopcIds,
     hasAnyOpinion, hasAnyOpinionOf,
     like,cancelLike,
     hate,cancelHate,

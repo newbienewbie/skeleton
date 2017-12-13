@@ -1,6 +1,6 @@
 var assert=require('assert');
 var path=require('path');
-const config=require('../../config/config.default.json');
+const config=require('../../config/config.default');
 
 
 

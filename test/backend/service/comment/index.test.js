@@ -64,8 +64,6 @@ describe('测试commentService',function(){
             })
             .then(_=>{
                 assert.ok(_,"必定不是false");
-                assert.ok(Array.isArray(_),"必定是Array");
-                assert.equal(_.length,2,"数组长度必定是2");
                 return commentService.findById(comment.id)
                     .then(c=>{
                         assert.ok(c.upvotes>0);

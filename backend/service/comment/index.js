@@ -79,6 +79,40 @@ function findById(id){
 
 
 /**
+ * 
+ * @param {Number} userId 
+ * @param {ArrayLike} comments 
+ */
+function attachUserOpinion(userId,comments=[]){
+    if(!!userId && !!comments && Array.isArray(comments) && comments.length>0){
+        const ids=comments.map(r=>r.id);
+        // 获取此人关于这些评论的相关意见
+        return userOpinion.getOpinionListOfUserAndTopcIds("comment",ids,userId)
+            // 附加到comments里
+            .then(opinions=>{
+                comments=JSON.parse(JSON.stringify(comments));
+                if(opinions && Array.isArray(opinions)){
+                    opinions.forEach(o=>{
+                        for(let i=0;i<comments.length;i++){
+                            if( comments[i].id==o.topicId ){
+                                comments[i].opinion=o.opinion;
+                                break;
+                            }
+                        }
+                    });
+                }
+                else{
+                    comments.forEach(r=>{ r.opinion=null; });
+                }
+                return comments;
+            })
+    }else{
+        return Promise.resolve(comments);
+    }
+}
+
+
+/**
  * 根据主题列举出评论
  * @param {String} scope 
  * @param {Number} topicId 
@@ -87,7 +121,7 @@ function findById(id){
  * @param {Number} size 
  * @return {Object} {rows:[],count:null}
  */
-function listByTopicId(scope,topicId,replyTo=null,page=1,size=10){
+function listByTopicId(scope,topicId,replyTo=null,page=1,size=10,currentUserId){
     return domain.comment.findAndCount({
         where:{scope:scope,topicId:topicId,replyTo:replyTo},
         limit:size,
@@ -98,6 +132,10 @@ function listByTopicId(scope,topicId,replyTo=null,page=1,size=10){
         include:[
             {model:domain.user,as:'author'}
         ],
+    }).then(result=>{
+        const {rows,count}=result;
+        return attachUserOpinion(currentUserId,rows)
+            .then(rows=>{return  {rows,count};} );
     });
 }
 
@@ -109,7 +147,7 @@ function listByTopicId(scope,topicId,replyTo=null,page=1,size=10){
  * @param {Number} page 
  * @param {Number} size 
  */
-function listByReplyUnder(scope,topicId,replyUnder,page=1,size=10){
+function listByReplyUnder(scope,topicId,replyUnder,page=1,size=10,currentUserId){
     return domain.comment.findAndCount({
         where:{scope,topicId,replyUnder},
         limit:size,
@@ -120,6 +158,12 @@ function listByReplyUnder(scope,topicId,replyUnder,page=1,size=10){
         include:[
             {model:domain.user,as:'author'}
         ],
+    }).then(result=>{
+        const {rows,count}=result;
+        return attachUserOpinion(currentUserId,rows)
+            .then(rows=>{
+                return {rows,count};
+            });
     });
 }
 
@@ -139,50 +183,64 @@ function listByReplyTo(replyTo,page,size){
  * @param {Number} size 
  * @param {Number} replySize 
  */
-function listAllReplies(scope,topicId,page=1,size=10,replySize=10){
+function listAllReplies(scope,topicId,page=1,size=10,replySize=10,currentUserId){
+    
+    const rowsSQL=`
+    select t.* 
+        ,row_number 
+        ,u.username as author_username 
+        ,u.email as author_email 
+        ,u.state as author_state
+        ${ !! currentUserId ?
+            " ,o.opinion ":
+            " "
+        }
+    from
+        (select 
+            x.id as id,x.content,x.upvotes,x.downvotes,x.author_id as author_id,x.scope as scope,x.topic_id as topicId,x.reply_to as replyTo,x.reply_under as replyUnder,x.createdAt as createdAt,x.updatedAt as updatedAt
+            ,IF(@partition=x.reply_under,@rank:=@rank+1,@rank:=1) as row_number
+            ,@partition:=x.reply_under as under
+            from 
+                (select r.*
+                    from 
+                        (select * from comment
+                            where comment.reply_to is null
+                                and comment.reply_under is null
+                                and scope=:scope
+                                and topic_id=:topicId
+                            order by createdAt asc
+                            limit :offset , :commentSize
+                        )as c  -- 特定scope及topicId下的顶级评论
+                    inner join comment as r 
+                    on r.reply_under = c.id
+                ) as x , -- 特定scope及topicId的所有顶级评论下的全部回复
+                (select @rank:=0,@partition:=null)as _temp_var
+                order by reply_under,createdAt
+        ) as t
+        inner join user as u on u.id=t.author_id
+        ${ !!currentUserId ?
+            " left join topic_user_opinion as o on o.scope='comment' and o.topic_id=t.id and  o.user_id=:currentUserId " :
+            " "
+        }
+        where row_number <= :replySize
+    `;
+    const replacements={
+        scope,
+        topicId,
+        offset:(page-1)*size,
+        commentSize:size,
+        replySize:replySize,
+        currentUserId,
+    };
+
 
     // 筛选出指定分页条件下的所有顶级评论的某分页下的次级回复
     const rows= domain.sequelize.query(
-        `
-        select t.*,row_number, 
-            u.username as author_username, 
-            u.email as author_email, 
-            u.state as author_state 
-        from
-            (select 
-                x.id as id,x.content,x.upvotes,x.downvotes,x.author_id as author_id,x.scope as scope,x.topic_id as topicId,x.reply_to as replyTo,x.reply_under as replyUnder,x.createdAt as createdAt,x.updatedAt as updatedAt
-                ,IF(@partition=x.reply_under,@rank:=@rank+1,@rank:=1) as row_number
-                ,@partition:=x.reply_under as under
-                from 
-                    (select r.*
-                        from 
-                            (select * from comment
-                                where comment.reply_to is null
-                                    and comment.reply_under is null
-                                    and scope=:scope
-                                    and topic_id=:topicId
-                                order by createdAt asc
-                                limit :offset , :commentSize
-                            )as c  -- 特定scope及topicId下的顶级评论
-                        inner join comment as r 
-                        on r.reply_under = c.id
-                    ) as x , -- 特定scope及topicId的所有顶级评论下的全部回复
-                    (select @rank:=0,@partition:=null)as _temp_var
-                    order by reply_under,createdAt
-            ) as t
-            inner join user as u on u.id=t.author_id
-            where row_number <= :replySize
-        `, 
-            {
-                replacements:{
-                    scope,
-                    topicId,
-                    offset:(page-1)*size,
-                    commentSize:size,
-                    replySize:replySize,
-                },
-                type: domain.sequelize.QueryTypes.SELECT  
-            }
+        rowsSQL,
+        {
+            replacements,
+            type: domain.sequelize.QueryTypes.SELECT  
+        }
     );
     // 筛选出指定分页条件下的所有顶级评论的次级回复的计数
     const counts=domain.sequelize.query(
@@ -202,13 +260,7 @@ function listAllReplies(scope,topicId,page=1,size=10,replySize=10){
         group by r.reply_under
         `,
         {
-            replacements:{
-                scope,
-                topicId,
-                offset:(page-1)*size,
-                commentSize:size,
-                replySize:replySize,
-            },
+            replacements,
             type: domain.sequelize.QueryTypes.SELECT             
         }
     );
@@ -314,7 +366,13 @@ function like(userId,commentId){
                         return findById(c.id);
                     }),
                     userOpinion.like("comment",commentId,userId)
-                ]);
+                ])
+                .then(results=>{
+                    const comment=JSON.parse(JSON.stringify(results[0])) ;
+                    const o=results[1];
+                    comment.opinion=o.opinion;
+                    return comment;
+                });
             }else{
                 return false;
             }
@@ -360,7 +418,12 @@ function hate(userId,commentId){
                         return findById(c.id);
                     }),
                     userOpinion.hate("comment",commentId,userId),
-                ]);
+                ]).then(results=>{
+                    const comment=JSON.parse(JSON.stringify(results[0])) ;
+                    const o=results[1];
+                    comment.opinion=o.opinion;
+                    return comment;
+                });
             }else{
                 return false;
             }

@@ -1,5 +1,5 @@
+const path=require('path');
 const defConfig=require('./config.default');
-
 
 
 // 克隆一个默认配置
