@@ -17,7 +17,8 @@ router.post('/list/reply-list-of-page',bodyParser.json(),function(req,res,next){
     size=size>0?size:10;
     replyPageSize=parseInt(replyPageSize);
     replyPageSize=replyPageSize>0?replyPageSize:10;
-    return commentService.listAllReplies(scope,topicId,page,size,replyPageSize)
+    const currentUserId=req.session.userid;
+    return commentService.listAllReplies(scope,topicId,page,size,replyPageSize,currentUserId)
         .then(list=>{
             res.end(JSON.stringify(list));
         });
@@ -40,12 +41,13 @@ router.post('/list',bodyParser.json(),function(req,res,next){
         replyTo=null;
     }
     let p=null;
+    const currentUserId=req.session.userid;
     // 如果指定了 replyUnder 且 不为 null，则意味着是要获取某个顶级评论下的所有回复
     if(!!replyUnder){
-        p=commentService.listByReplyUnder(scope,topicId,replyUnder,page,size);
+        p=commentService.listByReplyUnder(scope,topicId,replyUnder,page,size,currentUserId);
     }
     else{
-        p=commentService.listByTopicId(scope,topicId,replyTo,page,size)
+        p=commentService.listByTopicId(scope,topicId,replyTo,page,size,currentUserId)
     }
 
     return p.then(result=>{
