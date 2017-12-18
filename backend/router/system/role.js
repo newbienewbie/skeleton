@@ -9,57 +9,81 @@ const middleware=Middleware(roleService);
 
 const router=express.Router();
 
-router.post('/create',bodyParser.json(),
-    function(req,res,next){
-        const {record}=req.body;
-        const {name,description}=record;
-        if(!name || !description){
-            return res.json(message.fail(`name and description required`));
-        }
-        next();
+
+const jsonMiddleware=bodyParser.json();
+
+const routes={
+    'create':{
+        method:'post',
+        path:'/create',
+        middlewares:[jsonMiddleware,preCreate,middleware.create],
     },
-    middleware.create
-);
-
-router.post('/remove',bodyParser.json(),
-    function(req,res,next){
-        const {id}=req.body;
-        if(!id ){
-            return res.json(message.fail('id required'));
-        }
-        next();
+    'remove':{
+        method:'post',
+        path:'/remove',
+        middlewares:[jsonMiddleware,preRemove,middleware.remove],
     },
-    middleware.remove
-);
-
-router.post('/update',bodyParser.json(),
-    function(req,res,next){
-        const {record}=req.body;
-        const {id,name,description}=record;
-        if(!id || !name ||!description){
-            return res.json(message.fail('id , name and description required'));
-        }
-        next();
+    'update':{
+        method:'post',
+        path:'/update',
+        middlewares:[jsonMiddleware,preUpdate,middleware.update],
     },
-    middleware.update
-);
+    'list':{
+        method:'post',
+        path:'/list',
+        middlewares:[jsonMiddleware,middleware.list],
+    },
+    'list-of-current-user':{
+        method:'post',
+        path:'/list-of-current-user',
+        middlewares:[jsonMiddleware,listOfCurrentUser],
+    },
+    'update-roles-of-username':{
+        method:'post',
+        path:'/update-roles-of-username',
+        middlewares:[jsonMiddleware,updateRolesOfUsername],
+    }
+};
 
-router.post('/list',bodyParser.json(),
-    middleware.list
-);
 
-router.post("/list-of-current-user",bodyParser.json(),function(req,res){
+function preCreate(req,res,next){
+    const {record}=req.body;
+    const {name,description}=record;
+    if(!name || !description){
+        return res.json(message.fail(`name and description required`));
+    }
+    next();
+}
+
+function preRemove(req,res,next){
+    const {id}=req.body;
+    if(!id ){
+        return res.json(message.fail('id required'));
+    }
+    next();
+}
+
+function preUpdate(req,res,next){
+    const {record}=req.body;
+    const {id,name,description}=record;
+    if(!id || !name ||!description){
+        return res.json(message.fail('id , name and description required'));
+    }
+    next();
+}
+
+function listOfCurrentUser(req,res){
     let {page,size,condition}=req.body;
     page=helper.toPositiveInteger(page);
     size=helper.toPositiveInteger(size);
     roleService.listRolesOfUser(req.session.userid,page,size)
         .then((list)=>{
             console.log(list);
-        })
-});
+        });
+}
 
 
-router.post('/update-roles-of-username',bodyParser.json(),function(req,res){
+function updateRolesOfUsername(req,res){
     const info=req.body;
     const username=info.username;
     const roles=info.roles;
@@ -77,8 +101,13 @@ router.post('/update-roles-of-username',bodyParser.json(),function(req,res){
             result.msg=e;
             res.end(JSON.stringify(result));
         });
+}
+
+Object.keys(routes).forEach(k=>{
+    const {method,path,middlewares}=routes[k];
+    middlewares.forEach(mw=>{
+        router[method](path,mw);
+    });
 });
-
-
 
 module.exports=router;
