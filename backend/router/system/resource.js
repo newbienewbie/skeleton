@@ -7,28 +7,72 @@ const {Middleware,message}=require('tiny-service');
 
 const router=express.Router();
 const middleware=Middleware(resourceService);
+const jsonMiddleware=bodyParser.json();
 
 
-router.post('/create',bodyParser.json(),middleware.create);
-
-
-router.post('/remove',bodyParser.json(),middleware.remove);
-
-
-router.post('/update',bodyParser.json(),middleware.update);
-
-
-router.post('/list',bodyParser.json(),middleware.list);
-
-
-router.post('/recent',bodyParser.json(),middleware.recent);
-
+const routes={
+    'create':{
+        method:'post',
+        path:'/create',
+        middlewares:[ jsonMiddleware,middleware.create ],
+    },
+    'remove':{
+        method:'post',
+        path:'/remove',
+        middlewares:[ jsonMiddleware,middleware.remove ],
+    },
+    'update':{
+        method:'post',
+        path:'/update',
+        middlewares:[ jsonMiddleware,middleware.update ],
+    },
+    'list':{
+        method:'post',
+        path:'/list',
+        middlewares:[ jsonMiddleware,middleware.list ],
+    },
+    'recent':{
+        method:'post',
+        path:'/recent',
+        middlewares:[ jsonMiddleware,middleware.recent ],
+    },
+    'create-resource-of-role':{
+        method:'post',
+        path:'/create-resource-of-role',
+        middlewares:[ jsonMiddleware,createResourceOfRole ],
+    },
+    'remove-resource-of-role':{
+        method:'post',
+        path:'/remove-resource-of-role',
+        middlewares:[ jsonMiddleware,removeResourceOfRole],
+    },
+    'list-resources-of-role':{
+        method:'post',
+        path:'/list-resources-of-role',
+        middlewares:[ jsonMiddleware,listResourcesOfRole],
+    },
+    'whether-resources-associated-with-role':{
+        method:'post',
+        path:'/whether-resources-associated-with-role',
+        middlewares:[ jsonMiddleware,whetherResourcesAssociatedWithRole],
+    },
+    'grant-resource-to-role':{
+        method:'post',
+        path:'/grant-resource-to-role',
+        middlewares:[ jsonMiddleware,grantResourceToRole],
+    },
+    'grant-resource-to-role-cancel':{
+        method:'post',
+        path:'/grant-resource-to-role-cancel',
+        middlewares:[ jsonMiddleware,grantResourceToRoleCancel],
+    },
+};
 
 
 /**
  * 创建资源，并关联角色
  */
-router.post('/create-resource-of-role',bodyParser.json(),function(req,res){
+function createResourceOfRole(req,res){
     const {record,context}=req.body;
     const {headItem}=context;
     const roleId=headItem.id;
@@ -42,12 +86,12 @@ router.post('/create-resource-of-role',bodyParser.json(),function(req,res){
                 res.json(message.fail(r));
             }
         );
-});
+}
 
 /**
  * 只移除关联，并不移除角色或者资源
  */
-router.post('/remove-resource-of-role',bodyParser.json(),function(req,res){
+function removeResourceOfRole(req,res){
     const {record,context}=req.body;
     const {headItem}=context;
     if(!headItem.id){
@@ -66,11 +110,11 @@ router.post('/remove-resource-of-role',bodyParser.json(),function(req,res){
                 res.json(message.fail(r));
             }
         );
-});
+}
 
 
 
-router.post('/list-resources-of-role',bodyParser.json(),function(req,res){
+function listResourcesOfRole(req,res){
     const {page,size,condition,context}=req.body;
     if(!context || !context.headItem ||!context.headItem.id){
         res.json({
@@ -84,10 +128,10 @@ router.post('/list-resources-of-role',bodyParser.json(),function(req,res){
         .then(resources=>{
             res.json(resources);
         });
-});
+}
 
 
-router.post('/whether-resources-associated-with-role',bodyParser.json(),function(req,res){
+function whetherResourcesAssociatedWithRole(req,res){
     const {resourceIds,context}=req.body;
     if(!context || !context.headItem ||!context.headItem.id){
         res.json([]);
@@ -102,11 +146,11 @@ router.post('/whether-resources-associated-with-role',bodyParser.json(),function
     const roleId=context.headItem.id;
     return resourceService.whetherResourcesAssociatedWithRole(roleId,resourceIds)
         .then(result=> res.json(result) );
-});
+}
 
 
 
-router.post('/grant-resource-to-role',bodyParser.json(),function(req,res){
+function grantResourceToRole(req,res){
     const {resourceId,context}=req.body;
     if(!context || !context.headItem ||!context.headItem.id){
         res.json(message.fail(`context.headItem.id required`));
@@ -120,10 +164,10 @@ router.post('/grant-resource-to-role',bodyParser.json(),function(req,res){
     return resourceService.grantResourceToRole(roleId,resourceId)
         .then(result=>res.json(result));
 
-});
+}
 
 
-router.post('/grant-resource-to-role-cancel',bodyParser.json(),function(req,res){
+function grantResourceToRoleCancel(req,res){
     const {resourceId,context}=req.body;
     if(!context || !context.headItem ||!context.headItem.id){
         res.json(message.fail(`context.headItem.id required`));
@@ -136,7 +180,13 @@ router.post('/grant-resource-to-role-cancel',bodyParser.json(),function(req,res)
     const roleId=context.headItem.id;
     return resourceService.grantResourceToRoleCancel(roleId,resourceId)
         .then(result=>res.json(result))
-});
+}
 
+Object.keys(routes).forEach(k=>{
+    const {method,path,middlewares}=routes[k];
+    middlewares.forEach(mw=>{
+        router[method](path,mw);
+    });
+});
 
 module.exports=router;
