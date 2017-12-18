@@ -1,3 +1,4 @@
+
 /**
  * 账号相关的路由器
  */
@@ -11,26 +12,38 @@ const bodyParser=require('body-parser');
 const router=express.Router();
 
 /**
+ * body-parser urlencoded
+ */
+const urlencodedMiddleware=bodyParser.urlencoded({extended:true}) ;
+
+/**
  * login page :get
  */
-router.get('/',(req,res)=>{
-    const redirectUrl=decodeURIComponent(req.query.redirectUrl);
-    const redirectUrl_encoded=encodeURIComponent(redirectUrl);
+function loginPage(req,res){
+    let redirectUrl='/';
+    let redirectUrl_encoded='/';
+    if(req.query.redirectUrl){
+        redirectUrl=decodeURIComponent(req.query.redirectUrl);
+        redirectUrl_encoded=encodeURIComponent(redirectUrl);
+    }
     let model={
         signInUrl: `/account/login?redirectUrl=${redirectUrl_encoded}`,
         signUpUrl: `/account/signup?redirectUlr=${redirectUrl_encoded}`,
     };
-//    res.redirect(req.query.redirect || "/");
     res.render('login.html',model);
-});
+}
 
 /**
  * process the login page submit
  * 处理提交时使用body-parser解析urlencoded参数
  */
-router.post('/login',bodyParser.urlencoded({extended:true}) ,(req,res)=>{
-    const redirectUrl=decodeURIComponent(req.query.redirectUrl);
-    const redirectUrl_encoded=encodeURIComponent(req.query.redirectUrl);
+function loginProcess(req,res){
+    let redirectUrl='/';
+    let redirectUrl_encoded='/';
+    if(req.query.redirectUrl){
+        redirectUrl=decodeURIComponent(req.query.redirectUrl);
+        redirectUrl_encoded=encodeURIComponent(req.query.redirectUrl);
+    }
     let model={
         signInUrl: `/account/login?redirectUrl=${redirectUrl_encoded}`,
         signUpUrl: `/account/signup?redirectUlr=${redirectUrl_encoded}`,
@@ -73,22 +86,20 @@ router.post('/login',bodyParser.urlencoded({extended:true}) ,(req,res)=>{
     }else{
         res.render('login.html',model);
     }
-});
-
+}
 
 /**
- * 登出
+ * sign out
  */
-router.get('/signout',(req,res)=>{
+function signOut(){
     req.session.destroy();
     res.send("当前账号已经退出，正为您重定向<meta http-equiv='refresh' content='1;url=/' />");
-});
-
+}
 
 /**
  * 注册,get请求在login.html中显示
  */
-router.get('/signup',(req,res)=>{
+function signUpPage(req,res){
     let model={
         signInUrl: "/account/login",
         signUpUrl: "/account/signup",
@@ -96,12 +107,12 @@ router.get('/signup',(req,res)=>{
         errMsg:"", 
     };
     res.render('login.html',model);
-});
+}
 
 /**
  * 注册,处理POST提交
  */
-router.post("/signup",bodyParser.urlencoded({extended:true}),(req,res)=>{
+function signUpProcess(req,res){
     let model={
         signInUrl: "/account/login",
         signUpUrl: "/account/signup",
@@ -125,26 +136,22 @@ router.post("/signup",bodyParser.urlencoded({extended:true}),(req,res)=>{
                 res.render('login.html',model);
             }
         );
-    
-});
-
+}
 
 /**
  * 生成邀请码
  */
-router.get('/invite',(req,res)=>{
+function invite(req,res){
     signupService.generateInvitationCode(2)
         .then((activateCode)=>{
             res.end(activateCode.code);
         });
-});
-
-
+}
 
 /**
  * 列出用户信息
  */
-router.get('/user/list',function(req,res){
+function userList(req,res){
     let page=parseInt(req.query.page?req.query.page:1);
     page=page>0?page:1;
     let size=parseInt(req.query.size?req.query.size:10);
@@ -165,14 +172,12 @@ router.get('/user/list',function(req,res){
     .catch(e=>{
         console.log(`读取用户列表错误:${e}`);
     });
-
-});
-
+}
 
 /**
  * 当前用户的profile
  */
-router.use('/profile/me',function(req,res,next){
+function profile(req,res){
     const authorId=req.session.userid;
     userService.findById(authorId)
         .then(user=>{
@@ -182,47 +187,102 @@ router.use('/profile/me',function(req,res,next){
         })
         .catch(e=>{
             console.log(`以id: ${id} 读取用户错误`,e);
-        })
-});
+        });
+}
+
 
 /**
  * 激活用户
  */
-// router.get('/activate',(req,res)=>{
-//     let  userId=req.query.u,
-//          code=req.query.c;
-//     domain.activeCode.findOne({
-//         where:{
-//             userId:userId,
-//             code:code,
-//         },
-//         order:"expiresAt desc",
-//     }).then(ac=>{
-//         if(!ac){
-//             throw new Error("无效 activeCode");
-//         }
-//         let userId= ac.userId;
-//         if(userId){
-//             return domain.user.update(
-//                 {
-//                     state:'active'
-//                 },{
-//                     where:{
-//                         id:userId,
-//                         state:{  $ne:'active'}
-//                     }
-//                 }
-//             ).then(()=>{
-//                 res.send('激活成功,请登陆');
-//             });
-//         }else{
-//             res.send('找不到该用户');
-//         }
-//     }).catch(e=>{
-//         res.redirect('/404');
-//     });
-// });
+function activate(req,res){
+    let userId=req.query.u,
+    code=req.query.c;
+    domain.activeCode.findOne({
+        where:{
+            userId:userId,
+            code:code,
+        },
+        order:"expiresAt desc",
+    }).then(ac=>{
+        if(!ac){
+            throw new Error("无效 activeCode");
+        }
+        let userId= ac.userId;
+        if(userId){
+            return domain.user.update(
+                {
+                    state:'active'
+                },{
+                    where:{
+                        id:userId,
+                        state:{  $ne:'active'}
+                    }
+                }
+            ).then(()=>{
+                res.send('激活成功,请登陆');
+            });
+        }else{
+            res.send('找不到该用户');
+        }
+    }).catch(e=>{
+        res.redirect('/404');
+    });
+}
 
 
+const routes={
+    'login-page':{
+        method:'get',
+        path:'/',
+        middlewares:[ loginPage ],
+    },
+    'login-process':{
+        method:'post',
+        path:'/login',
+        middlewares:[ urlencodedMiddleware,loginProcess ]
+    },
+    'sign-out':{
+        method:'get',
+        path:'/signout',
+        middlewares:[signOut]
+    },
+    'sign-up-page':{
+        method:'get',
+        path:'/signup',
+        middlewares:[signUpPage]
+    },
+    'sign-up-process':{
+        method:'post',
+        path:'/signup',
+        middlewares:[urlencodedMiddleware,signUpProcess]
+    },
+    'invite':{
+        method:'get',
+        path:'/invite',
+        middlewares:[invite]
+    },
+    'user-list':{
+        method:'get',
+        path:'/user/list',
+        middlewares:[userList]
+    },
+    'profile-me':{
+        method:'get',
+        path:'/profile/me',
+        middlewares:[profile]
+    },
+    'activate':{
+        method:'get',
+        path:'/activate',
+        middlewares:[activate]
+    }
+}
+
+Object.keys(routes).forEach(k=>{
+    const {method,path,middlewares}=routes[k];
+    middlewares.forEach(mw=>{
+        router[method](path,mw);
+    });
+});
 
 module.exports=router;
