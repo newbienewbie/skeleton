@@ -14,9 +14,11 @@ const router=express.Router();
  * login page :get
  */
 router.get('/',(req,res)=>{
+    const redirectUrl=decodeURIComponent(req.query.redirectUrl);
+    const redirectUrl_encoded=encodeURIComponent(redirectUrl);
     let model={
-        signInUrl:"/account/login",
-        signUpUrl:"/account/signup",
+        signInUrl: `/account/login?redirectUrl=${redirectUrl_encoded}`,
+        signUpUrl: `/account/signup?redirectUlr=${redirectUrl_encoded}`,
     };
 //    res.redirect(req.query.redirect || "/");
     res.render('login.html',model);
@@ -27,9 +29,11 @@ router.get('/',(req,res)=>{
  * 处理提交时使用body-parser解析urlencoded参数
  */
 router.post('/login',bodyParser.urlencoded({extended:true}) ,(req,res)=>{
+    const redirectUrl=decodeURIComponent(req.query.redirectUrl);
+    const redirectUrl_encoded=encodeURIComponent(req.query.redirectUrl);
     let model={
-        signInUrl: "/account/login",
-        signUpUrl: "/account/signup",
+        signInUrl: `/account/login?redirectUrl=${redirectUrl_encoded}`,
+        signUpUrl: `/account/signup?redirectUlr=${redirectUrl_encoded}`,
         errMsg:'用户名及密码不得为空',
     };
     let username=req.body.username;
@@ -52,7 +56,7 @@ router.post('/login',bodyParser.urlencoded({extended:true}) ,(req,res)=>{
                 // 设置session
                 return roleService.load(userFromDb.username,req).then(_=>{
                     // 重定向
-                    res.redirect('/');
+                    res.redirect(redirectUrl);
                     console.log(req.ip,username,req.session.roles,"登陆成功");
                 });
             }else{
