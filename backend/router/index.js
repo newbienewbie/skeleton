@@ -27,9 +27,22 @@ function register(app){
 
 
     /////////////// 系统管理相关模块
-    app.use('/account',require('./system/account'));
-    app.use('/role',require('./system/role'));
-    app.use('/resource',require('./system/resource'));
+    [
+        './system/account',
+        './system/role',
+        './system/resource',
+    ].forEach(f=>{
+        const router=express.Router();
+        const r=require(f);
+        const {routes,mount}=r;
+        Object.keys(routes).forEach(k=>{
+            const {method,path,middlewares}=routes[k];
+            middlewares.forEach(mw=>{
+                router[method](path,mw);
+            });
+        });
+        app.use(mount,router);
+    })
 
 
     /////////////// common

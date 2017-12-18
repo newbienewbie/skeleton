@@ -182,11 +182,7 @@ function grantResourceToRoleCancel(req,res){
         .then(result=>res.json(result))
 }
 
-Object.keys(routes).forEach(k=>{
-    const {method,path,middlewares}=routes[k];
-    middlewares.forEach(mw=>{
-        router[method](path,mw);
-    });
-});
-
-module.exports=router;
+module.exports={
+    mount:'/resource',
+    routes,
+};

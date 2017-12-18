@@ -103,11 +103,7 @@ function updateRolesOfUsername(req,res){
         });
 }
 
-Object.keys(routes).forEach(k=>{
-    const {method,path,middlewares}=routes[k];
-    middlewares.forEach(mw=>{
-        router[method](path,mw);
-    });
-});
-
-module.exports=router;
+module.exports={
+    mount:'/role',
+    routes,
+};
