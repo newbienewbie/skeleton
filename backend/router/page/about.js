@@ -3,7 +3,7 @@ const express=require('express');
 const router=express.Router();
 
 
-router.get('/',function(req,res) {
+function index(req,res) {
     let session=req.session;
     res.render("about/index.njk", {
         items:[
@@ -21,6 +21,17 @@ router.get('/',function(req,res) {
             }
         ]
     });
-});
+}
 
-module.exports=router;
+const routes={
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[ index],
+    },
+};
+
+module.exports={
+    mount:'/about',
+    routes,
+};

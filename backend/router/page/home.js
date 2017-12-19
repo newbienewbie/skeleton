@@ -2,15 +2,23 @@ const express=require('express');
 const path=require('path');
 
 
-const router=express.Router();
 
-router.get('/',function(req,res) {
+function index(req,res) {
     let session=req.session;
     res.render("index.njk", {
         greetings:session.username
     });
-});
+}
 
+const routes={
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[ index],
+    },
+};
 
-
-module.exports=router;
+module.exports={
+    mount:'/',
+    routes,
+};

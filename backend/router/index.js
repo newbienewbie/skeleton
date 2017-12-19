@@ -24,17 +24,13 @@ function register(app){
     app.use('/',require('./session'));
 
     /////////////// pages
-    // home page
-    app.use('/',require('./page/home.js'));
-    // dashboard page
-    app.use('/dashboard',require('./page/dashboard.js'));
-    // about page
-    app.use('/about',require('./page/about'));
-    // contact page
-    app.use('/contact',require('./page/contact'));
-    // 404 page
-    app.use('/404',require('./page/not-found.js'));
-
+    [
+        './page/home.js',
+        './page/dashboard.js',    // dashboard page
+        './page/about',          // about page
+        './page/contact',        // contact page
+        './page/not-found.js',   // 404 page
+    ].forEach(p=> registerRouteFile(app,p));
 
     /////////////// 超级管理模块
     [

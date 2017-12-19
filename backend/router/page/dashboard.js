@@ -5,12 +5,19 @@ const express=require('express');
 
 
 
-const router=express.Router();
-
-router.get('/',(req,res)=>{
+function index(req,res){
     res.render('dashboard.html');
-});
+}
 
+const routes={
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[ index],
+    },
+};
 
-
-module.exports=router;
+module.exports={
+    mount:'/dashboard',
+    routes,
+};

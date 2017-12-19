@@ -2,12 +2,20 @@ const express=require('express');
 
 
 
-const router=express.Router();
-
-
-router.get('/',(req,res)=>{
+function index(req,res){
     res.render('contact/index.njk',{});
-});
+}
+
+const routes={
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[ index ],
+    },
+};
 
 
-module.exports=router;
+module.exports={
+    mount:'/contact',
+    routes,
+};
