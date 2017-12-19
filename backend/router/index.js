@@ -49,20 +49,18 @@ function register(app){
         './system/account',
         './system/role',
         './system/resource',
-    ].forEach(p=> registerRouteFile(app,p))
+    ].forEach(p=> registerRouteFile(app,p));
 
 
     /////////////// common
-    // 上传
-    app.use('/upload/meiying',require('./common/upload.js'));
-    // 编辑器
-    app.use('/ueditor',require('./common/ueditor.js'));
-    // 分类
-    app.use('/category',require('./common/category'));
-    // 国家地区
-    app.use('/country',require('./common/country.js'));
-    // 语言
-    app.use('/language',require('./common/language.js'));
+    [
+        './common/upload.js',    // 上传
+        './common/ueditor.js',   // 编辑器
+        './common/category',     // category
+        './common/country.js',   // country
+        './common/language.js',  // language
+    ].forEach(p=> registerRouteFile(app,p));
+
 
 
     /////////////// cms 模块

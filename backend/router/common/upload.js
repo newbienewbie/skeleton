@@ -1,16 +1,28 @@
 const UEditor=require('express-ueditor');
 const express=require('express');
 
-const router=express.Router();
 const ueditor=new UEditor({
     videoMaxSize:5*1014*1024*1024,
 });
 
-router.post("/image",ueditor.upload("uploadimage"));
 
-router.post("/video",ueditor.upload("uploadvideo"));
+const routes={
+    'image':{
+        method:'post',
+        path:'/image',
+        middlewares:[ ueditor.upload("uploadimage") ],
+    },
+    'video':{
+        method:'post',
+        path:'/video',
+        middlewares:[ ueditor.upload("uploadvideo") ],
+    },
+};
 
 
-module.exports=router;
+module.exports={
+    mount:'/upload/meiying',
+    routes,
+};
 
 

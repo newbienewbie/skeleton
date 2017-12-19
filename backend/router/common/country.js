@@ -2,21 +2,29 @@ const domain=require('../../domain');
 const express=require('express');
 const bodyParser=require('body-parser');
 
-const router=express.Router();
 
 
-router.get('/list',function(req,res){
-    domain.country
-        .findAll()
-        .then((countryList=>{
+function list(req,res){
+    domain.country.findAll()
+        .then(countryList=>{
             res.end(JSON.stringify(countryList));
-        }))
+        })
         .catch(e=>{
             res.end(JSON.stringify({
                 msg:'读取country错误',
             }));
         });
-});
+}
 
+const routes={
+    'list':{
+        method:'get',
+        path:'/list',
+        middlewares:[ list ],
+    }
+};
 
-module.exports=router;
+module.exports={
+    mount:'/country',
+    routes,
+};

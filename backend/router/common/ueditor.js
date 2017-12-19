@@ -6,14 +6,18 @@ const UEditor=require('express-ueditor');
 
 
 
-const app=express();
-const router=express.Router();
 const ueditor=new UEditor();
 
-router.use('/controller',ueditor.config());
-router.use('/controller',ueditor.upload('uploadimage'));
-router.use('/controller',ueditor.upload('uploadfile'));
+const routes={
+    'controller':{
+        method:'use',
+        path:'/controller',
+        middlewares:[ ueditor.config() ,  ueditor.upload('uploadimage'), ueditor.upload('uploadfile') ]
+    },
+};
 
 
-
-module.exports=router;
+module.exports={
+    mount:'/ueditor',
+    routes,
+};
