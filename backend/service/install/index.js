@@ -1,11 +1,14 @@
 const fs=require('fs');
 const path=require('path');
+const url=require('url');
 const domain=require('../../domain');
 const signupService=require('../account/signup-service.js');
 const roleService=require('../account/role-service.js'); 
 const userService=require('../account/user-service');
 const parseDbJsonToEntity=require('./parseDbJsonToEntity');
 const config=require("../../config").getConfig();
+const categoryService=require('../../service/common/category');
+const resourceService=require('../../service/account/resource-service');
  
 /**
  * 锁定文件的路径 
@@ -129,11 +132,62 @@ function initData(entityNames){
     return Promise.all(promises);
 }
 
+function getFileName(file_path){
+    return path.parse(file_path).name;
+}
+
+function initSystemResource(routesConfig){
+    const flatten_routes=[];
+    Object.keys(routesConfig).forEach(k=>{
+        const conf=routesConfig[k];
+        const {category,files}=conf;
+        if(Array.isArray(files) ){
+            files.forEach(filePath=>{
+                // 当前路由文件的文件名本身
+                const fileName=getFileName(filePath);
+                // 加载相应路由文件，获取其中定义的路由规则及挂载位置
+                const {routes,mount}=require(filePath);
+                Object.keys(routes).forEach(name=>{
+                    // 一条路由规则的方法名
+                    const method=routes[name].method;
+                    // 一条路由规则的URL
+                    let localUrlPath=routes[name].path;
+                    if(localUrlPath[0]='/'){
+                        localUrlPath=localUrlPath.slice(1);
+                    }
+                    flatten_routes.push({ 
+                        category, 
+                        name:`${fileName}/${name}`,
+                        method, 
+                        path: url.resolve(mount,localUrlPath),
+                    });
+                });
+            });
+        }
+    });
+    return categoryService.listAll({
+        scope:'resource'
+    }).then(cateogries=>{
+        cateogries.rows.forEach(c=>{
+            flatten_routes.forEach(r=>{
+                if(r.category==c.name){
+                    r.category=c.id;
+                }
+            });
+        });
+        return flatten_routes;
+    }).then(flatten_routes=>{
+        return resourceService.bulkCreate(flatten_routes);
+    });
+    
+}
+
 module.exports={
     checkInstallable,
     install,
     initCoreData,
     createRootUser,
     initPredefinedData,
+    initSystemResource,
     createLockFile,
 };
