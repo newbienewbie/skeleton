@@ -132,7 +132,7 @@ const routes={
         path:'/init-db',
         middlewares:[ installable, initDb ],
     },
-    'showInstallPage':{
+    'show-install-page':{
         method:'get',
         path:'/',
         middlewares:[ showInstallPage ],
