@@ -26,8 +26,8 @@ export class UploadAttachment extends React.Component{
         };
     }
 
-    normalizeFileList(list){
-        const fileList=Array.slice(list,-1*this.props.limit)
+    normalizeFileList(list=[]){
+        const fileList=list.slice(-1*this.props.limit)
             // 设置每一项的url
             .map((file) => {
                 // 组件会将 file.url 作为链接进行展示
