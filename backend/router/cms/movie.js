@@ -7,10 +7,11 @@ const {calculatePaginationInfo}=require('pagination-info');
 const {Middleware,message}=require('tiny-service');
 
 
-const router=express.Router();
+
+const jsonMiddleware=bodyParser.json();
 const middleware=Middleware(movieService);
 
-router.get('/detail/:id',function(req,res){
+function detail(req,res){
     let id=req.params.id;
     id=parseInt(id);
     domain.movie.findById(id)
@@ -21,107 +22,85 @@ router.get('/detail/:id',function(req,res){
             res.json(message.fail(e));
             console.log(e);
         });;
-});
+}
 
+function create(req,res){
+    const movie=req.body.record;
+    // 处理结果对象，用于返回至客户端
+    const _result={
+        result:'SUCCESS',
+        message:'',
+    };
 
-
-router.get('/list',
-    function(req,res,next){
-        let page=parseInt(req.query.page?req.query.page:1);
-        page=page>0?page:1;
-        let size=parseInt(req.query.size?req.query.size:10);
-        size=size>0?size:5;
-        movieServie.list(page,size,{})
-            .then(result=>{
-                res.json(result);
-            });
+    if(!movie.posterUrl){
+        movie.posterUrl=null;
     }
-);
-
-router.post('/list', bodyParser.json(), middleware.list);
-
-
-
-router.post('/create',bodyParser.json() ,
-    function(req,res){
-        const movie=req.body.record;
-        // 处理结果对象，用于返回至客户端
-        const _result={
-            result:'SUCCESS',
-            message:'',
-        };
-
-        if(!movie.posterUrl){
-            movie.posterUrl=null;
-        }
-        // 视频格式对象
-        let _format;
-        // 创建了的movie实体对象
-        let _movieEntity;
-        domain.movie
-            .create(Object.assign({},movie,{ }))
-            .then(movie=>{
-                //先返回新增影片的处理结果，后续再处理探针、截屏操作
-                res.json(message.success());
-                _movieEntity=movie;
-                return movie;
-            })
-            .catch(e=>{
-                res.json(message.fail(e));
-                throw e;
-            })
-            // 探针
-            .then(movie=>{
-                return movieService.getVideoFormat(path.resolve(movie.url))
-            })
-            .then(
-                (format)=>{
-                    console.log('探针处理完毕：',format);
-                    _format=format;
-                    return ;
-                },
-                (err)=>{
-                    console.log(err);
-                    throw(err);
-                }
-            )
-            // 截屏，总是位于影片同一目录下
-            .then(()=>{
-                let directory=path.dirname(_format.filename);
-                return movieService.takeScreenShot(movie.url,2,directory);
-            })
-            .then(outs=>{
-                // 计算影片的相对URL
-                const base=_movieEntity.url.slice(0,_movieEntity.url.lastIndexOf("/"));
-                // 计算截图的相对URL
-                const shots=outs.filenames.map(f=>{
-                    return {
-                        movieId:_movieEntity.id,
-                        url:base+"/"+f,
-                    };
-                });
-                console.log(shots);
-                return Promise.all([
-                    domain.screenshot.bulkCreate(shots),
-                    domain.movie.update(
-                        { posterUrl:shots[0].url, },
-                        { where:{
-                            $and:{
-                                id:_movieEntity.id,
-                                $or:{posterUrl:null},
-                            }
-                        }}
-                    ),
-                ]);
-            })
-            .catch(e=>{
-                console.log(e);
+    // 视频格式对象
+    let _format;
+    // 创建了的movie实体对象
+    let _movieEntity;
+    domain.movie
+        .create(Object.assign({},movie,{ }))
+        .then(movie=>{
+            //先返回新增影片的处理结果，后续再处理探针、截屏操作
+            res.json(message.success());
+            _movieEntity=movie;
+            return movie;
+        })
+        .catch(e=>{
+            res.json(message.fail(e));
+            throw e;
+        })
+        // 探针
+        .then(movie=>{
+            return movieService.getVideoFormat(path.resolve(movie.url))
+        })
+        .then(
+            (format)=>{
+                console.log('探针处理完毕：',format);
+                _format=format;
+                return ;
+            },
+            (err)=>{
+                console.log(err);
+                throw(err);
+            }
+        )
+        // 截屏，总是位于影片同一目录下
+        .then(()=>{
+            let directory=path.dirname(_format.filename);
+            return movieService.takeScreenShot(movie.url,2,directory);
+        })
+        .then(outs=>{
+            // 计算影片的相对URL
+            const base=_movieEntity.url.slice(0,_movieEntity.url.lastIndexOf("/"));
+            // 计算截图的相对URL
+            const shots=outs.filenames.map(f=>{
+                return {
+                    movieId:_movieEntity.id,
+                    url:base+"/"+f,
+                };
             });
-    }
-);
+            console.log(shots);
+            return Promise.all([
+                domain.screenshot.bulkCreate(shots),
+                domain.movie.update(
+                    { posterUrl:shots[0].url, },
+                    { where:{
+                        $and:{
+                            id:_movieEntity.id,
+                            $or:{posterUrl:null},
+                        }
+                    }}
+                ),
+            ]);
+        })
+        .catch(e=>{
+            console.log(e);
+        });
+}
 
-
-router.get("/play/:id",(req,res)=>{
+function detailPlayPage(req,res){
     const id=req.params.id;
     let categories=[];
 
@@ -141,12 +120,9 @@ router.get("/play/:id",(req,res)=>{
             movie,
         });
     });
-});
+}
 
-
-
-
-router.get("/",function(req,res){
+function index(req,res){
     let {categoryId,page,size}=req.query;
     page=page?parseInt(page):1;
     page=page>0?page:1;
@@ -186,6 +162,38 @@ router.get("/",function(req,res){
 
         });
 
-})
+}
 
-module.exports=router;
+routes={
+    'detail':{
+        method:'get',
+        path:'/detail/:id',
+        middlewares:[detail],
+    },
+    'list':{
+        method:'post',
+        path:'/list',
+        middlewares:[jsonMiddleware,middleware.list],
+    },
+    'create':{
+        method:'post',
+        path:'/create',
+        middlewares:[jsonMiddleware,create],
+    },
+    'play':{
+        method:'get',
+        path:'/play/:id',
+        middlewares:[detailPlayPage],
+    },
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[index],
+    },
+};
+
+
+module.exports={
+    mount:'/movie',
+    routes,
+};
