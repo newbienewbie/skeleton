@@ -39,7 +39,6 @@ export class AssocationsAdminTable extends React.Component{
     onTableChange(pagination, condition={}, sorter={},context={}) {
 
         const {pageSize,current}=pagination;
-        
         return associcationModel.methods.listAll(current, pageSize ,condition , context)
             .then(result=>{
                 const {count,rows}=result;
@@ -127,8 +126,9 @@ export class AssocationsAdminTable extends React.Component{
                         return false;
                     }
                 },
-
             }} 
+            pagination={this.state.pagination}
+            onChange={this.onTableChange.bind(this)}
         >
             {Object.keys(fields).map(k=>{
                 return <Table.Column title={fields[k].title} key={k} dataIndex={k}/>;
