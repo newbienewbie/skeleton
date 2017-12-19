@@ -4,6 +4,7 @@ const {installService}=require('../../service');
 const domain=require('../../domain');
 const express=require('express');
 const bodyParser=require('body-parser');
+const routesConfig=require('../routes.config');
 
 
 
@@ -87,6 +88,9 @@ function createRootUser(req,res){
 function initDb(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
     installService.initPredefinedData()
+        .then(_=>{
+            return installService.initSystemResource(routesConfig)
+        })
         .then(_=>installService.createLockFile())
         .then(
             ()=>{
