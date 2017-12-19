@@ -61,9 +61,10 @@ function register(app){
 
     /////////////// cms 模块
     [
-        './cms/movie',   // movie 模块
-        './cms/post',    // post 模块
-        './cms/ebook',   // ebook 模块
+        './cms/movie',      // movie 模块
+        './cms/post',       // post 模块
+        './cms/ebook',      // ebook 模块
+        './cms/director',   // director 模块
     ].forEach(p=> registerRouteFile(app,p));
 
 
