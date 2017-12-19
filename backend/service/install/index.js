@@ -171,7 +171,7 @@ function initSystemResource(routesConfig){
         cateogries.rows.forEach(c=>{
             flatten_routes.forEach(r=>{
                 if(r.category==c.name){
-                    r.category=c.id;
+                    r.categoryId=c.id;
                 }
             });
         });
