@@ -4,56 +4,39 @@ const {categoryService,postService}=require('../../service');
 const {calculatePaginationInfo}=require('pagination-info');
 const {Middleware,message}=require('tiny-service');
 
-const router=express.Router();
 const middleware=Middleware(postService);
+const jsonMiddleware=bodyParser.json();
 
 
-router.post("/create", bodyParser.json(),
-    (req,res,next)=>{
-        const {record}=req.body;
-        record.authorId=req.session.userid;
-        record.state='draft';
-        record.categoryId=parseInt(record.categoryId);
-        if(Array.isArray(record.featureImageUrl)){
-            record.featureImageUrl=record.featureImageUrl[0].url;
-        }
-        next();
-    },
-    middleware.create
-);
-
-router.post('/remove',bodyParser.json(),middleware.remove);
-
-router.post("/update",
-    bodyParser.json(),
-    (req,res,next)=>{
-        const {record}=req.body;
-        record.authorId=req.session.userid;
-        record.state='draft';
-        record.categoryId=parseInt(record.categoryId);
-        if(Array.isArray(record.featureImageUrl)){
-            record.featureImageUrl=record.featureImageUrl[0].url;
-        }
-        next();
-    },
-    middleware.update
-);
-
-
-router.get('/detail',
-    (req,res)=>{
-        const id=req.query.id;
-        postService.findById(id).then((post)=>{
-            delete post.password;
-            res.json(post);
-        })
+function preCreate(req,res,next){
+    const {record}=req.body;
+    record.authorId=req.session.userid;
+    record.state='draft';
+    record.categoryId=parseInt(record.categoryId);
+    if(Array.isArray(record.featureImageUrl)){
+        record.featureImageUrl=record.featureImageUrl[0].url;
     }
-);
+    next();
+}
 
+function preUpdate(req,res,next){
+    const {record}=req.body;
+    record.authorId=req.session.userid;
+    record.state='draft';
+    record.categoryId=parseInt(record.categoryId);
+    if(Array.isArray(record.featureImageUrl)){
+        record.featureImageUrl=record.featureImageUrl[0].url;
+    }
+    next();
+}
 
-router.post('/list', bodyParser.json(), middleware.list);
-
-router.post('/recent',bodyParser.json(),middleware.recent);
+function detail(req,res){
+    const id=req.query.id;
+    postService.findById(id).then((post)=>{
+        delete post.password;
+        res.json(post);
+    })
+}
 
 function checkCanPublish(req){
     // 检查当前用户和当前文章作者是否是同一人
@@ -64,7 +47,7 @@ function checkCanPublish(req){
 /**
  * 发表
  */
-router.post("/publish",function(req,res){
+function publish(req,res){
     const id=req.query.id;
     return postService.publish(id)
         .then(()=>{
@@ -72,12 +55,12 @@ router.post("/publish",function(req,res){
         }).then((err)=>{
             res.json(message.fail(err));
         });
-});
+}
 
 /**
  * 审批
  */
-router.post("/approval",function(req,res){
+function approval(req,res){
     const id=req.query.id;
     return postService.approval(id)
         .then(()=>{
@@ -85,12 +68,12 @@ router.post("/approval",function(req,res){
         }).then((err)=>{
             res.json(message.fail(err));
         });
-});
+}
 
 /**
  * 退回
  */
-router.post("/sendback",function(req,res){
+function sendback(req,res){
     const id=req.query.id;
     return postService.sendback(id)
         .then(()=>{
@@ -98,12 +81,12 @@ router.post("/sendback",function(req,res){
         }).then((err)=>{
             res.json(message.fail(err));
         });
-});
+}
 
 /**
  * 否决
  */
-router.post("/reject",function(req,res){
+function reject(req,res){
     const id=req.query.id;
     return postService.reject(id)
         .then(()=>{
@@ -111,12 +94,9 @@ router.post("/reject",function(req,res){
         }).then((err)=>{
             res.json(message.fail(err));
         });
-});
+}
 
-
-
-
-router.get("/detail/:id",(req,res)=>{
+function detailPage(req,res){
     const id=req.params.id;
     let categories=[];
 
@@ -138,12 +118,8 @@ router.get("/detail/:id",(req,res)=>{
             post,
         });
     });
-});
-
-
-
-
-router.get("/",function(req,res){
+}
+function index(req,res){
     let {categoryId,page,size}=req.query;
     page=page?parseInt(page):1;
     page=page>0?page:1;
@@ -182,6 +158,73 @@ router.get("/",function(req,res){
 
         });
 
-});
+}
 
-module.exports=router;
+const routes={
+    'create':{
+        method:'post',
+        path:'/create',
+        middlewares:[ jsonMiddleware,preCreate, middleware.create ],
+    },
+    'remove':{
+        method:'post',
+        path:'/remove',
+        middlewares:[jsonMiddleware,middleware.remove],
+    },
+    'update':{
+        method:'post',
+        path:'/update',
+        middlewares:[jsonMiddleware,preUpdate,middleware.update],
+    },
+    'detail':{
+        method:'get',
+        path:'/detail',
+        middlewares:[jsonMiddleware,detail],
+    },
+    'list':{
+        method:'post',
+        path:'/list',
+        middlewares:[jsonMiddleware,middleware.list],
+    },
+    'recent':{
+        method:'post',
+        path:'/recent',
+        middlewares:[jsonMiddleware,middleware.recent],
+    },
+    'publish':{
+        method:'post',
+        path:'/publish',
+        middlewares:[jsonMiddleware,publish],
+    },
+    'sendback':{
+        method:'post',
+        path:'/sendback',
+        middlewares:[jsonMiddleware,sendback],
+    },
+    'approval':{
+        method:'post',
+        path:'/approval',
+        middlewares:[jsonMiddleware,approval],
+    },
+    'reject':{
+        method:'post',
+        path:'/reject',
+        middlewares:[jsonMiddleware,reject],
+    },
+    'detail-page':{
+        method:'get',
+        path:'/detail/:id',
+        middlewares:[jsonMiddleware,detailPage],
+    },
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[index],
+    }
+};
+
+
+module.exports={
+    mount:'/post',
+    routes,
+};

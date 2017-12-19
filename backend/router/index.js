@@ -60,10 +60,12 @@ function register(app){
 
 
     /////////////// cms 模块
+    [
+        './cms/post',    // post 模块
+    ].forEach(p=> registerRouteFile(app,p));
+
     // movie 模块
     app.use('/movie',require('./cms/movie.js'));
-    // post 模块
-    app.use('/post',require('./cms/post'));
     // ebook 模块
     app.use('/ebook',require('./cms/ebook'));
 
