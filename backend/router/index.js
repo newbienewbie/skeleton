@@ -68,8 +68,10 @@ function register(app){
     ].forEach(p=> registerRouteFile(app,p));
 
 
-    // 评论模块
-    app.use('/comment',require('./comment'));
+
+    [
+        './comment'         // 评论回复模块
+    ].forEach(p=> registerRouteFile(app,p));
 
 
     return app;

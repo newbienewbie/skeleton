@@ -1,14 +1,16 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const {commentService}=require('../service');
+const {toIntegerGreaterThan}=require('tiny-service');
 
-const router=express.Router();
 
+
+const jsonMiddleware=bodyParser.json();
 
 /**
  * 列出某分页下的评论的前N条回复及计数
  */
-router.post('/list/reply-list-of-page',bodyParser.json(),function(req,res,next){
+function replyListOfPage(req,res,next){
     let {scope,topicId,page,size,replyPageSize}=req.body;
     topicId=parseInt(topicId);
     page=page?parseInt(page):1;
@@ -22,15 +24,14 @@ router.post('/list/reply-list-of-page',bodyParser.json(),function(req,res,next){
         .then(list=>{
             res.end(JSON.stringify(list));
         });
-});
-
+}
 
 /**
  * 根据指定分页条件，获取相应评论列表或者回复列表
  * 如果指定replyUnder，则返回指定replyUnder下的回复列表
  * 否则，根据topicId查询其他相应条件下(如page、size、和replyTo)的评论或回复
  */
-router.post('/list',bodyParser.json(),function(req,res,next){
+function list(req,res,next){
     let {scope,topicId,page,size,replyTo,replyUnder}=req.body;
     topicId=parseInt(topicId);
     page=page?parseInt(page):1;
@@ -53,9 +54,9 @@ router.post('/list',bodyParser.json(),function(req,res,next){
     return p.then(result=>{
             res.end(JSON.stringify(result));
         });
-});
+}
 
-router.post('/new',bodyParser.json(),function(req,res,next){
+function create(req,res,next){
     const {scope,topicId,replyTo,content}=req.body;
     const authorId=req.session.userid;
     if(!content || !topicId || !authorId){ 
@@ -73,9 +74,9 @@ router.post('/new',bodyParser.json(),function(req,res,next){
                 res.end(JSON.stringify({status:'fail',msg:reason}));
             }
         );
-});
+}
 
-router.post('/upvote/cancel',bodyParser.json(),function(req,res,next){
+function upvoteCancel(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
     if(!id || !userId){ 
@@ -87,10 +88,9 @@ router.post('/upvote/cancel',bodyParser.json(),function(req,res,next){
         .then(i=>{
             res.end(JSON.stringify(i));
         })
-    
-});
+}
 
-router.post('/upvote',bodyParser.json(),function(req,res,next){
+function upvote(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
     if(!id || !userId){ 
@@ -103,9 +103,9 @@ router.post('/upvote',bodyParser.json(),function(req,res,next){
             res.end(JSON.stringify(i));
         })
     
-});
+}
 
-router.post('/downvote/cancel',bodyParser.json(),function(req,res,next){
+function downvoteCancel(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
     if(!id || !userId){ 
@@ -118,9 +118,9 @@ router.post('/downvote/cancel',bodyParser.json(),function(req,res,next){
             res.end(JSON.stringify(i));
         })
     
-});
+}
 
-router.post('/downvote',bodyParser.json(),function(req,res,next){
+function downvote(req,res,next){
     const {id}=req.body;
     const userId=req.session.userid;
     if(!id || !userId){ 
@@ -133,6 +133,48 @@ router.post('/downvote',bodyParser.json(),function(req,res,next){
             res.end(JSON.stringify(i));
         })
     
-});
+}
 
-module.exports=router;
+const routes={
+    'reply-list-of-page':{
+        method:'post',
+        path:'/list/reply-list-of-page',
+        middlewares:[ jsonMiddleware, replyListOfPage ],
+    },
+    'list':{
+        method:'post',
+        path:'/list',
+        middlewares:[ jsonMiddleware, list ],
+    },
+    'create':{
+        method:'post',
+        path:'/new',
+        middlewares:[ jsonMiddleware, create ],
+    },
+    'upvote-cancel':{
+        method:'post',
+        path:'/upvote/cancel',
+        middlewares:[ jsonMiddleware, upvoteCancel ],
+    },
+    'upvote':{
+        method:'post',
+        path:'/upvote',
+        middlewares:[ jsonMiddleware, upvote],
+    },
+    'downvote-cancel':{
+        method:'post',
+        path:'/downvote/cancel',
+        middlewares:[ jsonMiddleware, downvoteCancel ],
+    },
+    'downvote':{
+        method:'post',
+        path:'/downvote',
+        middlewares:[ jsonMiddleware, downvote ],
+    },
+
+};
+
+module.exports={
+    mount:'/comment',
+    routes,
+};
