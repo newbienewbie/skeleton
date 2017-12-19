@@ -5,7 +5,9 @@ const roleService=require('./role-service');
 const resourceService=Service(domain.resource);
 
 
-
+resourceService.bulkCreate=function bulkCreate(records,opts){
+    return domain.resource.bulkCreate(records,opts);
+}
 /**
  * 获取某个角色获得授权的资源列表
  * @param {Number} roleId 
