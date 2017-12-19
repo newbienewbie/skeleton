@@ -5,13 +5,21 @@ const express=require('express');
 
 
 
-const router=express.Router();
-
-router.get('/',function (req,res) {
+function health(req,res) {
     res.writeHead(200);
     res.end("1");
-});
+}
+
+const routes={
+    'index':{
+        method:'get',
+        path:'/',
+        middlewares:[health],
+    }
+};
 
 
-
-module.exports=router;
+module.exports={
+    mount:'/health',
+    routes,
+};

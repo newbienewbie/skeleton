@@ -1,6 +1,22 @@
 const express=require('express');
 const path=require('path');
 
+function registerRouteFile(app,filePath){
+
+    const router=express.Router();
+
+    // 加载路由模块
+    const mod=require(filePath);
+    const {routes,mount}=mod;
+    Object.keys(routes).forEach(r=>{
+        const {method,path,middlewares}=routes[r];
+        middlewares.forEach(mw=>{
+            router[method](path,mw);
+        });
+    });
+    app.use(mount,router);
+}
+
 function register(app){
 
 
@@ -21,9 +37,11 @@ function register(app){
 
 
     /////////////// 超级管理模块
-    app.use('/health',require('./sudo/health'));
-    app.use('/info',require('./sudo/info'));
-    app.use('/install',require('./sudo/install'));
+    [
+        './sudo/health',
+        './sudo/info',
+        './sudo/install',
+    ].forEach(p=> registerRouteFile(app,p));
 
 
     /////////////// 系统管理相关模块
@@ -31,18 +49,7 @@ function register(app){
         './system/account',
         './system/role',
         './system/resource',
-    ].forEach(f=>{
-        const router=express.Router();
-        const r=require(f);
-        const {routes,mount}=r;
-        Object.keys(routes).forEach(k=>{
-            const {method,path,middlewares}=routes[k];
-            middlewares.forEach(mw=>{
-                router[method](path,mw);
-            });
-        });
-        app.use(mount,router);
-    })
+    ].forEach(p=> registerRouteFile(app,p))
 
 
     /////////////// common

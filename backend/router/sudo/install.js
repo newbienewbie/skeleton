@@ -7,9 +7,7 @@ const bodyParser=require('body-parser');
 
 
 
-var router=express.Router();
-
-
+const jsonMiddleware=bodyParser.json();
 const installable=function(req,res,next){
     installService.checkInstallable().then(
         _=>{ next() },
@@ -20,29 +18,27 @@ const installable=function(req,res,next){
 /**
  * 安装网站之：创建数据库
  */
-router.get('/create-db',installable,
-    function(req,res){
-        installService.install()
-            .then(
-                ()=>{
-                    res.end(JSON.stringify({
-                        status:'SUCCESS', msg:'',
-                    }));
-                },
-                (reason)=>{
-                    console.log(reason);
-                    res.end(JSON.stringify({
-                        status:'FAIL', msg:reason,
-                    }));
-                }
-            );
-    }
-);
+function createDb(req,res){
+    installService.install()
+        .then(
+            ()=>{
+                res.end(JSON.stringify({
+                    status:'SUCCESS', msg:'',
+                }));
+            },
+            (reason)=>{
+                console.log(reason);
+                res.end(JSON.stringify({
+                    status:'FAIL', msg:reason,
+                }));
+            }
+        );
+}
 
 /**
  * 初始化核心基础表
  */
-router.post('/init-core',installable,function(req,res,next){
+function initCore(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
     installService.initCoreData()
         .then(
@@ -59,13 +55,12 @@ router.post('/init-core',installable,function(req,res,next){
             info.msg=e;
             res.end(JSON.stringify(info));
         });
-});
-
+}
 
 /**
  * 安装网站之：创建根用户
  */
-router.post('/create-root-user',installable,bodyParser.json(),function(req,res){
+function createRootUser(req,res){
     const root=req.body;
     let username=root.username;
     username=username?username:"root";
@@ -87,10 +82,9 @@ router.post('/create-root-user',installable,bodyParser.json(),function(req,res){
                 res.end(JSON.stringify(info));
             }
         );
-});
+}
 
-
-router.post('/init-db',installable,function(req,res,next){
+function initDb(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
     installService.initPredefinedData()
         .then(_=>installService.createLockFile())
@@ -108,15 +102,46 @@ router.post('/init-db',installable,function(req,res,next){
             info.msg=e;
             res.end(JSON.stringify(info));
         });
-});
+}
 
 /**
  * 安装网站之：显示模板文件
  */
-router.get('/',(req,res)=>{
+function showInstallPage(req,res){
     res.render('install.html',{});
-});
+}
+
+const routes={
+    'create-db':{
+        method:'get',
+        path:'/create-db',
+        middlewares:[ installable,createDb],
+    },
+    'init-core':{
+        method:'post',
+        path:'/init-core',
+        middlewares:[ installable,initCore],
+    },
+    'create-root-user':{
+        method:'post',
+        path:'/create-root-user',
+        middlewares:[ installable,jsonMiddleware,createRootUser ],
+    },
+    'init-db':{
+        method:'post',
+        path:'/init-db',
+        middlewares:[ installable, initDb ],
+    },
+    'showInstallPage':{
+        method:'get',
+        path:'/',
+        middlewares:[ showInstallPage ],
+    },
+};
 
 
 
-module.exports=router;
+module.exports={
+    mount:'/install',
+    routes,
+};
