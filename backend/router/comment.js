@@ -140,36 +140,43 @@ const routes={
         method:'post',
         path:'/list/reply-list-of-page',
         middlewares:[ jsonMiddleware, replyListOfPage ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'list':{
         method:'post',
         path:'/list',
         middlewares:[ jsonMiddleware, list ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'create':{
         method:'post',
         path:'/new',
         middlewares:[ jsonMiddleware, create ],
+        allowRoles:['ROLE_USER'],
     },
     'upvote-cancel':{
         method:'post',
         path:'/upvote/cancel',
         middlewares:[ jsonMiddleware, upvoteCancel ],
+        allowRoles:['ROLE_USER'],
     },
     'upvote':{
         method:'post',
         path:'/upvote',
         middlewares:[ jsonMiddleware, upvote],
+        allowRoles:['ROLE_USER'],
     },
     'downvote-cancel':{
         method:'post',
         path:'/downvote/cancel',
         middlewares:[ jsonMiddleware, downvoteCancel ],
+        allowRoles:['ROLE_USER'],
     },
     'downvote':{
         method:'post',
         path:'/downvote',
         middlewares:[ jsonMiddleware, downvote ],
+        allowRoles:['ROLE_USER'],
     },
 
 };

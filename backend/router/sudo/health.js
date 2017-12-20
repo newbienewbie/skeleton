@@ -15,6 +15,7 @@ const routes={
         method:'get',
         path:'/',
         middlewares:[health],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     }
 };
 

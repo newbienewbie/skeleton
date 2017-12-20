@@ -180,16 +180,19 @@ const routes={
         method:'get',
         path:'/detail',
         middlewares:[jsonMiddleware,detail],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'list':{
         method:'post',
         path:'/list',
         middlewares:[jsonMiddleware,middleware.list],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'recent':{
         method:'post',
         path:'/recent',
         middlewares:[jsonMiddleware,middleware.recent],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'publish':{
         method:'post',
@@ -215,11 +218,13 @@ const routes={
         method:'get',
         path:'/detail/:id',
         middlewares:[jsonMiddleware,detailPage],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'index':{
         method:'get',
         path:'/',
         middlewares:[index],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     }
 };
 

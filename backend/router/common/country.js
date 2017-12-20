@@ -21,6 +21,7 @@ const routes={
         method:'get',
         path:'/list',
         middlewares:[ list ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     }
 };
 

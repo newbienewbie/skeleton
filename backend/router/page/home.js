@@ -15,6 +15,7 @@ const routes={
         method:'get',
         path:'/',
         middlewares:[ index],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
 };
 

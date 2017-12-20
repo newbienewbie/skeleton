@@ -239,26 +239,31 @@ const routes={
         method:'get',
         path:'/',
         middlewares:[ loginPage ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'login-process':{
         method:'post',
         path:'/login',
-        middlewares:[ urlencodedMiddleware,loginProcess ]
+        middlewares:[ urlencodedMiddleware,loginProcess ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'sign-out':{
         method:'get',
         path:'/signout',
-        middlewares:[signOut]
+        middlewares:[signOut],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'sign-up-page':{
         method:'get',
         path:'/signup',
-        middlewares:[signUpPage]
+        middlewares:[signUpPage],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'sign-up-process':{
         method:'post',
         path:'/signup',
-        middlewares:[urlencodedMiddleware,signUpProcess]
+        middlewares:[urlencodedMiddleware,signUpProcess],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'invite':{
         method:'get',
@@ -268,12 +273,13 @@ const routes={
     'user-list':{
         method:'get',
         path:'/user/list',
-        middlewares:[userList]
+        middlewares:[userList],
     },
     'profile-me':{
         method:'get',
         path:'/profile/me',
-        middlewares:[profile]
+        middlewares:[profile],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'activate':{
         method:'get',

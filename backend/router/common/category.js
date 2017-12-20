@@ -27,11 +27,13 @@ const routes={
         method:'use',
         path:'/list/:scope',
         middlewares:[ listOfScope ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'tree-of-scope':{
         method:'use',
         path:'/tree/:scope',
         middlewares:[ treeOfScope ],
+        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
 };
 
