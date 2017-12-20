@@ -9,6 +9,7 @@ const parseDbJsonToEntity=require('./parseDbJsonToEntity');
 const config=require("../../config").getConfig();
 const categoryService=require('../../service/common/category');
 const resourceService=require('../../service/account/resource-service');
+const {getFileName,getResourceName}=require('../utils');
  
 /**
  * 锁定文件的路径 
@@ -132,39 +133,44 @@ function initData(entityNames){
     return Promise.all(promises);
 }
 
-function getFileName(file_path){
-    return path.parse(file_path).name;
-}
-
-function initSystemResource(routesConfig){
+function _getFlattenRoutes(routesConfig){
     const flatten_routes=[];
     Object.keys(routesConfig).forEach(k=>{
         const conf=routesConfig[k];
         const {category,files}=conf;
         if(Array.isArray(files) ){
             files.forEach(filePath=>{
-                // 当前路由文件的文件名本身
+                // 该路由文件的文件名本身
                 const fileName=getFileName(filePath);
                 // 加载相应路由文件，获取其中定义的路由规则及挂载位置
                 const {routes,mount}=require(filePath);
                 Object.keys(routes).forEach(name=>{
                     // 一条路由规则的方法名
-                    const method=routes[name].method;
+                    const method=routes[name].method.toUpperCase();
                     // 一条路由规则的URL
                     let localUrlPath=routes[name].path;
-                    if(localUrlPath[0]='/'){
-                        localUrlPath=localUrlPath.slice(1);
-                    }
+                    // 一条路由规则所允许的角色，
+                    let allowRoles=routes[name].allowRoles;
+                    // `ROLE_USER`这个角色是所有用户都要拥有的角色
+                    allowRoles=allowRoles?allowRoles:['ROLE_USER'];
+
                     flatten_routes.push({ 
                         category, 
-                        name:`${fileName}/${name}`,
+                        name:getResourceName(fileName,name),
                         method, 
-                        path: url.resolve(mount,localUrlPath),
+                        path: localUrlPath,
+                        status:'enabled',
+                        allowRoles:allowRoles,
                     });
                 });
             });
         }
     });
+    return flatten_routes;
+}
+
+function initSystemResource(routesConfig){
+    const flatten_routes=_getFlattenRoutes(routesConfig);
     return categoryService.listAll({
         scope:'resource'
     }).then(cateogries=>{
@@ -179,7 +185,56 @@ function initSystemResource(routesConfig){
     }).then(flatten_routes=>{
         return resourceService.bulkCreate(flatten_routes);
     });
-    
+}
+
+/**
+ * 
+ * @param {*} routesConfig 
+ */
+function initResourceRoles(routesConfig){
+
+    function findIdByName(array=[],name=''){
+        for(let i=0;i<array.length;i++){
+            const role=array[i];
+            if(role.name==name){
+                return role.id ;
+            }
+        }
+        return -1;
+    }
+
+    const flatten_routes=_getFlattenRoutes(routesConfig);
+    return roleService.listAll()
+        .then(roles=>{
+            flatten_routes.forEach(route=>{
+                const {allowRoles}=route;
+                route.allowRoles=allowRoles.map(roleName=>{
+                    const roleId=findIdByName(roles,roleName);
+                    return roleId;
+                });
+            });
+            return flatten_routes;
+        })
+        .then(flatten_routes=>{
+            return resourceService.listAll()
+                .then(resources=>{
+                    flatten_routes.forEach(r=>{
+                        const {name,allowRoles}=r;
+                        r.id=findIdByName(resources,name);
+                    });
+                    return flatten_routes;
+                });
+        })
+        .then(_=>{
+            const roleResources=[];
+            
+            flatten_routes.forEach(route=>{
+                route.allowRoles.forEach(roleId=>{
+                    roleResources.push({ resource_id:route.id, role_id: roleId});
+                });
+            });
+            return domain.roleResource.bulkCreate(roleResources);
+        });
 }
 
 module.exports={
@@ -189,5 +244,6 @@ module.exports={
     createRootUser,
     initPredefinedData,
     initSystemResource,
+    initResourceRoles,
     createLockFile,
 };
