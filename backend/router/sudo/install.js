@@ -91,6 +91,9 @@ function initDb(req,res,next){
         .then(_=>{
             return installService.initSystemResource(routesConfig)
         })
+        .then(_=>{
+            return installService.initResourceRoles(routesConfig)
+        })
         .then(_=>installService.createLockFile())
         .then(
             ()=>{
