@@ -21,6 +21,14 @@ roleService.findByName=function(rolename){
     });
 };
 
+
+/**
+ * find all rol
+ */
+roleService.listAll=function(){
+    return domain.role.findAll();
+};
+
 /**
  * 从数据库中加载指定账户的角色信息到SESSION,
  *     成功则resolve({username,roles})
@@ -135,6 +143,12 @@ roleService.updateRolesOfUsername=function(username,roles=[]){
 };
 
 
-
+roleService.findByName=function(roleName){
+    return domain.role.findOne({
+        where:{
+            name:roleName,
+        }
+    });
+};
 
 module.exports=roleService;

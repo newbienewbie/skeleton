@@ -166,4 +166,8 @@ resourceService.findByName=function(resourceName){
     });
 };
 
+resourceService.listAll=function(){
+    return domain.resource.findAll();
+}
+
 module.exports=resourceService;
