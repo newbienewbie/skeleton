@@ -109,12 +109,14 @@ function signup(username,password,email,code){
                 .then(result=>{
                     const {userEntity,code}=result;
                     // 为该用户添加“普通用户"这一角色
-                    return roleService.findByName("普通用户")
+                    return roleService.findByName("ROLE_USER")
                         .then(role=>{
-                            if(!role){ return roleService.createRole("普通用户","普通用户"); }
+                            if(!role){ return roleService.createRole({h_name:"ROOT_USER",description:"普通用户"}); }
                             return role;
                         })
-                        .then(role=> roleService.addRolesForUser(userEntity.id,[3]))
+                        .then(role=> {
+                            return roleService.addRolesForUser(userEntity.id,[role]);
+                        })
                         .then(_=>{
                             return result;
                         })
