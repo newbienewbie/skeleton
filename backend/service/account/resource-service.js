@@ -155,6 +155,15 @@ resourceService.grantResourceToRoleCancel=function(roleId,resourceId){
         });
 };
 
-
+resourceService.findByName=function(resourceName){
+    return domain.resource.findOne({
+        where:{
+            name:resourceName,
+        },
+        include:[
+            {model:domain.role}
+        ],
+    });
+};
 
 module.exports=resourceService;
