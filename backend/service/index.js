@@ -20,6 +20,7 @@ const postService=require('./cms/post');
 const movieService=require('./cms/movie');
 
 const commentService=require('./comment');
+const utils=require('./utils');
 
 
 module.exports={
@@ -39,4 +40,5 @@ module.exports={
     movieService,
     commentService,
     installService,
+    utils,
 };
