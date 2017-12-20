@@ -91,7 +91,7 @@ function loginProcess(req,res){
 /**
  * sign out
  */
-function signOut(){
+function signOut(req,res){
     req.session.destroy();
     res.send("当前账号已经退出，正为您重定向<meta http-equiv='refresh' content='1;url=/' />");
 }
@@ -179,6 +179,10 @@ function userList(req,res){
  */
 function profile(req,res){
     const authorId=req.session.userid;
+    if(!authorId){
+        res.end(JSON.stringify({}));
+        return;
+    }
     userService.findById(authorId)
         .then(user=>{
             user=JSON.parse(JSON.stringify(user));
@@ -186,7 +190,7 @@ function profile(req,res){
             res.end(JSON.stringify(user));
         })
         .catch(e=>{
-            console.log(`以id: ${id} 读取用户错误`,e);
+            console.log(`以id: ${authorId} 读取用户错误`,e);
         });
 }
 
