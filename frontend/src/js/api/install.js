@@ -82,10 +82,26 @@ export const initializeTable=()=>{
 };
 
 
+export const initializePrivilege=()=>{
+    return client.post('/install/init-privilege')
+        .then(resp=>resp.data,(e)=>{throw e;})
+        .then(
+            info=>checkStatus(info),
+            (e)=>{
+                console.log(e);
+                throw {
+                    status:'FAIL',
+                    msg:e.toString(),
+                };
+            }
+        );
+};
+
 
 export default {
     createDb,
     initializeCore,
     createRootUser,
     initializeTable,
+    initializePrivilege,
 };

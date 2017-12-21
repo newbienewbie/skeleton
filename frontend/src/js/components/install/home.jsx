@@ -67,6 +67,12 @@ export class Home extends React.Component{
                 .then(()=>{
                     return this.promiseSetState({current:++current});
                 })
+            .then(()=>{
+                return Api.initializePrivilege();
+            })
+                .then(()=>{
+                    return this.promiseSetState({current:++current});
+                })
             .catch(e=>{
                 console.log(this.state);
                 return this.setState({ status:'error',current:current,msg:e.msg});
@@ -103,9 +109,10 @@ export class Home extends React.Component{
                     <Card title="安装进度">
                         <Steps direction="vertical" current={this.state.current} status={this.state.status}>
                             <Steps.Step title="安装数据库" description="数据库安装" />
-                            <Steps.Step title="初始化核心数据" description="填充角色表等" />
+                            <Steps.Step title="初始化核心数据" description="填充内置的角色表等" />
                             <Steps.Step title="创建超级管理员" description="安装超级管理员" />
-                            <Steps.Step title="填充基本的数据" description="填充语言表、国家表等" />
+                            <Steps.Step title="初始化基本数据" description="填充语言表、国家表、分类表等" />
+                            <Steps.Step title="配置默认权限" description="初始化资源表、资源-角色配置表等" />
                             <Steps.Step title="完成" description="" />
                         </Steps>
                     </Card>
