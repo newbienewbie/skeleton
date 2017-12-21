@@ -88,9 +88,25 @@ function createRootUser(req,res){
 function initDb(req,res,next){
     const info={ status:'SUCCESS', msg:'', }; 
     installService.initPredefinedData()
-        .then(_=>{
-            return installService.initSystemResource(routesConfig)
-        })
+        .then(
+            ()=>{
+                res.end(JSON.stringify(info));
+            },
+            (reason)=>{
+                info.status="FAIL";
+                info.msg=reason;
+                res.end(JSON.stringify(info));
+            }
+        ).catch(e=>{
+            info.status="FAIL";
+            info.msg=e;
+            res.end(JSON.stringify(info));
+        });
+}
+
+function initPrivilege(req,res,next){
+    const info={ status:'SUCCESS', msg:'', }; 
+    installService.initSystemResource(routesConfig)
         .then(_=>{
             return installService.initResourceRoles(routesConfig)
         })
@@ -110,6 +126,7 @@ function initDb(req,res,next){
             res.end(JSON.stringify(info));
         });
 }
+
 
 /**
  * 安装网站之：显示模板文件
@@ -138,6 +155,11 @@ const routes={
         method:'post',
         path:'/init-db',
         middlewares:[ installable, initDb ],
+    },
+    'init-privilege':{
+        method:'post',
+        path:'/init-privilege',
+        middlewares:[ installable, initPrivilege ],
     },
     'show-install-page':{
         method:'get',
