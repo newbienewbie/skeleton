@@ -151,8 +151,8 @@ function _getFlattenRoutes(routesConfig){
                     let localUrlPath=routes[name].path;
                     // 一条路由规则所允许的角色，
                     let allowRoles=routes[name].allowRoles;
-                    // `ROLE_USER`这个角色是所有用户都要拥有的角色
-                    allowRoles=allowRoles?allowRoles:['ROLE_USER'];
+                    // 默认情况下，会允许匿名角色或者普通用户角色访问
+                    allowRoles=allowRoles?allowRoles:['ROLE_ANONYMOUS','ROLE_USER'];
 
                     flatten_routes.push({ 
                         category, 
