@@ -50,7 +50,7 @@ function registerRouteFile(app,filePath){
                 .then(resource=>{
                     for(let i=0;i<resource.roles.length;i++){
                         const roleName=resource.roles[i].name;
-                        const flag=roleNames.some(r=>r===roleName) ;
+                        const flag=roleNames.some(r=>r.name===roleName ) ;
                         if( flag){ 
                             return true; 
                         }
@@ -80,7 +80,7 @@ function register(app){
             // 为匿名用户设置当前角色为`ROLE_ANONYMOUS`
             app.use('/',function(req,res,next){
                 if(!req.session.roles){ 
-                    req.session.roles=[anonymousRole.name]; 
+                    req.session.roles=[anonymousRole]; 
                 }
                 next(); 
             });
