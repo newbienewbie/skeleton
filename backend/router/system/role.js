@@ -17,16 +17,19 @@ const routes={
         method:'post',
         path:'/create',
         middlewares:[jsonMiddleware,preCreate,middleware.create],
+        allowRoles:['ROLE_ADMIN',],
     },
     'remove':{
         method:'post',
         path:'/remove',
         middlewares:[jsonMiddleware,preRemove,middleware.remove],
+        allowRoles:['ROLE_ADMIN',],
     },
     'update':{
         method:'post',
         path:'/update',
         middlewares:[jsonMiddleware,preUpdate,middleware.update],
+        allowRoles:['ROLE_ADMIN',],
     },
     'list':{
         method:'post',
@@ -42,6 +45,7 @@ const routes={
         method:'post',
         path:'/update-roles-of-username',
         middlewares:[jsonMiddleware,updateRolesOfUsername],
+        allowRoles:['ROLE_ADMIN',],
     }
 };
 

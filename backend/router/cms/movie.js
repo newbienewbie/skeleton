@@ -169,30 +169,27 @@ routes={
         method:'get',
         path:'/detail/:id',
         middlewares:[detail],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'list':{
         method:'post',
         path:'/list',
         middlewares:[jsonMiddleware,middleware.list],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'create':{
         method:'post',
         path:'/create',
         middlewares:[jsonMiddleware,create],
+        allowRoles:['ROLE_ADMIN',],
     },
     'play':{
         method:'get',
         path:'/play/:id',
         middlewares:[detailPlayPage],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'index':{
         method:'get',
         path:'/',
         middlewares:[index],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
 };
 

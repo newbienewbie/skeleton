@@ -239,36 +239,32 @@ const routes={
         method:'get',
         path:'/',
         middlewares:[ loginPage ],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'login-process':{
         method:'post',
         path:'/login',
         middlewares:[ urlencodedMiddleware,loginProcess ],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'sign-out':{
         method:'get',
         path:'/signout',
         middlewares:[signOut],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'sign-up-page':{
         method:'get',
         path:'/signup',
         middlewares:[signUpPage],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'sign-up-process':{
         method:'post',
         path:'/signup',
         middlewares:[urlencodedMiddleware,signUpProcess],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'invite':{
         method:'get',
         path:'/invite',
-        middlewares:[invite]
+        middlewares:[invite],
+        allowRoles:['ROLE_ADMIN',],
     },
     'user-list':{
         method:'get',
@@ -279,12 +275,12 @@ const routes={
         method:'get',
         path:'/profile/me',
         middlewares:[profile],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'activate':{
         method:'get',
         path:'/activate',
-        middlewares:[activate]
+        middlewares:[activate],
+        allowRoles:['ROLE_ADMIN',],
     }
 }
 

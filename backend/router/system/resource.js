@@ -15,16 +15,19 @@ const routes={
         method:'post',
         path:'/create',
         middlewares:[ jsonMiddleware,middleware.create ],
+        allowRoles:['ROLE_ADMIN',],
     },
     'remove':{
         method:'post',
         path:'/remove',
         middlewares:[ jsonMiddleware,middleware.remove ],
+        allowRoles:['ROLE_ADMIN',],
     },
     'update':{
         method:'post',
         path:'/update',
         middlewares:[ jsonMiddleware,middleware.update ],
+        allowRoles:['ROLE_ADMIN',],
     },
     'list':{
         method:'post',
@@ -40,11 +43,13 @@ const routes={
         method:'post',
         path:'/create-resource-of-role',
         middlewares:[ jsonMiddleware,createResourceOfRole ],
+        allowRoles:['ROLE_ADMIN',],
     },
     'remove-resource-of-role':{
         method:'post',
         path:'/remove-resource-of-role',
         middlewares:[ jsonMiddleware,removeResourceOfRole],
+        allowRoles:['ROLE_ADMIN',],
     },
     'list-resources-of-role':{
         method:'post',
@@ -55,16 +60,19 @@ const routes={
         method:'post',
         path:'/whether-resources-associated-with-role',
         middlewares:[ jsonMiddleware,whetherResourcesAssociatedWithRole],
+        allowRoles:['ROLE_ADMIN',],
     },
     'grant-resource-to-role':{
         method:'post',
         path:'/grant-resource-to-role',
         middlewares:[ jsonMiddleware,grantResourceToRole],
+        allowRoles:['ROLE_ADMIN',],
     },
     'grant-resource-to-role-cancel':{
         method:'post',
         path:'/grant-resource-to-role-cancel',
         middlewares:[ jsonMiddleware,grantResourceToRoleCancel],
+        allowRoles:['ROLE_ADMIN',],
     },
 };
 

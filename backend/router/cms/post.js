@@ -165,66 +165,68 @@ const routes={
         method:'post',
         path:'/create',
         middlewares:[ jsonMiddleware,preCreate, middleware.create ],
+        allowRoles:['ROLE_ADMIN',],
     },
     'remove':{
         method:'post',
         path:'/remove',
         middlewares:[jsonMiddleware,middleware.remove],
+        allowRoles:['ROLE_ADMIN',],
     },
     'update':{
         method:'post',
         path:'/update',
         middlewares:[jsonMiddleware,preUpdate,middleware.update],
+        allowRoles:['ROLE_ADMIN',],
     },
     'detail':{
         method:'get',
         path:'/detail',
         middlewares:[jsonMiddleware,detail],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'list':{
         method:'post',
         path:'/list',
         middlewares:[jsonMiddleware,middleware.list],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'recent':{
         method:'post',
         path:'/recent',
         middlewares:[jsonMiddleware,middleware.recent],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'publish':{
         method:'post',
         path:'/publish',
         middlewares:[jsonMiddleware,publish],
+        allowRoles:['ROLE_ADMIN',],
     },
     'sendback':{
         method:'post',
         path:'/sendback',
         middlewares:[jsonMiddleware,sendback],
+        allowRoles:['ROLE_ADMIN',],
     },
     'approval':{
         method:'post',
         path:'/approval',
         middlewares:[jsonMiddleware,approval],
+        allowRoles:['ROLE_ADMIN',],
     },
     'reject':{
         method:'post',
         path:'/reject',
         middlewares:[jsonMiddleware,reject],
+        allowRoles:['ROLE_ADMIN',],
     },
     'detail-page':{
         method:'get',
         path:'/detail/:id',
         middlewares:[jsonMiddleware,detailPage],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'index':{
         method:'get',
         path:'/',
         middlewares:[index],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     }
 };
 

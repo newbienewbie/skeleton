@@ -123,31 +123,26 @@ const routes={
         method:'get',
         path:'/create-db',
         middlewares:[ installable,createDb],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'init-core':{
         method:'post',
         path:'/init-core',
         middlewares:[ installable,initCore],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'create-root-user':{
         method:'post',
         path:'/create-root-user',
         middlewares:[ installable,jsonMiddleware,createRootUser ],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'init-db':{
         method:'post',
         path:'/init-db',
         middlewares:[ installable, initDb ],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
     'show-install-page':{
         method:'get',
         path:'/',
         middlewares:[ showInstallPage ],
-        allowRoles:['ROLE_ANONYMOUS','ROLE_USER'],
     },
 };
 
