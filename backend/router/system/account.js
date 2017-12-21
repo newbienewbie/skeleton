@@ -26,6 +26,11 @@ function loginPage(req,res){
         redirectUrl=decodeURIComponent(req.query.redirectUrl);
         redirectUrl_encoded=encodeURIComponent(redirectUrl);
     }
+    if(!!req.session.userid){
+        console.log(`已登陆的用户: username=${req.session.username} ; userid=${req.session.userid} 访问登陆页，重定向之`);
+        res.redirect(redirectUrl);
+        return;
+    }
     let model={
         signInUrl: `/account/login?redirectUrl=${redirectUrl_encoded}`,
         signUpUrl: `/account/signup?redirectUlr=${redirectUrl_encoded}`,
