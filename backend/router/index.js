@@ -72,11 +72,17 @@ function registerRouteFile(app,filePath){
 
 function register(app){
 
+    // session
+    app.use('/',require('./session'));
+
+    Object.keys(routesConfig).forEach(k=>{
+        const config=routesConfig[k];
+        const {category,files}=config;
+        files.forEach(p=>registerRouteFile(app,p));
+    });
+
     return roleService.findByName('ROLE_ANONYMOUS')
         .then(anonymousRole=>{
-
-            // session
-            app.use('/',require('./session'));
             // 为匿名用户设置当前角色为`ROLE_ANONYMOUS`
             app.use('/',function(req,res,next){
                 if(!req.session.roles){ 
@@ -84,16 +90,17 @@ function register(app){
                 }
                 next(); 
             });
-
-            Object.keys(routesConfig).forEach(k=>{
-                const config=routesConfig[k];
-                const {category,files}=config;
-                files.forEach(p=>registerRouteFile(app,p));
-            });
-        })
-        .then(_=>{
             return app;
         })
+        .catch(e=>{
+            app.use('/',function(req,res,next){
+                if(!req.session.roles){ 
+                    req.session.roles=["ROLE_ANONYMOUS"]; 
+                }
+                next(); 
+            });
+            return app;
+        });
 
 }
 
