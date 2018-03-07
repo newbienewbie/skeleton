@@ -52,7 +52,7 @@ class Skeleton{
      */
     serveStaticFiles(){
         if(this.config.env=="prod"){
-            console.warning(`the default serveStaticFiles() method is used for development only ,you should overwirte it!`);
+            console.warn(`the default serveStaticFiles() method is used for development only ,you should overwirte it!`);
         }
         const app=this.app;
         const basePath=this.config.basePath
