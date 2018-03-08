@@ -42,7 +42,7 @@
     "simple-react-ui": "^3.0.4",
     "tiny-admin": "^0.2.11",
     "tiny-api": "^0.2.1",
-    "tiny-service": "^0.3.0"
+    "tiny-service": "^0.4.4"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
