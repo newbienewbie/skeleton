@@ -1,37 +1,20 @@
 const express=require('express');
 const {categoryService}=require('../../service');
+const {CategoryMiddleware}=require("tiny-service");
 
+const middleware=CategoryMiddleware(categoryService);
 
-const router=express.Router();
-
-function listOfScope(req,res,next){
-    const scope=req.params.scope?req.params.scope:"post";
-    categoryService.listAll({
-        'scope':scope
-    }).then(list=>{
-        res.end(JSON.stringify(list));
-    });
-}
-
-function treeOfScope(req,res,next){
-    const scope=req.params.scope?req.params.scope:"post";
-    categoryService.tree({
-        'scope':scope
-    }).then(list=>{
-        res.end(JSON.stringify(list));
-    });
-}
 
 const routes={
     'list-of-scope':{
         method:'use',
         path:'/list/:scope',
-        middlewares:[ listOfScope ],
+        middlewares:[ middleware.listOfScope ],
     },
     'tree-of-scope':{
         method:'use',
         path:'/tree/:scope',
-        middlewares:[ treeOfScope ],
+        middlewares:[ middleware.treeOfScope ],
     },
 };
 
