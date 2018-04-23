@@ -18,9 +18,13 @@ actionapi.getActionList=function(){
         .then( resp=>resp.data,e=>{throw e;});
 }
 
-actionapi.getActionTree=function(){
-    return client.post(`/action/tree`)
-        .then( resp=>resp.data,e=>{throw e;});
+actionapi.getActionTree=function(scope){
+    return client.post(`/action/tree`,
+        {
+            scope,
+        },
+        defaultClientOpts
+    ).then( resp=>resp.data,e=>{throw e;});
 }
 
 
