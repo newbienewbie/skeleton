@@ -19,6 +19,11 @@ const sequelize=new Sequelize(
     }
 );
 
+/////////////////////////////////////////////////////////////////////
+// dashboard
+/////////////////////////////////////////////////////////////////////
+const Action=sequelize.import('./entity/system/action.js');
+
 
 /////////////////////////////////////////////////////////////////////
 // user , role , resource  and so on .
@@ -244,6 +249,7 @@ Comment.belongsTo(User,{foreignKey:'author_id',as:'author'});
 
 module.exports={
     sequelize,
+    action:Action,
     user:User,
     activeCode:ActiveCode,
     director:Director,
