@@ -59,6 +59,29 @@ function ebook(list={ "id": 1, "title": "", "author": "", "description": "", "is
     });
 }
 
+function action(list=[{
+    id:'',name:'',resource_name:'',show_name:'',to:'',scope:'',klass:'',listorder:'',pid:'',display:'',note:'',createAt:'',updateAt:''
+}]){
+    return list.map(i=>{
+        return {
+            id:i.id,
+            name:i.name,
+            showName:i.show_name,
+            resourceName:i.resource_name,
+            to:i.to,
+            scope:i.scope,
+            klass:i.klass,
+            listorder:i.listorder,
+            pid:i.pid,
+            displayable:i.display,
+            note:i.note,
+            createdAt:i.createdAt,
+            updatedAt:i.updatedAt,
+        };
+    });
+}
+
+
 module.exports={
-    role,ebook,
+    role,ebook,action
 };

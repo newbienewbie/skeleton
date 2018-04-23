@@ -109,7 +109,7 @@ function createRootUser(username="root",password="toor",email="itminus@163.com")
  * 初始化预定义的数据
  */
 function initPredefinedData(){
-    const entityNames=["country","language","category","ebook"];
+    const entityNames=["country","language","category","ebook","action"];
     return initData(entityNames);
 }
 
