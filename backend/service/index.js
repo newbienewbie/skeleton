@@ -14,6 +14,7 @@ const topicUserOpinion=require('./common/topic-user-opinion');
 const KeywordService=require('./common/keyword');
 const intercepter=require('./common/authorization-checker');
 
+const actionService=require('./action');
 
 const ebookService=require('./cms/ebook');
 const postService=require('./cms/post');
@@ -40,5 +41,6 @@ module.exports={
     movieService,
     commentService,
     installService,
+    actionService,
     utils,
 };
