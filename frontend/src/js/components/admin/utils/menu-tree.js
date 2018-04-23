@@ -25,7 +25,7 @@ export class MenuTree extends React.Component{
     }
     componentDidMount(){
         // 
-        return actionapi.getActionTree("视频")
+        return actionapi.getActionTree(this.props.scope)
             .then(menus=>{
                 this.setState({menus});
             })
@@ -67,6 +67,7 @@ export class MenuTree extends React.Component{
 
 MenuTree.defaultProps={
     mode:'inline',
+    scope:null,    // 默认加载全部scope
 };
 
 
