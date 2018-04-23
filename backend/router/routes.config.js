@@ -25,6 +25,7 @@ let routesConfig={
             './system/account',
             './system/role',
             './system/resource',
+            './system/action',
         ],
     },
     'common':{
