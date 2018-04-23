@@ -4,6 +4,7 @@ import Add from './add/index.js';
 import Edit from './edit';
 import List from './list';
 import {AsideOfConsole} from '../utils/aside.jsx';
+import {MenuTree} from '../utils/menu-tree';
 
 export class Main extends React.Component{
 
@@ -11,7 +12,7 @@ export class Main extends React.Component{
 
         return (<Row>
             <Col span={4}>
-                <AsideOfConsole />
+                <MenuTree/>
             </Col>
             <Col span={20}>
                 <div className="container">
