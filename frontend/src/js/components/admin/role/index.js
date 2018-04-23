@@ -9,7 +9,7 @@ class Main extends React.Component{
 
     render() {
         return (<Row>
-            <Col span={4}> <MenuTree/> </Col>
+            <Col span={4}> <MenuTree scope='system' /> </Col>
             <Col span={20}>
                 <div className="container">
                     {this.props.children}

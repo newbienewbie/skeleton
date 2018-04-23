@@ -13,7 +13,7 @@ class Main extends React.Component{
     render() {
         return (<Row>
             <Col span={4}>
-                <MenuTree />
+                <MenuTree scope='cms' />
             </Col>
             <Col span={20}>
                 <div className="container">

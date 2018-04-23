@@ -7,7 +7,7 @@ export class Home extends React.Component{
     render(){
         return (<Row>
             <Col span={4}>
-                <MenuTree  />
+                <MenuTree scope="cms" />
             </Col>
             <Col span={20}>
                 欢迎来到管理控制台

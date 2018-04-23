@@ -7,13 +7,13 @@ import Home from './home.jsx';
 import Add from './add.jsx';
 import List from './list/index.jsx';
 import {AsideOfConsole} from '../utils/aside.jsx';
-
+import {MenuTree} from '../utils/menu-tree';
 
 export class Main extends React.Component{
 
     render() {
         return (<Row>
-            <Col span={4}> <AsideOfConsole /> </Col>
+            <Col span={4}> <MenuTree scope="cms" /> </Col>
             <Col span={20}>
                 <div className="container">
                     {this.props.children || <Home/> }
