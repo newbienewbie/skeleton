@@ -7,7 +7,12 @@ const jsonMiddleware=bodyParser.json();
 const middleware=Middleware(actionService);
 
 middleware.tree=function(req,res,next){
-    return actionService.tree()
+    const condition={};
+    const {scope}=req.body;
+    if(scope){
+        condition.scope=scope;
+    }
+    return actionService.tree(condition)
         .then(list=>{ res.json(list); });
 };
 
