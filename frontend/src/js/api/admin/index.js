@@ -7,6 +7,7 @@ export {ebookapi} from './ebook';
 export {movieapi} from './movie';
 
 export {categoryapi} from './categroy';
+export {actionapi} from './action';
 
 export {roleapi,resourceapi,accountapi} from './system';
 
