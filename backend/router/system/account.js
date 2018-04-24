@@ -269,7 +269,7 @@ const routes={
         method:'get',
         path:'/invite',
         middlewares:[invite],
-        allowRoles:['ROLE_ADMIN',],
+        allowRoles:['ROLE_SYS_ADMIN',],
     },
     'user-list':{
         method:'get',
@@ -285,7 +285,7 @@ const routes={
         method:'get',
         path:'/activate',
         middlewares:[activate],
-        allowRoles:['ROLE_ADMIN',],
+        allowRoles:['ROLE_SYS_ADMIN',],
     }
 }
 

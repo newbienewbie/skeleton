@@ -179,7 +179,7 @@ routes={
         method:'post',
         path:'/create',
         middlewares:[jsonMiddleware,create],
-        allowRoles:['ROLE_ADMIN',],
+        allowRoles:['ROLE_CMS_AUTHOR','ROLE_CMS_EDITOR','ROLE_CMS_ADMIN'],
     },
     'play':{
         method:'get',

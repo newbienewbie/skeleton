@@ -14,7 +14,7 @@ const routes={
         method:'get',
         path:'/',
         middlewares:[ index],
-        allowRoles:['ROLE_ADMIN',],
+        allowRoles:['ROLE_CMS_AUTHOR','ROLE_CMS_EDITOR','ROLE_CMS_ADMIN','ROLE_SYS_ADMIN'],
     },
 };
 
