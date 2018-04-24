@@ -9,18 +9,45 @@ const express=require('express');
 
 class Skeleton{
 
-    constructor(opts={config:{}}){
+    /**
+     * 构造一个Skeleton
+     * @param {*} opts 
+     * @param {*} opts.config 参见 config/index.js 返回的 config 对象
+     * @param {*} opts.routes 参见 backend/router/route.rules.js返回的 routeRules对象
+     */
+    constructor(opts={ config:{},routes:null }){
         // set the config
         config.setConfig(opts.config|| defaultConfig);
         this.config=config.getConfig();
 
+        /**
+         * 路由规则对象
+         */
+        this.routes=opts.routes || {};  
+
         // and then dynamic import the backend
         const {register,service,domain}=require('./backend');
+
+        /**
+         * 注册器
+         */
         this.register=register;
+        /**
+         * 服务
+         */
         this.service=service;
+        /**
+         * 领域模型
+         */
         this.domain=domain;
 
+        /**
+         * 如何处理req-res模型的app
+         */
         this.app=express();
+        /**
+         * 静态文件处理器
+         */
         this.staticHandle=express.static;
     }
 
@@ -43,8 +70,7 @@ class Skeleton{
         // serve static files
         this.serveStaticFiles();
 
-        // register routes
-        this.register(app);
+        this.serverDynamic();
     }
 
     /**
@@ -67,6 +93,18 @@ class Skeleton{
 
         // ebook文件
         app.use('/ebook-init-files',this.staticHandle(basePath.ebooks));
+    }
+
+    /**
+     * serve dynamic request , could be overwritten by subclass
+     */
+    serverDynamic(){
+        // register routes : plugins
+        if(this.routes){
+            this.register(this.app,this.routes);
+        }
+        // register routes : built-in
+        this.register(this.app);
     }
 
     /**
