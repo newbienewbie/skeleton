@@ -1,6 +1,6 @@
 const express=require('express');
 const path=require('path');
-const routesConfig=require('./routes.config');
+const _routeRules=require('./route.rules');
 const {AuthInterceptor,AuthorizationInterceptor}=require('express-security');
 const resourceService=require('../service/account/resource-service');
 const pathToRegExp=require('path-to-regexp');
@@ -70,7 +70,13 @@ function registerRouteFile(app,filePath){
     app.use(mount,router);
 }
 
-function register(app){
+
+/**
+ * 为app注册路由规则
+ * @param {*} app 
+ * @param {*} routeRules 
+ */
+function register(app,routeRules=_routeRules){
 
     // session
     app.use('/',require('./session'));
@@ -90,8 +96,8 @@ function register(app){
                 }
                 next(); 
             });
-            Object.keys(routesConfig).forEach(k=>{
-                const config=routesConfig[k];
+            Object.keys(routeRules).forEach(k=>{
+                const config=routeRules[k];
                 const {category,files}=config;
                 files.forEach(p=>registerRouteFile(app,p));
             });

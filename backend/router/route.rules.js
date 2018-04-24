@@ -1,6 +1,6 @@
 const path=require('path');
 
-let routesConfig={
+let routeRules={
     'page':{
         category:'页面',
         files:[
@@ -56,13 +56,13 @@ let routesConfig={
 };
 
 
-// 转换为绝对路径
-Object.keys(routesConfig).forEach(rcName=>{
-    const rc=routesConfig[rcName];
+// 把routesConfig中的相对路径转换为绝对路径
+Object.keys(routeRules).forEach(rcName=>{
+    const rc=routeRules[rcName];
     const {files}=rc;
     files.forEach((p,idx)=>{
         files[idx]= path.resolve(__dirname,p);
     });
 });
 
-module.exports=routesConfig;
+module.exports=routeRules;

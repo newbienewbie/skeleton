@@ -4,7 +4,7 @@ const {installService}=require('../../service');
 const domain=require('../../domain');
 const express=require('express');
 const bodyParser=require('body-parser');
-const routesConfig=require('../routes.config');
+const routesConfig=require('../route.rules');
 
 
 
