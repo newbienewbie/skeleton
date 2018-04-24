@@ -14,7 +14,8 @@ describe('development config',()=>{
            assert.equal(config.database.dialect,'mysql');
         });
         it('host defaults to localhost', () => {
-            assert.equal(config.database.host, '127.0.0.1');
+            let host=config.database.host;
+            assert.ok(host =='127.0.0.1' || host =='localhost' );
         });
         it('port defaults to 3306',()=>{
            assert.equal(config.database.port,3306);

@@ -8,9 +8,10 @@ const assert=require('assert');
 describe('测试视频处理函数',function(){
 
     describe('测试探针',function(){
-        it('当其输入文件不存在时，应该触发reject',function(done){
+        it('当其输入文件不存在时，应该触发reject',function(){
+            this.timeout(50000);
             const p=path.join(__dirname,'a-file-not-exists.avi');
-            movieProcess.getVideoFormat(p)
+            return movieProcess.getVideoFormat(p)
                 .then(
                     function(format){ 
                         assert.fail('不应该执行这里');
@@ -18,12 +19,11 @@ describe('测试视频处理函数',function(){
                     function(reason){
                         assert.ok(reason=='文件不存在');
                     }
-                )
-                .then(done,done)
-                .catch(done);
+                );
         });
 
         it('当输入文件存在，应获取到相应信息', function () {
+            this.timeout(50000);
             const p = path.join(__dirname, '1.avi');
             return movieProcess.getVideoFormat(p)
                 .then(
@@ -40,9 +40,9 @@ describe('测试视频处理函数',function(){
 
 
     describe('测试截图',function(){
-        it('当其输入文件不存在,应该触发reject',function(done){
+        it('当其输入文件不存在,应该触发reject',function(){
             const p = path.join(__dirname, 'a-file-not-exists.avi');
-            movieProcess.getVideoFormat(p)
+            return movieProcess.getVideoFormat(p)
                 .then(
                     function (format) {
                         assert.fail('这里不应该被执行');
@@ -50,15 +50,13 @@ describe('测试视频处理函数',function(){
                     function (reason) {
                         assert.ok(reason=="文件不存在", "当文件不存在，reject信息应该是: 文件不存在");
                     }
-                )
-                .then(done,done)
-                .catch(done);
+                );
         });
 
-        it('当条件满足，应该截图成功',function(done){
+        it('当条件满足，应该截图成功',function(){
             this.timeout(50000);
             const p=path.join(__dirname,'1.avi');
-            movieProcess.takeScreenShot(p,1,__dirname)
+            return movieProcess.takeScreenShot(p,1,__dirname)
                 .then(
                     (outs)=>{
                         console.log(outs);
@@ -74,9 +72,7 @@ describe('测试视频处理函数',function(){
                             });
                     },
                     ()=>{ return 'error happens';}
-                )
-                .then(done,done)
-                .catch(done);
+                );
         });
     });
 
