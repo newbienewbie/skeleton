@@ -39,35 +39,34 @@ function registerRouteFile(app,filePath){
          * 当前路由的方法、路径、和中间件
          */
         const {method,path,middlewares}=routes[r];
-        const authorizationMw=interceptor.requireTrue(req=>{
-            const userid=req.session.userid;
-            const roleNames=req.session.roles;
 
-            // 超级用户
-            if(userid==1){ return Promise.resolve(true); }
-            // 超级用户角色
-            if( roleNames.some(r=> r.name && r.name == "ROLE_ROOT") ){ return Promise.resolve(true); }
-
-            return resourceService.findByName(resourceName)
-                .then(resource=>{
-                    for(let i=0;i<resource.roles.length;i++){
-                        const roleName=resource.roles[i].name;
-                        const flag=roleNames.some(r=>r.name===roleName ) ;
-                        if( flag){ 
-                            return true; 
-                        }
-                    }
-                    return false;
-                });
-        });
         // 安装、登陆、登出、注册等模块的访问无身份限制
         if(!shouldPassBy(resourceName)){
+            const authorizationMw=interceptor.requireTrue(req=>{
+                const userid=req.session.userid;
+                const roleNames=req.session.roles;
+    
+                // 超级用户
+                if(userid==1){ return Promise.resolve(true); }
+                // 超级用户角色
+                if( roleNames.some(r=> r.name && r.name == "ROLE_ROOT") ){ return Promise.resolve(true); }
+    
+                return resourceService.findByName(resourceName)
+                    .then(resource=>{
+                        for(let i=0;i<resource.roles.length;i++){
+                            const roleName=resource.roles[i].name;
+                            const flag=roleNames.some(r=>r.name===roleName ) ;
+                            if( flag){ 
+                                return true; 
+                            }
+                        }
+                        return false;
+                    });
+            });
             middlewares.unshift(authorizationMw);
         }
 
-        middlewares.forEach(mw=>{
-            router[method](path,mw);
-        });
+        middlewares.forEach(mw=>{ router[method](path,mw); });
     });
     app.use(mount,router);
 }
