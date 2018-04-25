@@ -40,12 +40,14 @@ function registerRouteFile(app,filePath){
          */
         const {method,path,middlewares}=routes[r];
         const authorizationMw=interceptor.requireTrue(req=>{
-            // 超级用户
-            if(req.session.userid==1){
-                return Promise.resolve(true); 
-            }
             const userid=req.session.userid;
             const roleNames=req.session.roles;
+
+            // 超级用户
+            if(userid==1){ return Promise.resolve(true); }
+            // 超级用户角色
+            if( roleNames.some(r=> r.name && r.name == "ROLE_ROOT") ){ return Promise.resolve(true); }
+
             return resourceService.findByName(resourceName)
                 .then(resource=>{
                     for(let i=0;i<resource.roles.length;i++){
