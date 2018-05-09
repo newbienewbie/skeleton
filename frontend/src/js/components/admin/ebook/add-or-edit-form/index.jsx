@@ -149,6 +149,10 @@ export class AddOrEditForm extends React.Component{
                         });
                     }else{ /*当前是新增模式*/ }
                 }} 
+                value={this.state.description}
+                onChange={content=>{
+                    this.setState({description:content});
+                }}
             /> 
             <Button onClick={e=>{
                 e.preventDefault();
@@ -157,8 +161,8 @@ export class AddOrEditForm extends React.Component{
                     return;
                 }
                 const id=this.props.id;
-                const {title,isbn,author,categoryId,keywords,posterUrl,url}=this.state;
-                const description=UE.getEditor("ueditorContainer").getContent();
+                const {title,isbn,author,categoryId,keywords,posterUrl,url,description}=this.state;
+                const ue=UE.getEditor("ueditorContainer");
                 if(!!!title){ message.error(`标题不得为空`); return false;}
                 if(!!!categoryId){ message.error(`专栏不得为空`); return false; }
                 if(!!!description){ message.error(`内容不得为空`); return false; }
