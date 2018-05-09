@@ -11,7 +11,8 @@ const jsonMiddleware=bodyParser.json();
 
 
 function preCreate(req,res,next){
-    const {ebook}=req.body;
+    const {record}=req.body;
+    const ebook=record;
     ebook.uploaderId=req.session.userid;
     ebook.state='draft';
     ebook.categoryId=parseInt(ebook.categoryId);
